@@ -1,0 +1,12 @@
+{
+  "name": "ie-bacalhau",
+  "packageManager": "yarn@3.3.0",
+  "private": true,
+  "scripts": {
+    "invade": "yarn workspace off-chain run invade && yarn workspace on-chain run invade"
+  },
+  "workspaces": [
+    "packages/off-chain",
+    "packages/on-chain"
+  ]
+}

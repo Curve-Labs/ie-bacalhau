@@ -1,0 +1,17 @@
+{
+  "name": "off-chain",
+  "version": "1.0.0",
+  "packageManager": "yarn@3.3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Curve-Labs/ie-bacalhau",
+    "directory": "packages/off-chain"
+  },
+  "scripts": {
+    "invade": "node scripts/invade.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "on-chain": "workspace:*"
+  }
+}
