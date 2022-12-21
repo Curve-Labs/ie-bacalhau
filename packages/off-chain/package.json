@@ -8,8 +8,7 @@
     "directory": "packages/off-chain"
   },
   "scripts": {
-    "invade": "node scripts/invade.js",
-    "do": "node-ts doSomething.ts"
+    "run:example": "ts-node ./scripts/exampleScript.ts"
   },
   "dependencies": {
     "dotenv": "^16.0.3",

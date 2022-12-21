@@ -5,9 +5,6 @@
     "url": "https://github.com/Curve-Labs/ie-bacalhau",
     "directory": "packages/on-chain"
   },
-  "scripts": {
-    "invade": "node-ts invasion.ts"
-  },
   "packageManager": "yarn@3.3.0",
   "dependencies": {
     "dotenv": "^16.0.3",
