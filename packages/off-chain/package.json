@@ -8,10 +8,15 @@
     "directory": "packages/off-chain"
   },
   "scripts": {
-    "invade": "node scripts/invade.js"
+    "invade": "node scripts/invade.js",
+    "do": "node-ts doSomething.ts"
   },
   "dependencies": {
     "dotenv": "^16.0.3",
     "on-chain": "workspace:*"
+  },
+  "devDependencies": {
+    "node-ts": "^5.1.2",
+    "typescript": "^4.9.4"
   }
 }
