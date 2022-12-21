@@ -8,10 +8,13 @@
     "directory": "packages/off-chain"
   },
   "scripts": {
-    "invade": "node scripts/invade.js"
+    "run:example": "ts-node ./scripts/exampleScript.ts"
   },
   "dependencies": {
     "dotenv": "^16.0.3",
     "on-chain": "workspace:*"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.1"
   }
 }

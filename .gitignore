@@ -13,3 +13,5 @@ node_modules
 packages/*/.env
 .editorconfig
 /
+
+.env
