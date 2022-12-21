@@ -1,5 +1,5 @@
-let j: number;
+let j: string;
 
-j = 5;
+j = "mihir";
 
-console.log("hi: ", j);
+console.log("gm " + j + "!");

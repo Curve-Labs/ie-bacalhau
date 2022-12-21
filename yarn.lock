@@ -5984,6 +5984,7 @@ __metadata:
   dependencies:
     dotenv: ^16.0.3
     on-chain: "workspace:*"
+    ts-node: ^10.9.1
   languageName: unknown
   linkType: soft
 

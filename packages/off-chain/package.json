@@ -13,5 +13,8 @@
   "dependencies": {
     "dotenv": "^16.0.3",
     "on-chain": "workspace:*"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.1"
   }
 }
