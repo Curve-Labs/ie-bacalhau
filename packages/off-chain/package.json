@@ -7,7 +7,9 @@
     "url": "https://github.com/Curve-Labs/ie-bacalhau",
     "directory": "packages/off-chain"
   },
-  "scripts": {},
+  "scripts": {
+    "execute": "ts-node scripts/main.ts"
+  },
   "dependencies": {
     "dotenv": "^16.0.3"
   },
