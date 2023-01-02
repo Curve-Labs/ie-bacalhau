@@ -5983,12 +5983,11 @@ __metadata:
   resolution: "off-chain@workspace:packages/off-chain"
   dependencies:
     dotenv: ^16.0.3
-    on-chain: "workspace:*"
     ts-node: ^10.9.1
   languageName: unknown
   linkType: soft
 
-"on-chain@workspace:*, on-chain@workspace:packages/on-chain":
+"on-chain@workspace:packages/on-chain":
   version: 0.0.0-use.local
   resolution: "on-chain@workspace:packages/on-chain"
   dependencies:
