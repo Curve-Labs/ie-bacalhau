@@ -7,9 +7,7 @@
     "url": "https://github.com/Curve-Labs/ie-bacalhau",
     "directory": "packages/off-chain"
   },
-  "scripts": {
-    "run:example": "ts-node ./scripts/exampleScript.ts"
-  },
+  "scripts": {},
   "dependencies": {
     "dotenv": "^16.0.3",
     "on-chain": "workspace:*"
