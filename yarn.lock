@@ -1027,10 +1027,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@realitio/realitio-contracts@npm:^2.2.9":
-  version: 2.2.9
-  resolution: "@realitio/realitio-contracts@npm:2.2.9"
-  checksum: ba981c46964296a3df73ac753e6e764eb4c16405009d90d8839517a17e52e55262d37474d6eb9887f4910ccced07e7a949c821d4407e68f1fcf7c3bd2c7faa36
+"@reality.eth/contracts@npm:^3.0.20":
+  version: 3.0.20
+  resolution: "@reality.eth/contracts@npm:3.0.20"
+  dependencies:
+    ethers: ^5.6.8
+  checksum: 0aea30c5078c48a8389723eab2455443332a6a5cb13a38a4dedbdca6740b48030458bfe7a7b48c2cdf5b0cf422edc2dd0b457f4ad660aa977fac1da5ad656f92
   languageName: node
   linkType: hard
 
@@ -3581,7 +3583,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ethers@npm:^5.4.6, ethers@npm:^5.5.3, ethers@npm:^5.7.2":
+"ethers@npm:^5.4.6, ethers@npm:^5.5.3, ethers@npm:^5.6.8, ethers@npm:^5.7.2":
   version: 5.7.2
   resolution: "ethers@npm:5.7.2"
   dependencies:
@@ -6173,7 +6175,7 @@ __metadata:
     "@nomiclabs/hardhat-ethers": ^2.2.1
     "@nomiclabs/hardhat-etherscan": ^3.1.3
     "@openzeppelin/contracts": ^4.8.0
-    "@realitio/realitio-contracts": ^2.2.9
+    "@reality.eth/contracts": ^3.0.20
     "@typechain/ethers-v5": ^10.2.0
     "@typechain/hardhat": ^6.1.5
     "@types/chai": ^4.3.4
