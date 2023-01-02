@@ -2,7 +2,7 @@ import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
 import "hardhat-deploy";
 
-import "./tasks/setup";
+import "./tasks/reality";
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -13,14 +13,6 @@ const config: HardhatUserConfig = {
       {
         version: "0.6.7",
         settings: {},
-      },
-    ],
-  },
-
-  external: {
-    contracts: [
-      {
-        artifacts: "../node_modules/@gnosis.pm/zodiac/dist/src/abi",
       },
     ],
   },
