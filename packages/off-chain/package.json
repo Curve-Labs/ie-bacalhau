@@ -8,12 +8,13 @@
     "directory": "packages/off-chain"
   },
   "scripts": {
-    "execute": "ts-node scripts/main.ts"
-  },
-  "dependencies": {
-    "dotenv": "^16.0.3"
+    "build": "tsc",
+    "execute": "node build/main.js"
   },
   "devDependencies": {
-    "ts-node": "^10.9.1"
+    "@types/node": "^18.11.18",
+    "dotenv": "^16.0.3",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.4"
   }
 }

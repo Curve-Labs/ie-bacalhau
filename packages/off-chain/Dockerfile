@@ -1,5 +1,5 @@
-FROM node
-WORKDIR .
+FROM node:lts
+WORKDIR /usr/src/app
 COPY . .
 RUN yarn install --production
-CMD ["yarn ts-node", "scripts/index.js"]
+CMD ["yarn", "execute"]
