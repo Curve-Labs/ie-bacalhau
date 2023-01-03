@@ -1,10 +1,8 @@
-import "hardhat-deploy";
-import "@nomiclabs/hardhat-ethers";
+import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { task, types } from "hardhat/config";
 import { deployAndSetUpModule } from "@gnosis.pm/zodiac";
 import defaultTemplate from "./defaultTemplate.json";
-import { HardhatRuntimeEnvironment } from "hardhat/types";
-import { Contract } from "ethers";
+import { BytesLike, Contract } from "ethers";
 
 interface RealityTaskArgs {
   owner: string;
@@ -267,4 +265,108 @@ task(
     return id;
   });
 
-export {};
+task("reality:propose", "Proposes a merkle drop via Shrine")
+  .addParam("module", "Address of the reality module", undefined, types.string)
+  .addParam(
+    "oracle",
+    "Address of the oracle (e.g. Reality.eth)",
+    "undefined",
+    types.string
+  )
+  .addParam("shrine", "Address of the shrine", "undefined", types.string)
+  .addParam(
+    "ipfs",
+    "Ipfs hash that contains metadata for drop",
+    "undefined",
+    types.string
+  )
+  .addParam(
+    "token",
+    "Address of the token to be offered",
+    undefined,
+    types.string
+  )
+  .addParam(
+    "root",
+    "Merkle Root that includes all champions",
+    undefined,
+    types.string
+  )
+  .addParam("amount", "Amount of the token to be offered", undefined, types.int)
+  .addParam("id", "Id of proposal", undefined, types.string)
+  .setAction(
+    async (
+      { module, oracle, token, amount, id, shrine, root, ipfs },
+      { ethers, deployments }
+    ) => {
+      const realityModule = await ethers.getContractAt(
+        "RealityModuleETH",
+        module
+      );
+      const shrineInstance = await ethers.getContractAt("Shrine", shrine);
+
+      let nonce = 0;
+
+      // tx1: approve token
+      const tokenContract = await ethers.getContractAt("TestToken", token);
+      const tx1 = await tokenContract.populateTransaction.approve(
+        shrine,
+        amount
+      );
+      const tx1Hash = await realityModule.getTransactionHash(
+        tx1.to as string,
+        0,
+        tx1.data as BytesLike,
+        0,
+        nonce
+      );
+      nonce++;
+
+      // tx2: update ledger of Shrine
+      const tx2 = await shrineInstance.populateTransaction.updateLedger({
+        merkleRoot: root,
+        totalShares: amount,
+      });
+      const tx2Hash = await realityModule.getTransactionHash(
+        tx2.to as string,
+        0,
+        tx2.data as BytesLike,
+        0,
+        nonce
+      );
+      nonce++;
+
+      // tx3: update ledger metadata of Shrine
+      const currentVersion = await shrineInstance.currentLedgerVersion();
+      const tx3 = await shrineInstance.populateTransaction.updateLedgerMetadata(
+        currentVersion.add(1),
+        ipfs
+      );
+      const tx3Hash = await realityModule.getTransactionHash(
+        tx3.to as string,
+        0,
+        tx3.data as BytesLike,
+        0,
+        nonce
+      );
+      nonce++;
+
+      // tx4: offer token to Shrine
+      const tx4 = await shrineInstance.populateTransaction.offer(token, amount);
+      const tx4Hash = await realityModule.getTransactionHash(
+        tx4.to as string,
+        0,
+        tx4.data as BytesLike,
+        0,
+        nonce
+      );
+
+      const txs = [tx1, tx2, tx3, tx4];
+      const txHashes = [tx1Hash, tx2Hash, tx3Hash, tx4Hash];
+      const tx = await realityModule.addProposal(id, txHashes);
+
+      console.log("addProposal tx: ", tx.hash);
+
+      return { tx, txs, txHashes };
+    }
+  );

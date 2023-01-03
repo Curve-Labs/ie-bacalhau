@@ -3,6 +3,7 @@ import "@nomicfoundation/hardhat-toolbox";
 import "hardhat-deploy";
 
 import "./tasks/reality";
+import "./tasks/shrine";
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -15,6 +16,18 @@ const config: HardhatUserConfig = {
         settings: {},
       },
     ],
+  },
+  networks: {
+    localhost: {
+      live: false,
+      saveDeployments: true,
+      tags: ["local"],
+    },
+    hardhat: {
+      live: false,
+      saveDeployments: false,
+      tags: ["test", "local"],
+    },
   },
 };
 
