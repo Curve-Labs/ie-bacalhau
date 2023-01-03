@@ -102,6 +102,8 @@ describe("Airdrop", function () {
     const proposalId = ethers.utils.hexZeroPad("0x01", 32);
     const ipfsHash = "example_ipfs";
 
+    // set up a merkle tree
+
     let txHashes: string[], txs: PopulatedTransaction[], questionId: string;
 
     it("deploys a Shrine contract with the avatar as owner", async () => {
