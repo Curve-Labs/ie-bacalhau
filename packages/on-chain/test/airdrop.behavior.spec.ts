@@ -105,7 +105,7 @@ describe("Airdrop", function () {
     });
 
     after("enable reality module on testAvatar", async () => {
-      await testAvatar.enableModule(realityModule.address);
+      await testAvatar.enableModule(realityModule.address); // in prod: to be done on the Gnosis Safe by the Gnosis Safe
     });
   });
 
@@ -170,7 +170,7 @@ describe("Airdrop", function () {
           question: questionId,
           bond,
         });
-        await mine(69); // timetravel into the future
+        await mine(69); // timetravel into the future to a distant time beyond the cooldown ;P
       });
 
       before("execute the proposal", async () => {

@@ -89,7 +89,7 @@ const deployRealityModule = async (
   return module;
 };
 
-task("reality:setup", "Provides the clearing price to an auction")
+task("reality:setup", "Deploys a Zodiac Reality module")
   .addParam("owner", "Address of the owner", undefined, types.string)
   .addParam(
     "avatar",
