@@ -1,0 +1,17 @@
+{
+    "isOutput": true,
+    "result": 30,
+    "inputs": {
+        "data": {
+            "param1": 10,
+            "param2": 20
+        },
+        "function": {
+            "params": [
+                "param1",
+                "param2"
+            ],
+            "code": "return param1 + param2"
+        }
+    }
+}
