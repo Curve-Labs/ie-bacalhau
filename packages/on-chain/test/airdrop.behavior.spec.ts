@@ -5,15 +5,11 @@ import { expect } from "chai";
 import { loadFixture, mine } from "@nomicfoundation/hardhat-network-helpers";
 import { ethers, run } from "hardhat";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
-import {
-  Contract,
-  ContractReceipt,
-  PopulatedTransaction,
-  Transaction,
-} from "ethers";
+import { Contract, ContractReceipt, Transaction } from "ethers";
+import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
+
 import template from "../tasks/defaultTemplate.json";
 import realityEthAbi from "../../../node_modules/@reality.eth/contracts/abi/solc-0.8.6/RealityETH-3.0.abi.json";
-import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 import { getMerkleTree } from "../utils/merkleTree";
 
 describe("Airdrop", function () {
@@ -118,7 +114,7 @@ describe("Airdrop", function () {
     const proposalId = ethers.utils.hexZeroPad("0x01", 32);
     const ipfsHash = "example_ipfs";
 
-    let txHashes: string[], txs: PopulatedTransaction[], questionId: string;
+    let questionId: string;
 
     before("setup merkle tree", async () => {
       // set up a merkle tree
@@ -136,14 +132,14 @@ describe("Airdrop", function () {
     });
 
     it("adds the proposal to reality.eth", async () => {
-      ({ txHashes, txs } = await run("reality:assemble", {
+      await run("reality:assemble", {
         module: realityModule.address,
         token: testToken.address,
         amount,
         root: tree.root,
         shrine: shrine.address,
         ipfs: ipfsHash,
-      }));
+      });
 
       const tx = await run("reality:propose", {
         module: realityModule.address,
@@ -168,15 +164,7 @@ describe("Airdrop", function () {
     describe("executing the proposal", async () => {
       let transactions: Transaction[];
 
-      const trueAsBytes32 = ethers.utils.hexZeroPad(
-        ethers.utils.hexlify(1),
-        32
-      );
-
       before("finalize answer on reality eth", async () => {
-        // await realityEth.submitAnswer(questionId, trueAsBytes32, 0, {
-        //   value: 1000,
-        // });
         await run("reality:answer", {
           module: realityModule.address,
           question: questionId,

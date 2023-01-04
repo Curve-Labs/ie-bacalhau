@@ -2,7 +2,7 @@ import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { task, types } from "hardhat/config";
 import { deployAndSetUpModule } from "@gnosis.pm/zodiac";
 import defaultTemplate from "./defaultTemplate.json";
-import { BytesLike, Contract } from "ethers";
+import { BytesLike, Contract, ContractTransaction } from "ethers";
 import realityEthAbi from "../../../node_modules/@reality.eth/contracts/abi/solc-0.8.6/RealityETH-3.0.abi.json";
 
 interface RealityTaskArgs {
@@ -18,10 +18,6 @@ interface RealityTaskArgs {
   proxied: boolean;
   iserc20: boolean;
   arbitrator: string;
-}
-
-interface Contracts {
-  [key: string]: Contract;
 }
 
 const deployRealityModule = async (
@@ -259,7 +255,7 @@ task(
 
     const receipt = await oracle
       .createTemplate(JSON.stringify(defaultTemplate))
-      .then((tx: any) => tx.wait());
+      .then((tx: ContractTransaction) => tx.wait());
 
     const id = receipt.logs[0].topics[1];
     console.log("Template id:", id);
@@ -463,7 +459,7 @@ task(
       });
 
       let txIndex = 0;
-      let transactions = [];
+      const transactions = [];
       for (let i = 0; i < txHashes.length; i++) {
         const tx = await realityModule.executeProposalWithIndex(
           id,
