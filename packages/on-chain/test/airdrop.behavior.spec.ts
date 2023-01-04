@@ -8,9 +8,12 @@ import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { Contract, ContractReceipt, PopulatedTransaction } from "ethers";
 import template from "../tasks/defaultTemplate.json";
 import realityEthAbi from "../../../node_modules/@reality.eth/contracts/abi/solc-0.8.6/RealityETH-3.0.abi.json";
+import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 
 describe("Airdrop", function () {
-  let deployer: SignerWithAddress;
+  let deployer: SignerWithAddress,
+    user1: SignerWithAddress,
+    user2: SignerWithAddress;
   let testAvatar: Contract,
     realityModule: Contract,
     shrine: Contract,
@@ -19,13 +22,18 @@ describe("Airdrop", function () {
     realityEth: Contract,
     templateId: string;
 
+  let tree: StandardMerkleTree<string[]>;
+
   const timeout = 42;
   const cooldown = 23;
   const expiration = 0;
   const bond = "0";
 
+  const user1Amount = "1";
+  const user2Amount = "2";
+
   async function deployFixture() {
-    const [deployer] = await ethers.getSigners();
+    const [deployer, user1, user2] = await ethers.getSigners();
 
     const TestAvatar = await ethers.getContractFactory("TestAvatar");
     const testAvatar = await TestAvatar.deploy();
@@ -54,6 +62,8 @@ describe("Airdrop", function () {
 
     return {
       deployer,
+      user1,
+      user2,
       testAvatar,
       testToken,
       realityEth,
@@ -64,7 +74,7 @@ describe("Airdrop", function () {
   before(
     "deploy test contracts: testAvatar (= Safe), testToken, realitio, shrine, mock",
     async () => {
-      ({ deployer, testAvatar, testToken, realityEth, mock } =
+      ({ deployer, user1, user2, testAvatar, testToken, realityEth, mock } =
         await loadFixture(deployFixture));
     }
   );
@@ -102,9 +112,16 @@ describe("Airdrop", function () {
     const proposalId = ethers.utils.hexZeroPad("0x01", 32);
     const ipfsHash = "example_ipfs";
 
-    // set up a merkle tree
-
     let txHashes: string[], txs: PopulatedTransaction[], questionId: string;
+
+    before("setup merkle tree", async () => {
+      // set up a merkle tree
+      const values = [
+        [user1.address, user1Amount],
+        [user2.address, user2Amount],
+      ];
+      tree = StandardMerkleTree.of(values, ["address", "uint256"]);
+    });
 
     it("deploys a Shrine contract with the avatar as owner", async () => {
       shrine = await run("shrine:setup", { avatar: testAvatar.address });
@@ -119,7 +136,7 @@ describe("Airdrop", function () {
         token: testToken.address,
         amount,
         id: proposalId,
-        root: ethers.constants.HashZero,
+        root: tree.root,
         shrine: shrine.address,
         ipfs: ipfsHash,
       });
@@ -230,5 +247,20 @@ describe("Airdrop", function () {
     });
   });
 
-  describe("claiming a merkle drop", () => {});
+  describe("claiming a merkle drop", () => {
+    it("pays out the tokens", async () => {
+      console.log(tree.root);
+      console.log(await shrine.ledgerOfVersion(2));
+
+      const proof = tree.getProof([user1.address, user1Amount]);
+      const claimInfo = {
+        version: 2,
+        token: testToken.address,
+        champion: user1.address,
+        shares: "1",
+        merkleProof: proof,
+      };
+      await shrine.connect(user1).claim(user1.address, claimInfo);
+    });
+  });
 });

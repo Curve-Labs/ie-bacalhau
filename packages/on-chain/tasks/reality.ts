@@ -297,7 +297,7 @@ task("reality:propose", "Proposes a merkle drop via Shrine")
   .setAction(
     async (
       { module, oracle, token, amount, id, shrine, root, ipfs },
-      { ethers, deployments }
+      { ethers }
     ) => {
       const realityModule = await ethers.getContractAt(
         "RealityModuleETH",
