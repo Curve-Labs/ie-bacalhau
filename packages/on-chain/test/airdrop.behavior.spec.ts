@@ -5,7 +5,12 @@ import { expect } from "chai";
 import { loadFixture, mine } from "@nomicfoundation/hardhat-network-helpers";
 import { ethers, run } from "hardhat";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
-import { Contract, ContractReceipt, PopulatedTransaction } from "ethers";
+import {
+  Contract,
+  ContractReceipt,
+  PopulatedTransaction,
+  Transaction,
+} from "ethers";
 import template from "../tasks/defaultTemplate.json";
 import realityEthAbi from "../../../node_modules/@reality.eth/contracts/abi/solc-0.8.6/RealityETH-3.0.abi.json";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
@@ -28,7 +33,7 @@ describe("Airdrop", function () {
   const timeout = 42;
   const cooldown = 23;
   const expiration = 0;
-  const bond = "0";
+  const bond = "1000";
 
   const user1Amount = "50";
   const user2Amount = "50";
@@ -131,8 +136,16 @@ describe("Airdrop", function () {
     });
 
     it("adds the proposal to reality.eth", async () => {
-      const taskResult = await run("reality:propose", {
-        oracle: realityEth.address,
+      ({ txHashes, txs } = await run("reality:assemble", {
+        module: realityModule.address,
+        token: testToken.address,
+        amount,
+        root: tree.root,
+        shrine: shrine.address,
+        ipfs: ipfsHash,
+      }));
+
+      const tx = await run("reality:propose", {
         module: realityModule.address,
         token: testToken.address,
         amount,
@@ -141,10 +154,6 @@ describe("Airdrop", function () {
         shrine: shrine.address,
         ipfs: ipfsHash,
       });
-
-      const { tx } = taskResult;
-      txHashes = taskResult.txHashes;
-      txs = taskResult.txs;
 
       await expect(tx).to.emit(realityModule, "ProposalQuestionCreated");
 
@@ -156,94 +165,52 @@ describe("Airdrop", function () {
       event && event.args && (questionId = event.args[0]);
     });
 
-    context("when the proposal has become executable", async () => {
+    describe("executing the proposal", async () => {
+      let transactions: Transaction[];
+
       const trueAsBytes32 = ethers.utils.hexZeroPad(
         ethers.utils.hexlify(1),
         32
       );
 
       before("finalize answer on reality eth", async () => {
-        await realityEth.submitAnswer(questionId, trueAsBytes32, 0, {
-          value: 1000,
+        // await realityEth.submitAnswer(questionId, trueAsBytes32, 0, {
+        //   value: 1000,
+        // });
+        await run("reality:answer", {
+          module: realityModule.address,
+          question: questionId,
+          bond,
         });
         await mine(69); // timetravel into the future
       });
 
-      describe("tx1: approving token spend", () => {
-        const index = 0;
-
-        it("sets the correct token allowance", async () => {
-          await realityModule.executeProposal(
-            proposalId,
-            txHashes,
-            txs[index].to,
-            0,
-            txs[index].data,
-            0
-          );
-
-          expect(
-            await testToken.allowance(testAvatar.address, shrine.address)
-          ).to.equal(amount);
+      before("execute the proposal", async () => {
+        transactions = await run("reality:execute", {
+          module: realityModule.address,
+          token: testToken.address,
+          amount,
+          id: proposalId,
+          root: tree.root,
+          shrine: shrine.address,
+          ipfs: ipfsHash,
         });
       });
 
-      describe("tx2: update shrine ledger", () => {
-        const index = 1;
-
-        it("increments the ledger version", async () => {
-          await realityModule.executeProposalWithIndex(
-            proposalId,
-            txHashes,
-            txs[index].to,
-            0,
-            txs[index].data,
-            0,
-            index
-          );
-
-          expect(await shrine.currentLedgerVersion()).to.equal(2);
-        });
+      it("increments ledger version", async () => {
+        expect(await shrine.currentLedgerVersion()).to.equal(2);
       });
 
-      describe("tx3: update ledger metadata", () => {
-        const index = 2;
-
-        it("emits an event that contains new metadata", async () => {
-          await expect(
-            realityModule.executeProposalWithIndex(
-              proposalId,
-              txHashes,
-              txs[index].to,
-              0,
-              txs[index].data,
-              0,
-              index
-            )
-          )
-            .to.emit(shrine, "UpdateLedgerMetadata")
-            .withArgs(2, ipfsHash);
-        });
+      it("updates ledger metadata", async () => {
+        await expect(transactions[2])
+          .to.emit(shrine, "UpdateLedgerMetadata")
+          .withArgs(2, ipfsHash);
       });
 
-      describe("tx4: offer token to shrine", () => {
-        const index = 3;
-
-        it("emits the event 'Offer'", async () => {
-          await expect(
-            realityModule.executeProposalWithIndex(
-              proposalId,
-              txHashes,
-              txs[index].to,
-              0,
-              txs[index].data,
-              0,
-              index
-            )
-          )
-            .to.emit(shrine, "Offer")
-            .withArgs(testAvatar.address, testToken.address, amount);
-        });
+      it("transfers tokens to Shrine", async () => {
+        await expect(transactions[3])
+          .to.emit(shrine, "Offer")
+          .withArgs(testAvatar.address, testToken.address, amount);
       });
     });
   });

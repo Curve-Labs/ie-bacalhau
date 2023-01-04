@@ -3,6 +3,7 @@ import { task, types } from "hardhat/config";
 import { deployAndSetUpModule } from "@gnosis.pm/zodiac";
 import defaultTemplate from "./defaultTemplate.json";
 import { BytesLike, Contract } from "ethers";
+import realityEthAbi from "../../../node_modules/@reality.eth/contracts/abi/solc-0.8.6/RealityETH-3.0.abi.json";
 
 interface RealityTaskArgs {
   owner: string;
@@ -265,14 +266,8 @@ task(
     return id;
   });
 
-task("reality:propose", "Proposes a merkle drop via Shrine")
+task("reality:assemble", "Assembles a proposal for reality module")
   .addParam("module", "Address of the reality module", undefined, types.string)
-  .addParam(
-    "oracle",
-    "Address of the oracle (e.g. Reality.eth)",
-    "undefined",
-    types.string
-  )
   .addParam("shrine", "Address of the shrine", "undefined", types.string)
   .addParam(
     "ipfs",
@@ -293,12 +288,8 @@ task("reality:propose", "Proposes a merkle drop via Shrine")
     types.string
   )
   .addParam("amount", "Amount of the token to be offered", undefined, types.int)
-  .addParam("id", "Id of proposal", undefined, types.string)
   .setAction(
-    async (
-      { module, oracle, token, amount, id, shrine, root, ipfs },
-      { ethers }
-    ) => {
+    async ({ module, token, amount, shrine, root, ipfs }, { ethers }) => {
       const realityModule = await ethers.getContractAt(
         "RealityModuleETH",
         module
@@ -363,10 +354,174 @@ task("reality:propose", "Proposes a merkle drop via Shrine")
 
       const txs = [tx1, tx2, tx3, tx4];
       const txHashes = [tx1Hash, tx2Hash, tx3Hash, tx4Hash];
+
+      return { txs, txHashes };
+    }
+  );
+
+task("reality:propose", "Proposes a merkle drop via Shrine to reality module")
+  .addParam("module", "Address of the reality module", undefined, types.string)
+  .addParam("shrine", "Address of the shrine", "undefined", types.string)
+  .addParam(
+    "ipfs",
+    "Ipfs hash that contains metadata for drop",
+    "undefined",
+    types.string
+  )
+  .addParam(
+    "token",
+    "Address of the token to be offered",
+    undefined,
+    types.string
+  )
+  .addParam(
+    "root",
+    "Merkle Root that includes all champions",
+    undefined,
+    types.string
+  )
+  .addParam("amount", "Amount of the token to be offered", undefined, types.int)
+  .addParam("id", "Id of proposal", undefined, types.string)
+  .setAction(
+    async (
+      { module, token, amount, id, shrine, root, ipfs },
+      { ethers, run }
+    ) => {
+      const realityModule = await ethers.getContractAt(
+        "RealityModuleETH",
+        module
+      );
+
+      const { txHashes } = await run("reality:assemble", {
+        module,
+        token,
+        amount,
+        id,
+        root,
+        shrine,
+        ipfs,
+      });
+
       const tx = await realityModule.addProposal(id, txHashes);
 
       console.log("addProposal tx: ", tx.hash);
 
-      return { tx, txs, txHashes };
+      return tx;
     }
   );
+
+task(
+  "reality:execute",
+  "Initiates a finalized airdrop proposal via reality module"
+)
+  .addParam("module", "Address of the reality module", undefined, types.string)
+  .addParam(
+    "oracle",
+    "Address of the oracle (e.g. Reality.eth)",
+    "undefined",
+    types.string
+  )
+  .addParam("shrine", "Address of the shrine", "undefined", types.string)
+  .addParam(
+    "token",
+    "Address of the token to be offered",
+    undefined,
+    types.string
+  )
+  .addParam("amount", "Amount of the token to be offered", undefined, types.int)
+  .addParam(
+    "root",
+    "Merkle Root that includes all champions",
+    undefined,
+    types.string
+  )
+  .addParam(
+    "ipfs",
+    "Ipfs hash that contains metadata for drop",
+    "undefined",
+    types.string
+  )
+  .addParam("id", "Id of proposal", undefined, types.string)
+  .setAction(
+    async (
+      { module, token, amount, shrine, root, id, ipfs },
+      { ethers, run }
+    ) => {
+      const realityModule = await ethers.getContractAt(
+        "RealityModuleETH",
+        module
+      );
+
+      const { txHashes, txs } = await run("reality:assemble", {
+        module,
+        token,
+        amount,
+        id,
+        root,
+        shrine,
+        ipfs,
+      });
+
+      let txIndex = 0;
+      let transactions = [];
+      for (let i = 0; i < txHashes.length; i++) {
+        const tx = await realityModule.executeProposalWithIndex(
+          id,
+          txHashes,
+          txs[txIndex].to,
+          0,
+          txs[txIndex].data,
+          0,
+          txIndex
+        );
+        transactions.push(tx);
+        txIndex++;
+      }
+
+      console.log("Tx hash for approving tokens: ", transactions[0].hash);
+      console.log("Tx hash for updating shrine ledger: ", transactions[1].hash);
+      console.log(
+        "Tx hash for updating ledger metadata: ",
+        transactions[2].hash
+      );
+      console.log(
+        "Tx hash for offering tokens to Shrine: ",
+        transactions[3].hash
+      );
+
+      return transactions;
+    }
+  );
+
+task("reality:answer", "Submits an answer to a reality question")
+  .addParam("module", "Address of the reality module", undefined, types.string)
+  .addParam(
+    "question",
+    "Question ID of proposal (assigned by oracle)",
+    undefined,
+    types.string
+  )
+  .addParam(
+    "bond",
+    "ETH bond placed to answer question",
+    undefined,
+    types.string
+  )
+  .setAction(async ({ module, question, bond }, { ethers }) => {
+    const [deployer] = await ethers.getSigners();
+    const realityModule = await ethers.getContractAt(
+      "RealityModuleETH",
+      module
+    );
+    const realityEthAddress = await realityModule.oracle();
+    const realityEth = new ethers.Contract(
+      realityEthAddress,
+      realityEthAbi,
+      deployer
+    );
+    const trueAsBytes32 = ethers.utils.hexZeroPad(ethers.utils.hexlify(1), 32);
+
+    await realityEth.submitAnswer(question, trueAsBytes32, 0, {
+      value: bond,
+    });
+  });
