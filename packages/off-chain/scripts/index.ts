@@ -63,6 +63,7 @@ try {
 
   // write outputs
   console.log("Writing outputs");
+  console.log("Writing outputs to", outputPath);
   try {
     // generated output object
     const output = {
