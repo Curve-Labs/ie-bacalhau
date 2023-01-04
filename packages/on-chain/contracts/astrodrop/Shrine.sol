@@ -252,7 +252,7 @@ contract Shrine is Ownable, ReentrancyGuard {
         // -------------------------------------------------------------------
         // Validation
         // -------------------------------------------------------------------
-
+        
         // verify sender auth
         _verifyChampionOwnership(claimInfo.champion);
 
@@ -585,7 +585,7 @@ contract Shrine is Ownable, ReentrancyGuard {
             !MerkleProof.verify(
                 merkleProof,
                 ledgerOfVersion[version].merkleRoot,
-                keccak256(abi.encodePacked(champion, shares))
+                keccak256(bytes.concat(keccak256(abi.encode(champion, shares)))) // keccak256(abi.encodePacked(champion, shares))
             )
         ) {
             revert Shrine_InvalidMerkleProof();

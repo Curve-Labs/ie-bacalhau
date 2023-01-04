@@ -9,6 +9,7 @@ import { Contract, ContractReceipt, PopulatedTransaction } from "ethers";
 import template from "../tasks/defaultTemplate.json";
 import realityEthAbi from "../../../node_modules/@reality.eth/contracts/abi/solc-0.8.6/RealityETH-3.0.abi.json";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
+import { getMerkleTree } from "../utils/merkleTree";
 
 describe("Airdrop", function () {
   let deployer: SignerWithAddress,
@@ -29,8 +30,8 @@ describe("Airdrop", function () {
   const expiration = 0;
   const bond = "0";
 
-  const user1Amount = "1";
-  const user2Amount = "2";
+  const user1Amount = "50";
+  const user2Amount = "50";
 
   async function deployFixture() {
     const [deployer, user1, user2] = await ethers.getSigners();
@@ -120,7 +121,7 @@ describe("Airdrop", function () {
         [user1.address, user1Amount],
         [user2.address, user2Amount],
       ];
-      tree = StandardMerkleTree.of(values, ["address", "uint256"]);
+      tree = getMerkleTree(values);
     });
 
     it("deploys a Shrine contract with the avatar as owner", async () => {
@@ -249,18 +250,16 @@ describe("Airdrop", function () {
 
   describe("claiming a merkle drop", () => {
     it("pays out the tokens", async () => {
-      console.log(tree.root);
-      console.log(await shrine.ledgerOfVersion(2));
-
-      const proof = tree.getProof([user1.address, user1Amount]);
       const claimInfo = {
         version: 2,
         token: testToken.address,
         champion: user1.address,
-        shares: "1",
-        merkleProof: proof,
+        shares: user1Amount,
+        merkleProof: tree.getProof(0),
       };
       await shrine.connect(user1).claim(user1.address, claimInfo);
+
+      expect(await testToken.balanceOf(user1.address)).to.equal(user1Amount);
     });
   });
 });
