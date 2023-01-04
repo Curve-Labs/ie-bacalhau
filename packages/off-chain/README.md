@@ -8,14 +8,31 @@ Run jon on bacalhau
 bacalhau docker run mihirsinhparmar/bacalhau-ie
 ```
 
-## Step 1. Build and Compile TypeScript Files
-The code is written in typescript and it needs to be compile and converted first.
-To build, use following command
-```
+# Easy Build
+A shell script is crated to help with easy build and push of Docker Images
+To build docker image using following command:
+```sh
 yarn build
 ```
+This will prompt to select the type of CPU you use,
+Either select A or B.
 
-A new directory `./build` will be created, which contains the compiled files.
+Once selected, follow the prompts and script will handle the following:
+1. Install Dependencies if packages are not installed.
+2. Compile TypeScript Files.
+3. Build Docker Image
+4. Run Docker Image locally
+5. Push Docker Image
+
+# Manual Build
+## Step 1. Compile TypeScript Files
+The code is written in typescript and it needs to be compile and converted first.
+To compile, use following command
+```
+yarn compile
+```
+
+The compiled files will be stored in `./scripts`.
 
 
 ## Step 2. Build Docker Image
