@@ -9,9 +9,9 @@
   },
   "scripts": {
     "build": "tsc",
-    "execute": "node build/main.js"
+    "execute": "node scripts/index.js"
   },
-  "devDependencies": {
+  "dependencies": {
     "@types/node": "^18.11.18",
     "dotenv": "^16.0.3",
     "ts-node": "^10.9.1",
