@@ -45,6 +45,10 @@ docker buildx build --platform linux/amd64 --push -t USERNAME/NAME .
 where USERNAME is your docker hub username
 and, NAME is the name of docker image
 
+## Note
+Bacalhau might cache the docker image and hence it might take some time for bacalhau to pick up latest docker image.
+Sometimes if you run newly deployed docker image, bacalhau might still run an old version of docker image.
+
 ## Run Docker Images on Bacalhau
 ```
 export CID=PLAIN_IPFS_CID
