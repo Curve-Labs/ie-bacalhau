@@ -1,5 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0
 
+// this contract has been copied from https://github.com/Astrodrop/shrine
+
 pragma solidity ^0.8.11;
 
 abstract contract Ownable {

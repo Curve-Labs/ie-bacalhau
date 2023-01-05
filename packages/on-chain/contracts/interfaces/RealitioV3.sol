@@ -1,4 +1,7 @@
 // SPDX-License-Identifier: LGPL-3.0-only
+
+// this contract has been copied from https://github.com/gnosis/zodiac-module-reality
+
 pragma solidity >=0.8.0;
 
 interface RealitioV3 {

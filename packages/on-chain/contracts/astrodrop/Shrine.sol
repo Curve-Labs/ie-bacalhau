@@ -1,4 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0
+
+// this contract has been copied from https://github.com/Astrodrop/shrine
+// the only change that has been made to the code is how the leafs of the merkle tree are constructed
+// this is to prevent second preimage attacks (https://flawed.net.nz/2018/02/21/attacking-merkle-trees-with-a-second-preimage-attack/)
+
 /**
                                                                                                       
                                                                                                       
