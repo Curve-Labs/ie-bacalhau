@@ -5,6 +5,9 @@
     "url": "https://github.com/Curve-Labs/ie-bacalhau",
     "directory": "packages/on-chain"
   },
+  "scripts": {
+    "local:network": "hardhat node"
+  },
   "packageManager": "yarn@3.3.0",
   "dependencies": {
     "dotenv": "^16.0.3",

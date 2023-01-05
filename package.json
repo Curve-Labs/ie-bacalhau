@@ -9,7 +9,8 @@
   },
   "workspaces": [
     "packages/off-chain",
-    "packages/on-chain"
+    "packages/on-chain",
+    "packages/next"
   ],
   "dependencies": {
     "@types/node": "^18.11.17",

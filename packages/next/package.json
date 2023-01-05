@@ -1,21 +1,21 @@
 {
-  "name": "boilerplate-next",
+  "name": "next",
   "version": "0.1.0",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Curve-Labs/ie-bacalhau",
+    "directory": "packages/next"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "test": "jest --watch",
-    "test:ci": "jest --ci",
-    "cypress": "cypress open"
+    "test:ci": "jest --ci"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
+  "packageManager": "yarn@3.3.0",
   "dependencies": {
     "@headlessui/react": "^1.5.0",
     "@heroicons/react": "^1.0.5",
@@ -26,6 +26,7 @@
     "@walletconnect/web3-provider": "^1.7.1",
     "ethers": "^5.5.4",
     "next": "12.1.0",
+    "off-chain": "workspace:*",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-toastify": "^8.2.0",
@@ -34,14 +35,12 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.3",
-    "@types/cypress": "^1.1.3",
     "@types/node": "17.0.18",
     "@types/react": "17.0.39",
     "@types/testing-library__jest-dom": "^5.14.2",
     "@types/testing-library__react": "^10.2.0",
     "@typescript-eslint/eslint-plugin": "^5.12.0",
     "autoprefixer": "^10.4.2",
-    "cypress": "^9.5.0",
     "eslint": "8.9.0",
     "eslint-config-next": "12.1.0",
     "eslint-config-prettier": "^8.3.0",
