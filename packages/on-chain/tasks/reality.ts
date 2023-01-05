@@ -291,65 +291,34 @@ task("reality:assemble", "Assembles a proposal for reality module")
         module
       );
       const shrineInstance = await ethers.getContractAt("Shrine", shrine);
-
-      let nonce = 0;
-
-      // tx1: approve token
       const tokenContract = await ethers.getContractAt("TestToken", token);
-      const tx1 = await tokenContract.populateTransaction.approve(
-        shrine,
-        amount
-      );
-      const tx1Hash = await realityModule.getTransactionHash(
-        tx1.to as string,
-        0,
-        tx1.data as BytesLike,
-        0,
-        nonce
-      );
-      nonce++;
 
-      // tx2: update ledger of Shrine
-      const tx2 = await shrineInstance.populateTransaction.updateLedger({
-        merkleRoot: root,
-        totalShares: amount,
-      });
-      const tx2Hash = await realityModule.getTransactionHash(
-        tx2.to as string,
-        0,
-        tx2.data as BytesLike,
-        0,
-        nonce
-      );
-      nonce++;
+      const txs = [
+        await tokenContract.populateTransaction.approve(shrine, amount),
+        await shrineInstance.populateTransaction.updateLedger({
+          merkleRoot: root,
+          totalShares: amount,
+        }),
+        await shrineInstance.populateTransaction.updateLedgerMetadata(
+          (await shrineInstance.currentLedgerVersion()).add(1),
+          ipfs
+        ),
+        await shrineInstance.populateTransaction.offer(token, amount),
+      ];
 
-      // tx3: update ledger metadata of Shrine
-      const currentVersion = await shrineInstance.currentLedgerVersion();
-      const tx3 = await shrineInstance.populateTransaction.updateLedgerMetadata(
-        currentVersion.add(1),
-        ipfs
-      );
-      const tx3Hash = await realityModule.getTransactionHash(
-        tx3.to as string,
-        0,
-        tx3.data as BytesLike,
-        0,
-        nonce
-      );
-      nonce++;
-
-      // tx4: offer token to Shrine
-      const tx4 = await shrineInstance.populateTransaction.offer(token, amount);
-      const tx4Hash = await realityModule.getTransactionHash(
-        tx4.to as string,
-        0,
-        tx4.data as BytesLike,
-        0,
-        nonce
-      );
-
-      const txs = [tx1, tx2, tx3, tx4];
-      const txHashes = [tx1Hash, tx2Hash, tx3Hash, tx4Hash];
+      const txHashes = [];
+      let nonce = 0;
+      for (let i = 0; i < txs.length; i++) {
+        const txHash = await realityModule.getTransactionHash(
+          txs[i].to as string,
+          0,
+          txs[i].data as BytesLike,
+          0,
+          nonce
+        );
+        txHashes.push(txHash);
+        nonce++;
+      }
 
       return { txs, txHashes };
     }
