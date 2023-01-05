@@ -1,0 +1,5 @@
+{
+  "title": "Should %s units of token XYZ be distributed through a Merkle Drop w/ Merkle Root %s?",
+  "lang": "en",
+  "type": "bool"
+}
