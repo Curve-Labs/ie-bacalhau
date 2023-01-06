@@ -1,5 +1,5 @@
 // @ts-ignore
-import {Address} from "ethers";
+import { Address } from "ethers";
 
 export interface Contribution {
   contributor: Address;
