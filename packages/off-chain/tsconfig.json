@@ -9,6 +9,7 @@
   },
   "exclude":[
     "node_modules",
-    "scripts/generateDummyContributor.ts"
+    "scripts/generateDummyContributor.ts",
+    "scripts/interfaces.ts"
   ]
 }
