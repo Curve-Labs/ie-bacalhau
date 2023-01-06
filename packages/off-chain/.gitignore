@@ -1,1 +1,4 @@
 /scripts/*.js
+/outputs/*.json
+!/outputs/merkleTree.json
+!/outputs/metadata.json
