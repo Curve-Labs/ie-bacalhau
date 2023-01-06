@@ -11,6 +11,7 @@
     "build": "sh shell/build.sh",
     "compile": "tsc",
     "execute": "node scripts/index.js",
+    "execute:ts": "ts-node scripts/index.ts",
     "import:merkle:tree": "sh shell/copy_merkle_tree.sh",
     "mock:contributions": "ts-node ./scripts/generateDummyContributor.ts"
   },
