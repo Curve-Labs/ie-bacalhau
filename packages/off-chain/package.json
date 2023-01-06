@@ -10,9 +10,11 @@
   "scripts": {
     "build": "sh shell/build.sh",
     "compile": "tsc",
-    "execute": "node scripts/index.js"
+    "execute": "node scripts/index.js",
+    "import:merkle:tree": "sh shell/copy_merkle_tree.sh"
   },
   "dependencies": {
+    "@openzeppelin/merkle-tree": "^1.0.1",
     "@types/node": "^18.11.18",
     "dotenv": "^16.0.3",
     "ts-node": "^10.9.1",
