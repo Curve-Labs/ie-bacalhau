@@ -24,7 +24,6 @@ const providerOptions = {
 let web3Modal: Web3Modal | null
 if (typeof window !== 'undefined') {
   web3Modal = new Web3Modal({
-    network: 'mainnet', // optional
     cacheProvider: true,
     providerOptions, // required
   })
@@ -43,7 +42,6 @@ export const useWeb3 = () => {
         const address = await signer.getAddress()
         const network = await web3Provider.getNetwork()
         toast.success('Connected to Web3')
-
         dispatch({
           type: 'SET_WEB3_PROVIDER',
           provider,

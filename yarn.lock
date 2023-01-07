@@ -10087,6 +10087,7 @@ __metadata:
   dependencies:
     "@headlessui/react": ^1.5.0
     "@heroicons/react": ^1.0.5
+    "@openzeppelin/merkle-tree": ^1.0.1
     "@tailwindcss/aspect-ratio": ^0.4.0
     "@tailwindcss/forms": ^0.4.0
     "@tailwindcss/line-clamp": ^0.3.1
