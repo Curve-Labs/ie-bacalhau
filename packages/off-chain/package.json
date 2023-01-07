@@ -9,6 +9,7 @@
   },
   "scripts": {
     "build": "sh shell/build.sh",
+    "run:bacalhau": "sh shell/run_bacalhau.sh",
     "compile": "tsc",
     "execute": "node scripts/index.js",
     "execute:ts": "ts-node scripts/index.ts",
