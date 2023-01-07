@@ -3,3 +3,4 @@
 !/outputs/merkleTree.json
 !/outputs/metadata.json
 /utils/*.js
+/results/*
