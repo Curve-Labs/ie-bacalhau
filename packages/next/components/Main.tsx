@@ -18,14 +18,23 @@ interface StandardMerkleTreeData<T extends any[]> {
 export function Main() {
   const { provider, web3Provider, address } = useWeb3Context()
   const [textField, setTextField] = useState('')
-  const [claims, setClaims] = useState<[number, any][]>([])
   const [metadatas, setMetadatas] = useState<string[][]>([])
   const [shrine, setShrine] = useState<Contract | undefined>(undefined)
   const [version, setVersion] = useState<number | undefined>(undefined)
+  const [tree, setTree] = useState<StandardMerkleTree<any> | undefined>(
+    undefined
+  )
 
-  const getLatestClaim = (claims: [number, any][]) => {
-    const latestClaim = claims.sort((a, b) => b[0] - a[0])[0]
+  const getClaimOfVersion = (version: number) => {
+    if (!tree) return
+
+    const allClaims = Array.from(tree.entries())
+    const ownClaims = allClaims.filter(
+      ([version, [beneficiaryAddress, value]]) => address === beneficiaryAddress
+    )
+    const latestClaim = ownClaims.sort((a, b) => b[0] - a[0])[0]
     const [index, [beneficiaryAddress, value]] = latestClaim
+
     return {
       index,
       beneficiaryAddress,
@@ -58,13 +67,13 @@ export function Main() {
       treeDump as StandardMerkleTreeData<any>
     ) as StandardMerkleTree<any>
 
-    const allClaims = Array.from(tree.entries())
-    const ownClaims = allClaims.filter(
-      ([version, [beneficiaryAddress, value]]) => address === beneficiaryAddress
-    )
-    setClaims(ownClaims)
+    // const allClaims = Array.from(tree.entries())
+    // const ownClaims = allClaims.filter(
+    //   ([version, [beneficiaryAddress, value]]) => address === beneficiaryAddress
+    // )
     setShrine(shrine)
     setVersion(currentLedgerVersion)
+    setTree(tree)
   }
 
   const handleClaim = async () => {
@@ -80,7 +89,7 @@ export function Main() {
   if (metadatas.length > 0) {
   }
 
-  console.log(metadatas.length > 0 && metadatas[0][0])
+  console.log(getClaimOfVersion(version))
 
   return (
     <main className="grow p-8 text-center">
@@ -108,10 +117,7 @@ export function Main() {
         ) : (
           <div className="flex w-7/12 flex-col p-6">
             <p>Connected to shrine: {shrine.address}</p>
-            <p>
-              Eligible amount:{' '}
-              {claims.length > 0 && getLatestClaim(claims).value}
-            </p>
+            <p>Eligible amount: {getClaimOfVersion(version)?.value}</p>
             <button
               className="rounded-lg bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
               onClick={handleClaim}
