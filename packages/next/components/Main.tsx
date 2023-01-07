@@ -19,9 +19,21 @@ export function Main() {
   const { provider, web3Provider, address } = useWeb3Context()
   const [textField, setTextField] = useState('')
   const [claims, setClaims] = useState<[number, any][]>([])
+  const [metadatas, setMetadatas] = useState<string[][]>([])
   const [shrine, setShrine] = useState<Contract | undefined>(undefined)
+  const [version, setVersion] = useState<number | undefined>(undefined)
 
-  const handleClick = async () => {
+  const getLatestClaim = (claims: [number, any][]) => {
+    const latestClaim = claims.sort((a, b) => b[0] - a[0])[0]
+    const [index, [beneficiaryAddress, value]] = latestClaim
+    return {
+      index,
+      beneficiaryAddress,
+      value,
+    }
+  }
+
+  const handleSearch = async () => {
     const isAddress = ethers.utils.isAddress(textField)
     if (!isAddress) return
     const shrine = new ethers.Contract(
@@ -33,11 +45,13 @@ export function Main() {
     // TODO fromBlock, toBlock logic
     const currentLedgerVersion = await shrine.currentLedgerVersion()
     const events = await shrine.queryFilter('UpdateLedgerMetadata', 0, 1000)
-    const lastEvent = events[events.length - 1]
-    const lastIpfs = lastEvent?.decode(
-      lastEvent.data,
-      lastEvent.topics
-    ).newLedgerMetadataIPFSHash
+    setMetadatas(events.map((e) => e?.decode(e.data, e.topics)))
+    // const lastEvent = events[events.length - 1]
+    // const lastIpfs = lastEvent?.decode(
+    // lastEvent.data,
+    // lastEvent.topics
+    // ).newLedgerMetadataIPFSHash
+
     // console.log(lastEvent.decode())
     // retrieve tree dump from ipfs
     const tree = StandardMerkleTree.load(
@@ -50,17 +64,23 @@ export function Main() {
     )
     setClaims(ownClaims)
     setShrine(shrine)
+    setVersion(currentLedgerVersion)
   }
 
-  const getLatestClaim = (claims: [number, any][]) => {
-    const latestClaim = claims.sort((a, b) => b[0] - a[0])[0]
-    const [index, [beneficiaryAddress, value]] = latestClaim
-    return {
-      index,
-      beneficiaryAddress,
-      value,
-    }
+  const handleClaim = async () => {
+    //   Version version;
+    //   ERC20 token;
+    //   Champion champion;
+    //   uint256 shares;
+    //   bytes32[] merkleProof;
+    const claimInfo = {}
+    const tx = await shrine?.claim(address)
   }
+
+  if (metadatas.length > 0) {
+  }
+
+  console.log(metadatas.length > 0 && metadatas[0][0])
 
   return (
     <main className="grow p-8 text-center">
@@ -80,7 +100,7 @@ export function Main() {
             />
             <button
               className="rounded-lg bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
-              onClick={handleClick}
+              onClick={handleSearch}
             >
               Search airdrop
             </button>
@@ -92,6 +112,12 @@ export function Main() {
               Eligible amount:{' '}
               {claims.length > 0 && getLatestClaim(claims).value}
             </p>
+            <button
+              className="rounded-lg bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+              onClick={handleClaim}
+            >
+              Claim airdrop
+            </button>
           </div>
         )}
       </div>

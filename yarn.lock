@@ -991,12 +991,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@heroicons/react@npm:^1.0.5":
-  version: 1.0.6
-  resolution: "@heroicons/react@npm:1.0.6"
+"@heroicons/react@npm:^2.0.13":
+  version: 2.0.13
+  resolution: "@heroicons/react@npm:2.0.13"
   peerDependencies:
     react: ">= 16"
-  checksum: 372b1eda3ce735ef069777bc96304f70de585ebb71a6d1cedc121bb695f9bca235619112e3ee14e8779e95a03096813cbbe3b755927a54b7580d1ce084fa4096
+  checksum: f03c393a129cb468d103e4334815df956d7afa9d0756ee09b33e9396214d39b786523a5e650709de73c68ba085facda3fe01984ff137bcc16c85d4ed2498e663
   languageName: node
   linkType: hard
 
@@ -10086,7 +10086,7 @@ __metadata:
   resolution: "next@workspace:packages/next"
   dependencies:
     "@headlessui/react": ^1.5.0
-    "@heroicons/react": ^1.0.5
+    "@heroicons/react": ^2.0.13
     "@openzeppelin/merkle-tree": ^1.0.1
     "@tailwindcss/aspect-ratio": ^0.4.0
     "@tailwindcss/forms": ^0.4.0
@@ -10117,6 +10117,7 @@ __metadata:
     react-dom: 17.0.2
     react-toastify: ^8.2.0
     tailwindcss: ^3.0.23
+    truncate-eth-address: ^1.0.2
     ts-node: ^10.5.0
     typescript: 4.5.5
     web3modal: ^1.9.5
@@ -12833,6 +12834,13 @@ __metadata:
   version: 0.0.3
   resolution: "tr46@npm:0.0.3"
   checksum: 726321c5eaf41b5002e17ffbd1fb7245999a073e8979085dacd47c4b4e8068ff5777142fc6726d6ca1fd2ff16921b48788b87225cbc57c72636f6efa8efbffe3
+  languageName: node
+  linkType: hard
+
+"truncate-eth-address@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "truncate-eth-address@npm:1.0.2"
+  checksum: c56406753f5071e008ef67269e86f6b5c598e9a673930715b6175ad5a2708a4b39a32571ccc49b1dbd143e774a19a0a38b0bf2a5ae6e857560eae8c84140e95b
   languageName: node
   linkType: hard
 
