@@ -1,4 +1,4 @@
-import React, { Provider, useState } from 'react'
+import React, { useState } from 'react'
 import { ethers, Contract } from 'ethers'
 import { BigNumber } from 'ethers'
 import { abi } from '../contracts/Shrine.json'
@@ -13,6 +13,13 @@ const token = '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0'
 interface Metadata {
   version: BigNumber
   newLedgerMetadataIPFSHash: string
+}
+
+interface Claim {
+  index: number
+  address: string
+  shares: number
+  alreadyClaimed: boolean
 }
 
 interface StandardMerkleTreeData<T extends any[]> {
@@ -34,21 +41,28 @@ function Main() {
   const [tree, setTree] = useState<StandardMerkleTree<any> | undefined>(
     undefined
   )
+  const [userClaim, setUserClaim] = useState<Claim | undefined>(undefined)
 
-  const getClaimOfVersion = (v: number) => {
-    if (!tree) return
+  const getClaimOfVersion = async (v: number) => {
+    if (!tree || !shrine) return
 
     const allClaims = Array.from(tree.entries())
-    const ownClaims = allClaims.filter(
+    const ownClaim = allClaims.find(
       ([idx, [beneficiaryAddress, value]]) => address === beneficiaryAddress
     )
-    const latestClaim = ownClaims.sort((a, b) => b[0] - a[0])[0]
-    const [index, [beneficiaryAddress, value]] = latestClaim
+
+    if (!ownClaim) return
+
+    const [index, [beneficiaryAddress, value]] = ownClaim
+
+    const events = await shrine.queryFilter('Claim', 0, 1000) //inefficient
+    const alreadyClaimed = !!events.find((e) => e.args.champion === address)
 
     return {
       index,
       beneficiaryAddress,
       value,
+      alreadyClaimed,
     }
   }
 
@@ -63,8 +77,12 @@ function Main() {
     // get ledger metadata from shrine (ipfs hash)
     // TODO fromBlock, toBlock logic
     const currentLedgerVersion = await shrine.currentLedgerVersion()
-    const events = await shrine.queryFilter('UpdateLedgerMetadata', 0, 1000)
-    setMetadatas(events.map((e) => e?.decode(e.data, e.topics)))
+    const versionEvents = await shrine.queryFilter(
+      'UpdateLedgerMetadata',
+      0,
+      1000
+    )
+    setMetadatas(versionEvents.map((e) => e?.decode(e.data, e.topics)))
 
     // retrieve tree dump from ipfs
     const tree = StandardMerkleTree.load(
@@ -74,6 +92,24 @@ function Main() {
     setShrine(shrine)
     setVersion(currentLedgerVersion.toNumber())
     setTree(tree)
+
+    const allClaims = Array.from(tree.entries())
+    const ownClaim = allClaims.find(
+      ([idx, [beneficiaryAddress, shares]]) => address === beneficiaryAddress
+    )
+
+    if (!ownClaim) return
+    const [index, [beneficiaryAddress, shares]] = ownClaim
+
+    const events = await shrine.queryFilter('Claim', 0, 1000) //inefficient
+    const alreadyClaimed = !!events.find((e) => e.args.champion === address)
+    const claim = {
+      index,
+      address: beneficiaryAddress,
+      shares,
+      alreadyClaimed,
+    }
+    setUserClaim(claim)
   }
 
   const handleClaim = async (index: number, shares: number) => {
@@ -86,8 +122,9 @@ function Main() {
       shares: shares,
       merkleProof: proof,
     }
-
     const tx = await shrine?.claim(address, claimInfo)
+
+    console.log(tx)
   }
 
   return (
@@ -132,32 +169,29 @@ function Main() {
                 <LedgerVersions metadatas={metadatas} version={version} />
               )}
             </div>
-            {metadatas &&
-              version &&
-              metadatas.map((meta) => {
-                const claim = getClaimOfVersion(meta.version.toNumber())
-                return (
-                  <div
-                    className="flex justify-between p-3"
-                    key={meta.version.toNumber()}
-                  >
-                    <div className="flex flex-row items-center">
-                      <span className="mr-8 block text-sm font-medium text-gray-700">
-                        Shares:
-                      </span>
-                      <span className="mr-8 block text-sm font-medium text-gray-700">
-                        {claim?.value}
-                      </span>
-                    </div>
-                    <button
-                      className="rounded-lg bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
-                      onClick={() => handleClaim(claim?.index, claim?.value)}
-                    >
-                      Claim
-                    </button>
-                  </div>
-                )
-              })}
+
+            <div className="flex justify-between p-3">
+              <div className="flex flex-row items-center">
+                <span className="mr-8 block text-sm font-medium text-gray-700">
+                  Shares:
+                </span>
+                <span className="mr-8 block text-sm font-medium text-gray-700">
+                  {userClaim?.shares}
+                </span>
+              </div>
+              {userClaim?.alreadyClaimed ? (
+                <span>claimed</span>
+              ) : (
+                <button
+                  className="rounded-lg bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+                  onClick={() =>
+                    handleClaim(userClaim?.index, userClaim?.shares)
+                  }
+                >
+                  Claim
+                </button>
+              )}
+            </div>
           </div>
         )}
       </div>
