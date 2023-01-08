@@ -49,3 +49,16 @@ task("shrine:setup", "Deploys a new instance of Shrine")
 
     return shrine;
   });
+
+task("shrine:offer", "Sends tokens to Shrine to be distributed via merkle drop")
+  .addParam("token", "Token address", undefined, types.string)
+  .addParam("amount", "Token amount to be sent to Shrine", undefined, types.int)
+  .addParam("shrine", "Address of shrine contract", undefined, types.string)
+  .setAction(async ({ token, amount, shrine }, { ethers }) => {
+    const shrineInstance = await ethers.getContractAt("Shrine", shrine);
+    const tx = await shrineInstance.offer(token, amount);
+
+    console.log(
+      `Offer ${amount} of token ${token} to shrine ${shrine} in tx ${tx.hash}`
+    );
+  });

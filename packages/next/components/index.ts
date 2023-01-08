@@ -1,5 +1,5 @@
 export { Web3ConnectButton } from './Web3ConnectButton'
 export { Web3DisconnectButton } from './Web3DisconnectButton'
 export { Web3Address } from './Web3Address'
-export { Main } from './Main'
 export { Navbar } from './Navbar'
+export { LedgerVersions } from './LedgerVersions'
