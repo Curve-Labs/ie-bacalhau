@@ -38,8 +38,6 @@ function Main() {
   const getClaimOfVersion = (v: number) => {
     if (!tree) return
 
-    console.log(tree)
-
     const allClaims = Array.from(tree.entries())
     const ownClaims = allClaims.filter(
       ([idx, [beneficiaryAddress, value]]) => address === beneficiaryAddress
@@ -79,14 +77,6 @@ function Main() {
   }
 
   const handleClaim = async (index: number, shares: number) => {
-    //   Version version;
-    //   ERC20 token;
-    //   Champion champion;
-    //   uint256 shares;
-    //   bytes32[] merkleProof;
-    console.log(tree?.root)
-    console.log(tree?.render())
-
     if (!tree) return
     const proof = tree.getProof(index)
     const claimInfo = {
@@ -97,8 +87,6 @@ function Main() {
       merkleProof: proof,
     }
 
-    console.log(claimInfo)
-    console.log(shrine)
     const tx = await shrine?.claim(address, claimInfo)
   }
 
