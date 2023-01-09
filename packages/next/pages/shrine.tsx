@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ethers, Contract } from 'ethers'
 import { BigNumber } from 'ethers'
 import { abi } from '../contracts/Shrine.json'
-import treeDump from '../components/tree.json'
+import treeDump1 from '../components/tree1.json'
+import treeDump2 from '../components/tree2.json'
 import { StandardMerkleTree } from '@openzeppelin/merkle-tree'
 import { useWeb3Context } from '../context'
 import { LedgerVersions } from '../components'
@@ -33,7 +34,7 @@ interface StandardMerkleTreeData<T extends any[]> {
 }
 
 function Main() {
-  const { provider, web3Provider, address } = useWeb3Context()
+  const { web3Provider, address } = useWeb3Context()
   const [textField, setTextField] = useState('')
   const [metadatas, setMetadatas] = useState<Metadata[]>([])
   const [shrine, setShrine] = useState<Contract | undefined>(undefined)
@@ -42,26 +43,59 @@ function Main() {
     undefined
   )
   const [userClaim, setUserClaim] = useState<Claim | undefined>(undefined)
+  const [loading, setLoading] = useState(undefined)
 
-  const getClaimOfVersion = async (v: number) => {
-    if (!tree || !shrine) return
+  useEffect(() => {
+    const newTree = getTreeForVersion(version, metadatas)
 
+    const asyncFunction = async () => {
+      const claim = await getUserClaim(newTree)
+      setUserClaim(claim)
+    }
+
+    setTree(newTree)
+    asyncFunction().catch(console.error)
+  }, [version])
+
+  const getTreeForVersion = (
+    v: number,
+    m: Metadata[]
+  ): StandardMerkleTree<any> => {
+    const ipfsHash = m.find(({ version }) => version.eq(v))
+    // TODO: get tree from ipfs
+    console.log(v)
+    if (v == 1) {
+      const tree = StandardMerkleTree.load(
+        treeDump1 as StandardMerkleTreeData<any>
+      ) as StandardMerkleTree<any>
+      return tree
+    } else if (v == 2) {
+      const tree = StandardMerkleTree.load(
+        treeDump2 as StandardMerkleTreeData<any>
+      ) as StandardMerkleTree<any>
+      return tree
+    }
+  }
+
+  const getUserClaim = async (tree: StandardMerkleTree<any>) => {
     const allClaims = Array.from(tree.entries())
     const ownClaim = allClaims.find(
-      ([idx, [beneficiaryAddress, value]]) => address === beneficiaryAddress
+      ([idx, [beneficiaryAddress, shares]]) => address === beneficiaryAddress
     )
 
     if (!ownClaim) return
-
-    const [index, [beneficiaryAddress, value]] = ownClaim
-
+    const [index, [beneficiaryAddress, shares]] = ownClaim
     const events = await shrine.queryFilter('Claim', 0, 1000) //inefficient
-    const alreadyClaimed = !!events.find((e) => e.args.champion === address)
+    const alreadyClaimed = !!events.find((e) => {
+      return (
+        e.args.champion === address && e.args.version.toNumber() === version
+      )
+    })
 
     return {
       index,
-      beneficiaryAddress,
-      value,
+      address: beneficiaryAddress,
+      shares,
       alreadyClaimed,
     }
   }
@@ -82,33 +116,22 @@ function Main() {
       0,
       1000
     )
-    setMetadatas(versionEvents.map((e) => e?.decode(e.data, e.topics)))
+    const decodedVersionEvents = versionEvents.map((e) =>
+      e?.decode(e.data, e.topics)
+    )
 
     // retrieve tree dump from ipfs
-    const tree = StandardMerkleTree.load(
-      treeDump as StandardMerkleTreeData<any>
-    ) as StandardMerkleTree<any>
+    const tree = getTreeForVersion(
+      currentLedgerVersion.toNumber(),
+      decodedVersionEvents
+    )
 
+    const claim = await getUserClaim(tree)
+
+    setMetadatas(decodedVersionEvents)
     setShrine(shrine)
     setVersion(currentLedgerVersion.toNumber())
     setTree(tree)
-
-    const allClaims = Array.from(tree.entries())
-    const ownClaim = allClaims.find(
-      ([idx, [beneficiaryAddress, shares]]) => address === beneficiaryAddress
-    )
-
-    if (!ownClaim) return
-    const [index, [beneficiaryAddress, shares]] = ownClaim
-
-    const events = await shrine.queryFilter('Claim', 0, 1000) //inefficient
-    const alreadyClaimed = !!events.find((e) => e.args.champion === address)
-    const claim = {
-      index,
-      address: beneficiaryAddress,
-      shares,
-      alreadyClaimed,
-    }
     setUserClaim(claim)
   }
 
@@ -126,6 +149,10 @@ function Main() {
 
     console.log(tx)
   }
+
+  console.log(version)
+  console.log(userClaim)
+  console.log(tree)
 
   return (
     <main className="grow p-8 text-center">
@@ -166,7 +193,11 @@ function Main() {
                 </span>
               </div>
               {version && (
-                <LedgerVersions metadatas={metadatas} version={version} />
+                <LedgerVersions
+                  metadatas={metadatas}
+                  version={version}
+                  setVersion={setVersion}
+                />
               )}
             </div>
 

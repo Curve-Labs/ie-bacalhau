@@ -5,6 +5,7 @@ import { BigNumber } from 'ethers'
 type VersionsProps = {
   metadatas: Metadata[]
   version: BigNumber
+  setVersion: Function
 }
 interface Metadata {
   version: BigNumber
@@ -14,7 +15,7 @@ interface Metadata {
 export const LedgerVersions: React.FunctionComponent<VersionsProps> = (
   props
 ) => {
-  const { metadatas, version } = props
+  const { metadatas, version, setVersion } = props
   const currentMetadata = metadatas.find((m) => m.version.eq(version))
 
   return (
@@ -22,7 +23,9 @@ export const LedgerVersions: React.FunctionComponent<VersionsProps> = (
       as="div"
       className="space-y-1"
       value={currentMetadata?.version.toString()}
-      // onChange={setSelectedPerson}
+      onChange={(e) => {
+        setVersion(e)
+      }}
     >
       {({ open }) => (
         <div className="w-50 flex flex-row items-center justify-between">
