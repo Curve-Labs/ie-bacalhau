@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { ethers, Contract, BigNumber, Event } from 'ethers'
 import { toast } from 'react-toastify'
 import { abi } from '../contracts/Shrine.json'
-import treeDump1 from '../components/tree1.json'
-import treeDump2 from '../components/tree2.json'
 import { StandardMerkleTree } from '@openzeppelin/merkle-tree'
 import { useWeb3Context } from '../context'
 import { LedgerVersions, Web3ConnectButton } from '../components'
 import truncateEthAddress from 'truncate-eth-address'
+import axios from 'axios'
 
 interface Metadata {
   version: number
@@ -56,8 +55,6 @@ function Main() {
   useEffect(() => {
     if (!version) return
 
-    const newTree = getTreeForVersion(version, metadatas)
-
     const asyncFunction = async () => {
       if (!shrine) return
 
@@ -69,35 +66,45 @@ function Main() {
       const decodedVersionEvents = versionEvents.map((e) =>
         e?.decode(e.data, e.topics)
       )
+      const newTree = await getTreeForVersion(version, decodedVersionEvents)
       const pastClaims = await getPastUserClaimsForVersion(version)
       const claim = await getUserClaimForVersion(version, newTree)
 
+      setMetadatas(decodedVersionEvents)
       setPastUserClaims(pastClaims)
       setUserClaim(claim)
-      setMetadatas(decodedVersionEvents)
       setTree(newTree)
     }
 
     asyncFunction().catch(console.error)
   }, [version, address])
 
-  const getTreeForVersion = (
-    v: number,
-    m: Metadata[]
-  ): StandardMerkleTree<any> => {
-    const ipfsHash = m.find(({ version }) => version == v)
-    // TODO: get tree from ipfs
-    if (v == 1) {
+  const getTreeForVersion = async (v: number, m: Metadata[]) => {
+    const { newLedgerMetadataIPFSHash } = m.find(({ version }) => version == v)
+    try {
+      const { data } = await axios.get(
+        'https://gateway.pinata.cloud/ipfs/' + newLedgerMetadataIPFSHash
+      )
       const tree = StandardMerkleTree.load(
-        treeDump1 as StandardMerkleTreeData<any>
+        data as StandardMerkleTreeData<any>
       ) as StandardMerkleTree<any>
       return tree
-    } else {
-      const tree = StandardMerkleTree.load(
-        treeDump2 as StandardMerkleTreeData<any>
-      ) as StandardMerkleTree<any>
-      return tree
+    } catch (e) {
+      toast.error("Couldn't retrieve tree data from ipfs")
     }
+    // console.log(response)
+    // // TODO: get tree from ipfs
+    // if (v == 1) {
+    //   const tree = StandardMerkleTree.load(
+    //     treeDump1 as StandardMerkleTreeData<any>
+    //   ) as StandardMerkleTree<any>
+    //   return tree
+    // } else {
+    //   const tree = StandardMerkleTree.load(
+    //     treeDump2 as StandardMerkleTreeData<any>
+    //   ) as StandardMerkleTree<any>
+    //   return tree
+    // }
   }
 
   const getPastUserClaimsForVersion = async (v: number) => {
@@ -158,7 +165,7 @@ function Main() {
     const proof = tree.getProof(index)
     const claimInfo = {
       version,
-      token,
+      token: tokenTextField,
       champion: address,
       shares: shares,
       merkleProof: proof,

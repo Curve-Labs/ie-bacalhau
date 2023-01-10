@@ -1,14 +1,11 @@
 import { task, types } from "hardhat/config";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
 
-task("test:setup", "Deploys a new instance of Shrine")
-  .addOptionalParam(
-    "ipfs",
-    "Ipfs hash that points to airdrop specification",
-    undefined,
-    types.string
-  )
-  .setAction(async ({ ipfs }, { ethers, run }) => {
+const tree1Ipfs = "QmNtCnTZeFKvQ1a6BnC7pXm3uv4KKTmJAzadchmAd2dAVD";
+const tree2Ipfs = "QmZpJshb9kR8jhz2XBqec48d44nMcZj3JFw313vLP9kpHa";
+
+task("test:setup", "Deploys a new instance of Shrine").setAction(
+  async (_, { ethers, run }) => {
     const [deployer] = await ethers.getSigners();
 
     const values = [
@@ -21,7 +18,7 @@ task("test:setup", "Deploys a new instance of Shrine")
     const amount = 100;
     const shrine = await run("shrine:setup", {
       avatar: deployer.address,
-      ipfs: ipfs || "abc",
+      ipfs: tree1Ipfs,
       root: tree.root,
       shares: totalShares,
     });
@@ -39,7 +36,8 @@ task("test:setup", "Deploys a new instance of Shrine")
       "Initial balance U1: ",
       await testToken.balanceOf(deployer.address)
     );
-  });
+  }
+);
 
 task("test:v2", "Initiates another merkle drop on another shrine version")
   .addParam("shrine", "Address of shrine contract", undefined, types.string)
@@ -60,7 +58,7 @@ task("test:v2", "Initiates another merkle drop on another shrine version")
       merkleRoot: tree.root,
       totalShares,
     });
-    await shrineInstance.updateLedgerMetadata(2, "blablabla");
+    await shrineInstance.updateLedgerMetadata(2, tree2Ipfs);
 
     const testToken = await ethers.getContractAt("TestToken", token);
     await testToken.mint(deployer.address, amount);
