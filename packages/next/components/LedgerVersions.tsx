@@ -17,7 +17,7 @@ export const LedgerVersions: React.FunctionComponent<VersionsProps> = (
   props
 ) => {
   const { metadatas, version, setVersion } = props
-  const currentMetadata = metadatas.find((m) => m.version.eq(version))
+  const currentMetadata = metadatas.find((m) => m.version == version)
 
   return (
     <Listbox

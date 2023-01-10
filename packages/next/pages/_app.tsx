@@ -11,6 +11,8 @@ function MyApp({ Component, pageProps }: AppProps) {
     <Web3ContextProvider>
       <>
         <Navbar />
+        {/*
+        // @ts-ignore */}
         <Component {...pageProps} />
         <ToastContainer
           hideProgressBar

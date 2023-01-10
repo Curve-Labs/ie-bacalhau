@@ -6,10 +6,8 @@ import treeDump1 from '../components/tree1.json'
 import treeDump2 from '../components/tree2.json'
 import { StandardMerkleTree } from '@openzeppelin/merkle-tree'
 import { useWeb3Context } from '../context'
-import { LedgerVersions } from '../components'
+import { LedgerVersions, Web3ConnectButton } from '../components'
 import truncateEthAddress from 'truncate-eth-address'
-
-const token = '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0'
 
 interface Metadata {
   version: number
@@ -54,7 +52,6 @@ function Main() {
   const [pastUserClaims, setPastUserClaims] = useState<PastClaim[] | undefined>(
     undefined
   )
-  const [loading, setLoading] = useState(undefined)
 
   useEffect(() => {
     if (!version) return
@@ -171,6 +168,13 @@ function Main() {
       .then(() => getPastUserClaimsForVersion(version))
       .then((c: PastClaim[]) => setPastUserClaims(c))
   }
+
+  if (!address)
+    return (
+      <main className="flex h-96 items-center justify-center p-8 text-center">
+        <Web3ConnectButton />
+      </main>
+    )
 
   return (
     <main className="grow p-8 text-center">
