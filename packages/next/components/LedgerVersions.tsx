@@ -4,11 +4,12 @@ import { BigNumber } from 'ethers'
 
 type VersionsProps = {
   metadatas: Metadata[]
-  version: BigNumber
+  version: number
   setVersion: Function
 }
+
 interface Metadata {
-  version: BigNumber
+  version: number
   newLedgerMetadataIPFSHash: string
 }
 
@@ -22,7 +23,7 @@ export const LedgerVersions: React.FunctionComponent<VersionsProps> = (
     <Listbox
       as="div"
       className="space-y-1"
-      value={currentMetadata?.version.toString()}
+      value={currentMetadata?.version.toString() || ''}
       onChange={(e) => {
         setVersion(e)
       }}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { ethers, Contract } from 'ethers'
-import { BigNumber } from 'ethers'
+import { ethers, Contract, BigNumber, Event } from 'ethers'
+import { toast } from 'react-toastify'
 import { abi } from '../contracts/Shrine.json'
 import treeDump1 from '../components/tree1.json'
 import treeDump2 from '../components/tree2.json'
@@ -12,7 +12,7 @@ import truncateEthAddress from 'truncate-eth-address'
 const token = '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0'
 
 interface Metadata {
-  version: BigNumber
+  version: number
   newLedgerMetadataIPFSHash: string
 }
 
@@ -20,7 +20,14 @@ interface Claim {
   index: number
   address: string
   shares: number
-  alreadyClaimed: boolean
+}
+
+interface PastClaim {
+  champion: string
+  claimedTokenAmount: number
+  recipient: string
+  token: string
+  version: BigNumber
 }
 
 interface StandardMerkleTreeData<T extends any[]> {
@@ -35,7 +42,8 @@ interface StandardMerkleTreeData<T extends any[]> {
 
 function Main() {
   const { web3Provider, address } = useWeb3Context()
-  const [textField, setTextField] = useState('')
+  const [shrineTextField, setShrineTextField] = useState('')
+  const [tokenTextField, setTokenTextField] = useState('')
   const [metadatas, setMetadatas] = useState<Metadata[]>([])
   const [shrine, setShrine] = useState<Contract | undefined>(undefined)
   const [version, setVersion] = useState<number | undefined>(undefined)
@@ -43,33 +51,51 @@ function Main() {
     undefined
   )
   const [userClaim, setUserClaim] = useState<Claim | undefined>(undefined)
+  const [pastUserClaims, setPastUserClaims] = useState<PastClaim[] | undefined>(
+    undefined
+  )
   const [loading, setLoading] = useState(undefined)
 
   useEffect(() => {
+    if (!version) return
+
     const newTree = getTreeForVersion(version, metadatas)
 
     const asyncFunction = async () => {
-      const claim = await getUserClaim(newTree)
+      if (!shrine) return
+
+      const versionEvents = await shrine.queryFilter(
+        'UpdateLedgerMetadata',
+        0,
+        1000
+      )
+      const decodedVersionEvents = versionEvents.map((e) =>
+        e?.decode(e.data, e.topics)
+      )
+      const pastClaims = await getPastUserClaimsForVersion(version)
+      const claim = await getUserClaimForVersion(version, newTree)
+
+      setPastUserClaims(pastClaims)
       setUserClaim(claim)
+      setMetadatas(decodedVersionEvents)
+      setTree(newTree)
     }
 
-    setTree(newTree)
     asyncFunction().catch(console.error)
-  }, [version])
+  }, [version, address])
 
   const getTreeForVersion = (
     v: number,
     m: Metadata[]
   ): StandardMerkleTree<any> => {
-    const ipfsHash = m.find(({ version }) => version.eq(v))
+    const ipfsHash = m.find(({ version }) => version == v)
     // TODO: get tree from ipfs
-    console.log(v)
     if (v == 1) {
       const tree = StandardMerkleTree.load(
         treeDump1 as StandardMerkleTreeData<any>
       ) as StandardMerkleTree<any>
       return tree
-    } else if (v == 2) {
+    } else {
       const tree = StandardMerkleTree.load(
         treeDump2 as StandardMerkleTreeData<any>
       ) as StandardMerkleTree<any>
@@ -77,82 +103,74 @@ function Main() {
     }
   }
 
-  const getUserClaim = async (tree: StandardMerkleTree<any>) => {
-    const allClaims = Array.from(tree.entries())
-    const ownClaim = allClaims.find(
-      ([idx, [beneficiaryAddress, shares]]) => address === beneficiaryAddress
-    )
-
-    if (!ownClaim) return
-    const [index, [beneficiaryAddress, shares]] = ownClaim
+  const getPastUserClaimsForVersion = async (v: number) => {
+    if (!shrine) return []
     const events = await shrine.queryFilter('Claim', 0, 1000) //inefficient
-    const alreadyClaimed = !!events.find((e) => {
-      return (
-        e.args.champion === address && e.args.version.toNumber() === version
+    const pastClaims = events
+      .filter(
+        (e: Event) =>
+          e!.args.champion.toLowerCase() === address?.toLowerCase() &&
+          e!.args.version.toNumber() == v
       )
-    })
+      .map((e) => ({
+        champion: e!.args.champion,
+        claimedTokenAmount: e!.args.claimedTokenAmount,
+        recipient: e!.args.recipient,
+        token: e!.args.token,
+        version: e!.args.version,
+      }))
+    return pastClaims
+  }
 
+  const getUserClaimForVersion = async (
+    v: number,
+    t: StandardMerkleTree<any>
+  ) => {
+    const allClaims = Array.from(t.entries())
+    const ownClaim = allClaims.find(([idx, [beneficiaryAddress, shares]]) => {
+      return address?.toLowerCase() === beneficiaryAddress.toLowerCase()
+    })
+    if (!ownClaim) return undefined
+    const [index, [beneficiaryAddress, shares]] = ownClaim
     return {
       index,
       address: beneficiaryAddress,
       shares,
-      alreadyClaimed,
     }
   }
 
   const handleSearch = async () => {
-    const isAddress = ethers.utils.isAddress(textField)
+    const isAddress = ethers.utils.isAddress(shrineTextField)
     if (!isAddress) return
     const shrine = new ethers.Contract(
-      textField,
+      shrineTextField,
       abi,
       web3Provider?.getSigner()
     )
-    // get ledger metadata from shrine (ipfs hash)
-    // TODO fromBlock, toBlock logic
-    const currentLedgerVersion = await shrine.currentLedgerVersion()
-    const versionEvents = await shrine.queryFilter(
-      'UpdateLedgerMetadata',
-      0,
-      1000
-    )
-    const decodedVersionEvents = versionEvents.map((e) =>
-      e?.decode(e.data, e.topics)
-    )
-
-    // retrieve tree dump from ipfs
-    const tree = getTreeForVersion(
-      currentLedgerVersion.toNumber(),
-      decodedVersionEvents
-    )
-
-    const claim = await getUserClaim(tree)
-
-    setMetadatas(decodedVersionEvents)
-    setShrine(shrine)
-    setVersion(currentLedgerVersion.toNumber())
-    setTree(tree)
-    setUserClaim(claim)
+    try {
+      const currentLedgerVersion = await shrine.currentLedgerVersion()
+      setShrine(shrine)
+      setVersion(currentLedgerVersion.toNumber())
+    } catch (e) {
+      toast.error('Shrine contract not found')
+    }
   }
 
   const handleClaim = async (index: number, shares: number) => {
-    if (!tree) return
+    if (!tree || !version) return
     const proof = tree.getProof(index)
     const claimInfo = {
-      version: 1,
+      version,
       token,
       champion: address,
       shares: shares,
       merkleProof: proof,
     }
     const tx = await shrine?.claim(address, claimInfo)
-
-    console.log(tx)
+    tx.wait()
+      .then(() => getPastUserClaimsForVersion(version))
+      .then((c: PastClaim[]) => setPastUserClaims(c))
   }
-
-  console.log(version)
-  console.log(userClaim)
-  console.log(tree)
 
   return (
     <main className="grow p-8 text-center">
@@ -171,8 +189,8 @@ function Main() {
               type="text"
               className="mb-4 block w-full rounded-lg border-2 border-gray-300 p-2"
               placeholder="Shrine Address"
-              value={textField}
-              onChange={(e) => setTextField(e.target.value)}
+              value={shrineTextField}
+              onChange={(e) => setShrineTextField(e.target.value)}
             />
             <button
               className="rounded-lg bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
@@ -182,37 +200,47 @@ function Main() {
             </button>
           </div>
         ) : (
-          <div className="flex w-5/12 min-w-min flex-col p-6 text-left">
-            <div className="mb-12 flex flex-row items-center justify-between border p-6">
-              <div className="flex flex-row items-center">
+          <div className="flex w-7/12 min-w-min flex-col p-6 text-left">
+            <div className="mb-12 border p-6">
+              <div className="mb-6 flex flex-row items-center">
                 <span className="mr-8 block text-sm font-medium text-gray-700">
                   Shrine:
                 </span>
-                <span className="mr-8 block text-sm font-medium text-gray-700">
-                  {truncateEthAddress(shrine.address)}
+                <span className="block text-sm font-medium">
+                  {shrine.address}
                 </span>
               </div>
-              {version && (
-                <LedgerVersions
-                  metadatas={metadatas}
-                  version={version}
-                  setVersion={setVersion}
-                />
-              )}
-            </div>
-
-            <div className="flex justify-between p-3">
-              <div className="flex flex-row items-center">
-                <span className="mr-8 block text-sm font-medium text-gray-700">
-                  Shares:
-                </span>
-                <span className="mr-8 block text-sm font-medium text-gray-700">
-                  {userClaim?.shares}
-                </span>
+              <div className="mb-6 flex flex-row items-center justify-between">
+                {version && (
+                  <LedgerVersions
+                    metadatas={metadatas}
+                    version={version}
+                    setVersion={setVersion}
+                  />
+                )}
+                <div className="flex flex-row">
+                  <span className="mr-8 block text-sm font-medium text-gray-700">
+                    Shares: {''}
+                  </span>
+                  <span className="block text-sm font-medium">
+                    {userClaim?.shares || 0}
+                  </span>
+                </div>
               </div>
-              {userClaim?.alreadyClaimed ? (
-                <span>claimed</span>
-              ) : (
+              <div className="flex flex-row items-center justify-between">
+                <div>
+                  {' '}
+                  <label className="mr-8 text-sm font-medium text-gray-700">
+                    Token:
+                  </label>
+                  <input
+                    type="text"
+                    className="w-96 rounded-lg border-2 border-gray-300 p-2 text-sm"
+                    placeholder="Token Address"
+                    value={tokenTextField}
+                    onChange={(e) => setTokenTextField(e.target.value)}
+                  />
+                </div>
                 <button
                   className="rounded-lg bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
                   onClick={() =>
@@ -221,8 +249,46 @@ function Main() {
                 >
                   Claim
                 </button>
-              )}
+              </div>
             </div>
+
+            {pastUserClaims && pastUserClaims.length > 0 && (
+              <>
+                <h2 className="mt-0 mb-2 text-center text-base font-medium">
+                  Your past claims:
+                </h2>
+                <table className="table-auto">
+                  <thead>
+                    <tr>
+                      <th className="text-sm font-medium text-gray-700">
+                        Champion
+                      </th>
+                      <th className="text-sm font-medium text-gray-700">
+                        Token
+                      </th>
+                      <th className="text-sm font-medium text-gray-700">
+                        Claimed amount
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {pastUserClaims.map((p) => (
+                      <tr>
+                        <td className="text-sm text-gray-700">
+                          {truncateEthAddress(p.champion)}
+                        </td>
+                        <td className="text-sm text-gray-700">
+                          {truncateEthAddress(p.token)}
+                        </td>
+                        <td className="text-sm text-gray-700">
+                          {p.claimedTokenAmount.toString()}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </>
+            )}
           </div>
         )}
       </div>
