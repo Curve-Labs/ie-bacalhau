@@ -3,6 +3,7 @@ import "@nomicfoundation/hardhat-toolbox";
 
 import "./tasks/reality";
 import "./tasks/shrine";
+import "./tasks/test";
 
 const config: HardhatUserConfig = {
   solidity: {
