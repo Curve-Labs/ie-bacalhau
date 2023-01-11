@@ -92,19 +92,6 @@ function Main() {
     } catch (e) {
       toast.error("Couldn't retrieve tree data from ipfs")
     }
-    // console.log(response)
-    // // TODO: get tree from ipfs
-    // if (v == 1) {
-    //   const tree = StandardMerkleTree.load(
-    //     treeDump1 as StandardMerkleTreeData<any>
-    //   ) as StandardMerkleTree<any>
-    //   return tree
-    // } else {
-    //   const tree = StandardMerkleTree.load(
-    //     treeDump2 as StandardMerkleTreeData<any>
-    //   ) as StandardMerkleTree<any>
-    //   return tree
-    // }
   }
 
   const getPastUserClaimsForVersion = async (v: number) => {
@@ -167,7 +154,7 @@ function Main() {
       version,
       token: tokenTextField,
       champion: address,
-      shares: shares,
+      shares,
       merkleProof: proof,
     }
     const tx = await shrine?.claim(address, claimInfo)

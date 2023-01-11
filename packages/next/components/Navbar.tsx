@@ -24,8 +24,8 @@ import { Web3ConnectButton, Web3DisconnectButton } from './index'
 import { useWeb3Context } from '../context'
 
 const navigation = [
-  { name: 'Claim', href: '#', current: true },
-  { name: 'Contribute', href: '#', current: false },
+  { name: 'Claim', href: '/shrine', current: true },
+  { name: 'Contribute', href: '/contribute', current: false },
 ]
 
 function classNames(...classes) {
