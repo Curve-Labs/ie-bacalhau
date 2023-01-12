@@ -1,5 +1,12 @@
 # Shell Script to build images and push
 
+# Copy merkleTree.ts file from package hardhat
+echo "Ensure your command line is on directory ./packages/off-chain/"
+
+echo "Copying merkle tree script from hardhat package."
+sh "../shell/copy_merkle_tree.sh"
+echo "Copied merkle tree file"
+
 # Ask user for input
 
 echo "What CPU processor are you using: (A) Apple Silicone (M1, M2, ...) or (B) Intel"

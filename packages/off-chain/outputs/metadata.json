@@ -1,0 +1,49 @@
+{
+    "success": true,
+    "merkleRoot": "0xd7a735786875a988f2a5d7502c504a081614cc7b2189e771c6da2448d96dc336",
+    "contributions": {
+        "totalShares": 434,
+        "contributions": [
+            {
+                "contributor": "0x1670Ac4c262F80295CBbC9Bb17c470B5BE776f13",
+                "shares": 46
+            },
+            {
+                "contributor": "0x7628538317300B66d1C426BcBc66D702435B0573",
+                "shares": 60
+            },
+            {
+                "contributor": "0x79f878cBB93440c5958ffacc88FDae7a8eEe5761",
+                "shares": 74
+            },
+            {
+                "contributor": "0xcd1E75b58Ff71605980b1Af4213b68F026e579f3",
+                "shares": 25
+            },
+            {
+                "contributor": "0x643Ad3cC6bFE800656fF6D4577F6F663F233605C",
+                "shares": 64
+            },
+            {
+                "contributor": "0xB44Bca16588735cF4089285E0452207F4B226c83",
+                "shares": 10
+            },
+            {
+                "contributor": "0xeee61f86136a503B827594446792F384905d133a",
+                "shares": 30
+            },
+            {
+                "contributor": "0x80638a800612abF96ECB81ce9CA77B8a39DB8A6e",
+                "shares": 64
+            },
+            {
+                "contributor": "0x4153b92b99Aa703A61c728365aeB00406cCCcB64",
+                "shares": 17
+            },
+            {
+                "contributor": "0x5C69A8ee6f55B0e46e30189b2151195882826f3A",
+                "shares": 44
+            }
+        ]
+    }
+}

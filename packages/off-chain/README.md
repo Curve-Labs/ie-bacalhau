@@ -3,9 +3,14 @@
 ## Links
 Docker Image: mihirsinhparmar/ie-bac
 
-Run jon on bacalhau
+Run job on bacalhau without inputs
 ```
 bacalhau docker run mihirsinhparmar/bacalhau-ie
+```
+
+Run job with inputs using HTTPs
+```
+bacalhau docker run --input-urls https://nftstorage.link/ipfs/bafybeiblg4ymbxuhpckcsfkdhn52o4l4iakc6wgjptp4fil4ctjcvdsvp4 mihirsinhparmar/bacalhau-ie
 ```
 
 # Easy Build
@@ -63,8 +68,17 @@ where USERNAME is your docker hub username
 and, NAME is the name of docker image
 
 ## Note
+### Bacalhau caching Docker Images
 Bacalhau might cache the docker image and hence it might take some time for bacalhau to pick up latest docker image.
 Sometimes if you run newly deployed docker image, bacalhau might still run an old version of docker image.
+
+### Waiting to pin files on Filecoin
+New files pinned to IPFS are not directly added to Filecoin. It takes some time for those files to be added to filecoin. Meanwhile the filecoin deals are been made, you can use HTTPs urls as input files.
+to do that use following command:
+```
+bacalhau docker run --input-urls $URL $DOCKER_IMAGE
+``` 
+
 
 ## Run Docker Images on Bacalhau
 ```

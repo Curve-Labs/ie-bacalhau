@@ -9,12 +9,18 @@
   },
   "scripts": {
     "build": "sh shell/build.sh",
+    "run:bacalhau": "sh shell/run_bacalhau.sh",
     "compile": "tsc",
-    "execute": "node scripts/index.js"
+    "execute": "node scripts/index.js",
+    "execute:ts": "ts-node scripts/index.ts",
+    "import:merkle:tree": "sh shell/copy_merkle_tree.sh",
+    "mock:contributions": "ts-node ./scripts/generateDummyContributor.ts"
   },
   "dependencies": {
+    "@openzeppelin/merkle-tree": "^1.0.1",
     "@types/node": "^18.11.18",
     "dotenv": "^16.0.3",
+    "ethers": "^5.7.2",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.4"
   }
