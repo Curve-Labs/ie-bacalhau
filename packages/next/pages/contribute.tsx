@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { EthereumAuthProvider, useViewerConnection } from '@self.id/framework'
+import {
+  EthereumAuthProvider,
+  useViewerConnection,
+  SelfID,
+} from '@self.id/framework'
+import { WebClient } from '@self.id/web'
 import { useWeb3Context } from '../context'
 
 const loadingContributions = 'loading_contributions'
+const loadingAuthenticating = 'loading_authenticating'
 
 const contribute = () => {
   const [connection, connect] = useViewerConnection()
@@ -14,42 +20,69 @@ const contribute = () => {
   const [loading, setLoading] = useState(null)
 
   useEffect(() => {
-    const asyncFunction = async () => {
-      // authenticate
+    if (!provider) return
+
+    const authenticate = async () => {
       const selfId = await connect(new EthereumAuthProvider(provider, address))
-      const { id, client, set } = selfId
-      const { dataStore, ceramic, dataModel } = client
+      const {
+        client: { ceramic },
+      } = selfId
       await ceramic.did.authenticate()
 
-      const newContribution = await dataModel.createTile('Contribution', {
-        daoId: 'kiki',
-        hoursPerWeek: 4220,
-      })
-
-      const result = await dataStore.get('contributions')
-      console.log(result)
-      const contributionsRecord = result.contributions ?? []
-      const newRecord = {
-        contributions: [
-          ...contributionsRecord,
-          { id: newContribution.id.toUrl(), title: 'week3' },
-        ],
-      }
-      await dataStore.set('contributions', newRecord)
-
       setSelfId(selfId)
-      setContributions(await dataStore.get('contributions'))
+      return selfId
     }
 
-    setLoading('loading_contributions')
-    asyncFunction()
-      .then(() => {
-        setLoading(null)
+    const fetchContributions = async (selfId: SelfID) => {
+      const { client } = selfId
+      const contributionsRecord = await getContributions(client.dataStore)
+      await addContribution(
+        client,
+        {
+          daoId: 'kiki',
+          hoursPerWeek: 4220,
+        },
+        contributionsRecord
+      )
+      setContributions(await getContributions(selfId))
+    }
+
+    authenticate()
+      .then((selfId) => {
+        return fetchContributions(selfId)
       })
       .catch(console.log)
   }, [provider])
 
+  const getContributions = async (dataStore) => {
+    const { contributions } = await dataStore.get('contributions')
+    return contributions
+  }
+
+  const addContribution = async (
+    client,
+    newContribution,
+    currentContributions
+  ) => {
+    const { dataModel, dataStore } = client
+    const newContributionTile = await dataModel.createTile(
+      'Contribution',
+      newContribution
+    )
+    const contributionsRecord = currentContributions ?? []
+    const newRecord = {
+      contributions: [
+        ...contributionsRecord,
+        { id: newContributionTile.id.toUrl(), title: 'week3' },
+      ],
+    }
+    await dataStore.set('contributions', newRecord)
+  }
+
   const handleContributionSubmission = () => {}
+
+  console.log(selfId)
+  console.log(contributions)
 
   return (
     <div>
