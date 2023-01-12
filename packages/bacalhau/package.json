@@ -11,8 +11,9 @@
     "build": "sh shell/build.sh",
     "run:bacalhau": "sh shell/run_bacalhau.sh",
     "compile": "tsc",
-    "execute": "node scripts/index.js",
-    "execute:ts": "ts-node scripts/index.ts",
+    "execute:ie": "yarn compile && node scripts/executor.js",
+    "execute:ie:ts": "sh shell/clean_compile.sh && ts-node scripts/executor.ts",
+    "execute": "node scripts/executor.js",
     "import:merkle:tree": "sh shell/copy_merkle_tree.sh",
     "mock:contributions": "ts-node ./scripts/generateDummyContributor.ts"
   },
