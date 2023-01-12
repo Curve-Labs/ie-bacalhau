@@ -4,142 +4,119 @@ import * as fs from "fs";
 import * as path from "path";
 import { successOutput, failedOutput } from "./outputSchema.js";
 import { Contribution, Contributions } from "./interfaces";
+import { readJson, writeJson, readDir, log, logError } from "./../utils/IO";
 import { getMerkleTree } from "../utils/merkleTree";
+import {
+  inputPath,
+  metadataOutputPath,
+  merkleTreeOutputPath,
+  rewardsOutputPath,
+  dataFilePath,
+} from "./constants";
 
-// bacalhau by default puts the input data (given via IPFS) into ../inputs directory
-const inputPath: string = path.join(__dirname, "../inputs/");
-const functionFileName = "ImpactEvaluatorFunction.json";
-const inputFileName = "Contributions.json";
-// a standard of outputting all the data in one big JSON file with defined schema
-const metadataOutputPath: string = path.join(
-  __dirname,
-  "../outputs/metadata.json"
-);
-const merkleTreeOutputPath: string = path.join(
-  __dirname,
-  "../outputs/merkleTree.json"
-);
+// impact evaluator function cannot be asynchronous function
+// todo: find how we main() can handle asynchronous functions as well
+export function main(impactEvaluatorFunction: any) {
+  // read inputs
+  log("Reading inputs now...");
 
-// read inputs
-console.log("Reading inputs now...");
+  let dataInput: Array<Contribution>;
+  try {
+    // reading contents of "../inputs" directory
+    const contents = readDir(inputPath);
+    log("Input directory contains following files:");
+    log(contents);
+    // if length is 0, no fils exist in input directory
+    if (contents.length === 0) {
+      log("No input was found");
+    }
 
-let functionInput: any;
-let dataInput: Array<Contribution>;
-try {
-  // reading contents of "../inputs" directory
-  const contents = fs.readdirSync(inputPath);
-  console.log("Input directory contains following files:");
-  console.log(contents);
-  // if length is 0, no fils exist in input directory
-  if (contents.length === 0) {
-    console.log("No input was found");
-  }
+    // if function input file found, parsing the JSON data of function input file ("./ImpactEvaluatorFunction.json").
+    // input data should be in file "./Contributions.json"
+    let data: Contributions;
 
-  // if function input file found, parsing the JSON data of function input file ("./ImpactEvaluatorFunction.json").
-  // input data should be in file "./Contributions.json"
-  functionInput = JSON.parse(
-    fs.readFileSync(path.join(inputPath, functionFileName)).toString()
-  );
-  let ieFunction: Function;
-  let data: Contributions;
+    // read input data
+    dataInput = readJson(dataFilePath);
 
-  // checking if the input contain function property or not
-  // custom impact evaluator function should be stored with property 'function'
-  if (functionInput.function !== undefined) {
-    // get the function logic code
-    const functionCode: string = functionInput.function.code;
-    // get the array of params
-    const params: Array<string> = functionInput.function.params;
-    // instantiate function
-    ieFunction = new Function(...params, functionCode);
-  } else {
-    // if now function found, no evaluation can be made
-    throw Error("No Impact Evaluator Function found");
-  }
+    // fetch data
+    if (dataInput.length !== undefined || dataInput.length !== 0) {
+      const totalShares = dataInput.reduce(
+        (totalShares, contribution) => contribution.shares + totalShares,
+        0
+      );
+      data = {
+        totalShares: totalShares,
+        contributions: dataInput,
+      };
+    } else {
+      // if now data found, what evaluation can be made
+      throw Error("No data found to be evaluated");
+    }
 
-  // read input data
-  dataInput = JSON.parse(
-    fs.readFileSync(path.join(inputPath, inputFileName)).toString()
-  );
+    // run ie function
+    const inputParams = [data.contributions];
+    const result = impactEvaluatorFunction(...inputParams);
 
-  // fetch data
-  if (dataInput.length !== undefined || dataInput.length !== 0) {
-    const totalShares = dataInput.reduce(
-      (totalShares, contribution) => contribution.shares + totalShares,
-      0
-    );
-    data = {
-      totalShares: totalShares,
-      contributions: dataInput,
+    // log result
+    log("Rewards after running IE Function:");
+    log(result);
+
+    // generate merkle tree
+    const inputForMerkleTree = result.map((contribution: Contribution) => [
+      contribution.contributor,
+      contribution.shares,
+    ]);
+    const merkleTree = getMerkleTree(inputForMerkleTree);
+
+    // write outputs
+    merkleTree.root;
+    const metadataOutput = {
+      success: true,
+      merkleRoot: merkleTree.root,
+      contributions: data,
     };
-  } else {
-    // if now data found, what evaluation can be made
-    throw Error("No data found to be evaluated");
-  }
+    const merkleTreeOutput = merkleTree.dump();
+    const rewardsOutput = {
+      rewards: result,
+    };
+    log("Writing outputs");
+    try {
+      // write metadata
+      log("Writing metadata outputs to", metadataOutputPath);
+      writeJson(metadataOutputPath, metadataOutput);
 
-  // run ie function
-  const inputParams = [data.contributions];
-  const result = ieFunction(...inputParams);
+      // write merkle tree
+      log("Writing merkle tree outputs to", merkleTreeOutputPath);
+      writeJson(merkleTreeOutputPath, merkleTreeOutput);
 
-  // log result
-  console.log("Rewards after running IE Function:");
-  console.log(result);
+      // write rewards
+      log("writing rewards to:", rewardsOutputPath);
+      writeJson(rewardsOutputPath, rewardsOutput);
+    } catch (e) {
+      // some issue faced while writing
+      log("Writing output failed");
+      logError(e);
+    }
 
-  // generate merkle tree
-  const inputForMerkleTree = result.map((contribution: Contribution) => [
-    contribution.contributor,
-    contribution.shares,
-  ]);
-  const merkleTree = getMerkleTree(inputForMerkleTree);
+    // for test purpose only, to be removed after enough confidence is achieved
+    log("reading output file");
+    try {
+      const metadataResult = readJson(metadataOutputPath);
+      const merkleTreeResult = readJson(merkleTreeOutputPath);
+      const rewardsResult = readJson(rewardsOutputPath);
+      log({
+        metadata: metadataResult,
+        merkleTree: merkleTreeResult,
+        rewards: rewardsResult,
+      });
+    } catch (e) {
+      log("Reading output file failed");
+      logError(e);
+    }
 
-  // write outputs
-  merkleTree.root;
-  const metadataOutput = {
-    success: true,
-    merkleRoot: merkleTree.root,
-    contributions: data,
-  };
-  const merkleTreeOutput = {
-    tree: merkleTree.dump(),
-    inputs: result,
-  };
-  console.log("Writing outputs");
-  try {
-    // write metadata
-    console.log("Writing metadata outputs to", metadataOutputPath);
-    const metadataToBeWritten = JSON.stringify(metadataOutput, undefined, 4);
-    fs.writeFileSync(metadataOutputPath, metadataToBeWritten);
-
-    // write merkle tree
-    console.log("Writing merkle tree outputs to", merkleTreeOutputPath);
-    const merkleTreeToBeWritten = JSON.stringify(
-      merkleTreeOutput,
-      undefined,
-      4
-    );
-    fs.writeFileSync(merkleTreeOutputPath, merkleTreeToBeWritten);
+    log("Voila!");
   } catch (e) {
-    // some issue faced while writing
-    console.log("Writing output failed");
-    console.log(e);
+    log("Reading failed");
+    logError(e);
   }
-
-  // for test purpose only, to be removed after enough confidence is achieved
-  console.log("reading output file");
-  try {
-    const metadataResult = fs.readFileSync(metadataOutputPath);
-    const merkleTreeResult = fs.readFileSync(merkleTreeOutputPath);
-    console.log({
-      metadata: JSON.parse(metadataResult.toString()),
-      merkleTree: JSON.parse(merkleTreeResult.toString()),
-    });
-  } catch (e) {
-    console.log("Reading output file failed");
-    console.log(e);
-  }
-
-  console.log("Voila!");
-} catch (e) {
-  console.log("Reading failed");
-  console.log(e);
 }
