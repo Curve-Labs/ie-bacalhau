@@ -1,11 +1,11 @@
 {
-  "name": "off-chain",
+  "name": "bacalhau",
   "version": "1.0.0",
   "packageManager": "yarn@3.3.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/Curve-Labs/ie-bacalhau",
-    "directory": "packages/off-chain"
+    "directory": "packages/bacalhau"
   },
   "scripts": {
     "build": "sh shell/build.sh",

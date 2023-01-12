@@ -1,4 +1,4 @@
-# off-chain
+# Bacalhau
 
 ## Links
 Docker Image: mihirsinhparmar/ie-bac

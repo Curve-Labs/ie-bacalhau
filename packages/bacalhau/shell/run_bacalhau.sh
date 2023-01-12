@@ -114,7 +114,7 @@ curl -X 'POST' \
 cd ../..
 
 # Format output
-yarn prettier -w ./packages/off-chain/$OUTPUT_FOLDER/$RESULT_FOLDER
+yarn prettier -w ./packages/bacalhau/$OUTPUT_FOLDER/$RESULT_FOLDER
 
-# going back to off-chain directory
-cd ./packages/off-chain
+# going back to bacalhau directory
+cd ./packages/bacalhau
