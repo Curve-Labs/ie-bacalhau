@@ -1,8 +1,5 @@
 // to be run on bacalhau via Docker container
 // file system is used to fetch the data from ../inputs/ directory
-import * as fs from "fs";
-import * as path from "path";
-import { successOutput, failedOutput } from "./outputSchema.js";
 import { Contribution, Contributions } from "./interfaces";
 import { readJson, writeJson, readDir, log, logError } from "./../utils/IO";
 import { getMerkleTree } from "../utils/merkleTree";

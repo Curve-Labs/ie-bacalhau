@@ -1,4 +1,3 @@
-import path from "path";
 import { log, logError, readDir } from "../utils/IO";
 import { pathToIEFunctionTS, dirOfIEFunction, pathToIEFunctionJS } from "./constants";
 import { impactEvaluatorFunction as defaultImpactEvaluatorFunction } from "./example";
