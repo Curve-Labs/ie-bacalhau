@@ -1,16 +1,15 @@
 import React from 'react'
 import { Listbox, Transition } from '@headlessui/react'
-import { BigNumber } from 'ethers'
+
+interface Metadata {
+  version: number
+  newLedgerMetadataIPFSHash: string
+}
 
 type VersionsProps = {
   metadatas: Metadata[]
   version: number
   setVersion: Function
-}
-
-interface Metadata {
-  version: number
-  newLedgerMetadataIPFSHash: string
 }
 
 export const LedgerVersions: React.FunctionComponent<VersionsProps> = (
