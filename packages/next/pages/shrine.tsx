@@ -130,6 +130,18 @@ function Main() {
     }
   }
 
+  const getOffersForVersion = async (v: number) => {
+    const versionEvents = await shrine.queryFilter('Offer', 0, 1000)
+    const decodedVersionEvents = versionEvents.map((e) =>
+      e?.decode(e.data, e.topics)
+    )
+    return decodedVersionEvents.map(({ amount, sender, token }) => ({
+      amount,
+      sender,
+      token,
+    }))
+  }
+
   const handleSearch = async () => {
     const isAddress = ethers.utils.isAddress(shrineTextField)
     if (!isAddress) return
@@ -161,6 +173,21 @@ function Main() {
     tx.wait()
       .then(() => getPastUserClaimsForVersion(version))
       .then((c: PastClaim[]) => setPastUserClaims(c))
+  }
+
+  const handleTokenInput = async (text: string) => {
+    if (ethers.utils.isAddress(text)) {
+      const offerEvents = await getOffersForVersion(version)
+      const isEligible = offerEvents.find(
+        (o) => o.token.toLowerCase() === text.toLowerCase()
+      )
+      if (isEligible) {
+        toast.success('Eligible airdrop found for token')
+      } else {
+        toast.error('No eligible airdrop found for token')
+      }
+    }
+    setTokenTextField(text)
   }
 
   if (!address)
@@ -225,29 +252,33 @@ function Main() {
                   </span>
                 </div>
               </div>
-              <div className="flex flex-row items-center justify-between">
-                <div>
-                  {' '}
-                  <label className="mr-8 text-sm font-medium text-gray-700">
-                    Token:
-                  </label>
-                  <input
-                    type="text"
-                    className="w-96 rounded-lg border-2 border-gray-300 p-2 text-sm"
-                    placeholder="Token Address"
-                    value={tokenTextField}
-                    onChange={(e) => setTokenTextField(e.target.value)}
-                  />
+              {userClaim?.shares ? (
+                <div className="flex flex-row items-center justify-between">
+                  <div>
+                    {' '}
+                    <label className="mr-8 text-sm font-medium text-gray-700">
+                      Token:
+                    </label>
+                    <input
+                      type="text"
+                      className="w-96 rounded-lg border-2 border-gray-300 p-2 text-sm"
+                      placeholder="Token Address"
+                      value={tokenTextField}
+                      onChange={(e) => handleTokenInput(e.target.value)}
+                    />
+                  </div>
+                  <button
+                    className="rounded-lg bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+                    onClick={() =>
+                      handleClaim(userClaim?.index, userClaim?.shares)
+                    }
+                  >
+                    Claim
+                  </button>
                 </div>
-                <button
-                  className="rounded-lg bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
-                  onClick={() =>
-                    handleClaim(userClaim?.index, userClaim?.shares)
-                  }
-                >
-                  Claim
-                </button>
-              </div>
+              ) : (
+                <div className="text-center text-red-500">Not eligible</div>
+              )}
             </div>
 
             {pastUserClaims && pastUserClaims.length > 0 && (
