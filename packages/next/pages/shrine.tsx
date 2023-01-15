@@ -205,7 +205,7 @@ function Main() {
       </div>
       <div className="flex justify-center">
         {!shrine ? (
-          <div className="flex w-7/12 flex-col p-6">
+          <div className="flex w-7/12 flex-col items-center p-6">
             <p className="mb-2 text-base">
               Enter the address of the Shrine contract that you want to claim
               from:
@@ -280,43 +280,43 @@ function Main() {
                 <div className="text-center text-red-500">Not eligible</div>
               )}
             </div>
-
             {pastUserClaims && pastUserClaims.length > 0 && (
-              <>
+              <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <h2 className="mt-0 mb-2 text-center text-base font-medium">
-                  Your past claims:
+                  {'Your past claims from version ' + version + ':'}
                 </h2>
-                <table className="table-auto">
-                  <thead>
+                <table className="w-full text-left text-sm text-gray-500">
+                  <thead className="bg-gray-50 text-xs uppercase text-gray-700">
                     <tr>
-                      <th className="text-sm font-medium text-gray-700">
+                      <th scope="col" className="px-6 py-3">
                         Champion
                       </th>
-                      <th className="text-sm font-medium text-gray-700">
+                      <th scope="col" className="px-6 py-3">
                         Token
                       </th>
-                      <th className="text-sm font-medium text-gray-700">
+                      <th scope="col" className="px-6 py-3">
                         Claimed amount
                       </th>
                     </tr>
                   </thead>
                   <tbody>
-                    {pastUserClaims.map((p) => (
-                      <tr>
-                        <td className="text-sm text-gray-700">
+                    {pastUserClaims.map((p, idx) => (
+                      <tr className="border-b bg-white" key={idx}>
+                        <th
+                          scope="row"
+                          className="whitespace-nowrap px-6 py-4 font-medium text-gray-900"
+                        >
                           {truncateEthAddress(p.champion)}
-                        </td>
-                        <td className="text-sm text-gray-700">
-                          {truncateEthAddress(p.token)}
-                        </td>
-                        <td className="text-sm text-gray-700">
+                        </th>
+                        <td className="px-6 py-4">{p.token}</td>
+                        <td className="px-6 py-4">
                           {p.claimedTokenAmount.toString()}
                         </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
-              </>
+              </div>
             )}
           </div>
         )}

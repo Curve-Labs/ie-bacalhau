@@ -19,8 +19,6 @@ export function Navbar() {
   const { address, network } = useWeb3Context()
   const router = useRouter()
 
-  console.log(router)
-
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -53,24 +51,20 @@ export function Navbar() {
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
-                    {navigation.map((item) => {
-                      console.log(item)
-                      return (
-                        <a
-                          key={item.name}
-                          href={item.href}
-                          className={classNames(
-                            item.href === router.pathname
-                              ? 'bg-gray-900 text-white'
-                              : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                            'rounded-md px-3 py-2 text-sm font-medium'
-                          )}
-                          aria-current={item.current ? 'page' : undefined}
-                        >
-                          {item.name}
-                        </a>
-                      )
-                    })}
+                    {navigation.map((item) => (
+                      <a
+                        key={item.name}
+                        href={item.href}
+                        className={classNames(
+                          item.href === router.pathname
+                            ? 'bg-gray-900 text-white'
+                            : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                          'rounded-md px-3 py-2 text-sm font-medium'
+                        )}
+                      >
+                        {item.name}
+                      </a>
+                    ))}
                   </div>
                 </div>
               </div>
