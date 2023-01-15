@@ -226,7 +226,7 @@ function Main() {
           </div>
         ) : (
           <div className="flex w-7/12 min-w-min flex-col p-6 text-left">
-            <div className="mb-12 border p-6">
+            <div className="mb-12 p-6 shadow-md sm:rounded-lg">
               <div className="mb-6 flex flex-row items-center">
                 <span className="mr-8 block text-sm font-medium text-gray-700">
                   Shrine:
@@ -281,42 +281,44 @@ function Main() {
               )}
             </div>
             {pastUserClaims && pastUserClaims.length > 0 && (
-              <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+              <>
                 <h2 className="mt-0 mb-2 text-center text-base font-medium">
                   {'Your past claims from version ' + version + ':'}
                 </h2>
-                <table className="w-full text-left text-sm text-gray-500">
-                  <thead className="bg-gray-50 text-xs uppercase text-gray-700">
-                    <tr>
-                      <th scope="col" className="px-6 py-3">
-                        Champion
-                      </th>
-                      <th scope="col" className="px-6 py-3">
-                        Token
-                      </th>
-                      <th scope="col" className="px-6 py-3">
-                        Claimed amount
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {pastUserClaims.map((p, idx) => (
-                      <tr className="border-b bg-white" key={idx}>
-                        <th
-                          scope="row"
-                          className="whitespace-nowrap px-6 py-4 font-medium text-gray-900"
-                        >
-                          {truncateEthAddress(p.champion)}
+                <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                  <table className="w-full text-left text-sm text-gray-500">
+                    <thead className="bg-gray-50 text-xs uppercase text-gray-700">
+                      <tr>
+                        <th scope="col" className="px-6 py-3">
+                          Champion
                         </th>
-                        <td className="px-6 py-4">{p.token}</td>
-                        <td className="px-6 py-4">
-                          {p.claimedTokenAmount.toString()}
-                        </td>
+                        <th scope="col" className="px-6 py-3">
+                          Token
+                        </th>
+                        <th scope="col" className="px-6 py-3">
+                          Claimed amount
+                        </th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                    </thead>
+                    <tbody>
+                      {pastUserClaims.map((p, idx) => (
+                        <tr className="border-b bg-white" key={idx}>
+                          <th
+                            scope="row"
+                            className="whitespace-nowrap px-6 py-4 font-medium text-gray-900"
+                          >
+                            {truncateEthAddress(p.champion)}
+                          </th>
+                          <td className="px-6 py-4">{p.token}</td>
+                          <td className="px-6 py-4">
+                            {p.claimedTokenAmount.toString()}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </>
             )}
           </div>
         )}

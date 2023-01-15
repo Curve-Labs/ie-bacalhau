@@ -170,7 +170,7 @@ const contribute = () => {
           </div>
         ) : (
           <div className="mb-12 flex w-7/12 min-w-min flex-col p-6 text-left">
-            <div className="mb-12 border p-6">
+            <div className="mb-12 p-6 shadow-md sm:rounded-lg">
               <div>
                 <label
                   className="mr-8 text-sm font-medium text-gray-700"
@@ -217,13 +217,13 @@ const contribute = () => {
                   : 'Add Contribution'}
               </button>
             </div>
+            <h2 className="mt-0 mb-2 text-center text-base font-medium">
+              {'Your past contributions for DAO ' + daoAddress}
+            </h2>
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
               <table className="w-full text-left text-sm text-gray-500">
                 <thead className="bg-gray-50 text-xs uppercase text-gray-700">
                   <tr>
-                    <th scope="col" className="px-6 py-3">
-                      DAO
-                    </th>
                     <th scope="col" className="px-6 py-3">
                       Contribution ID
                     </th>
@@ -238,12 +238,6 @@ const contribute = () => {
                 <tbody>
                   {getDaoContributions(contributions).map((c) => (
                     <tr className="border-b bg-white" key={c.commitId}>
-                      <th
-                        scope="row"
-                        className="whitespace-nowrap px-6 py-4 font-medium text-gray-900"
-                      >
-                        {truncateEthAddress(c.daoId)}
-                      </th>
                       <td className="px-6 py-4">{c.title}</td>
                       <td className="px-6 py-4">{c.metric}</td>
                       <td className="px-6 py-4">
