@@ -4,11 +4,7 @@ import { useWeb3Context } from '../context'
 import { ethers } from 'ethers'
 import { toast } from 'react-toastify'
 import { Web3ConnectButton } from '../components'
-import truncateEthAddress from 'truncate-eth-address'
-import { ClipboardIcon } from '@heroicons/react/24/outline'
 
-const loadingContributions = 'loading_contributions'
-const loadingAuthenticating = 'loading_authenticating'
 const loadingSendContribution = 'loading_send_contribution'
 
 const contribute = () => {
@@ -137,9 +133,6 @@ const contribute = () => {
     )
   }
 
-  console.log(loading)
-  console.log(!!loading)
-
   return (
     <main className="grow p-8 text-center">
       <div className="mb-6">
@@ -203,19 +196,21 @@ const contribute = () => {
                   onChange={(e) => setContributionIdTextField(e.target.value)}
                 />
               </div>
-              <button
-                className={
-                  loading === 'loading_send_contribution'
-                    ? 'cursor-not-allowed rounded-lg bg-blue-300 py-2 px-4 font-bold text-white'
-                    : 'rounded-lg bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700'
-                }
-                onClick={handleContributionSubmission}
-                disabled={loading === 'loading_send_contribution'}
-              >
-                {loading === 'loading_send_contribution'
-                  ? 'submitting contribution'
-                  : 'Add Contribution'}
-              </button>
+              <div className="flex flex-row justify-end">
+                <button
+                  className={
+                    loading === 'loading_send_contribution'
+                      ? 'cursor-not-allowed rounded-lg bg-blue-300 py-2 px-4 font-bold text-white'
+                      : 'rounded-lg bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700'
+                  }
+                  onClick={handleContributionSubmission}
+                  disabled={loading === 'loading_send_contribution'}
+                >
+                  {loading === 'loading_send_contribution'
+                    ? 'submitting contribution'
+                    : 'Add Contribution'}
+                </button>
+              </div>
             </div>
             <h2 className="mt-0 mb-2 text-center text-base font-medium">
               {'Your past contributions for DAO ' + daoAddress}
