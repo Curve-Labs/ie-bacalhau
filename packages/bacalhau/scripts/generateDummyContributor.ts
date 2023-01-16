@@ -1,10 +1,8 @@
 import { logResult } from './../utils/IO';
 import { checkAndCreateIfDoesntExist, logProgress, logSuccess, writeJson } from "../utils/IO";
-import { Contribution } from "./interfaces";
 import { ethers } from "ethers";
 // @ts-ignore
 import { Address } from "ethers";
-import * as fs from "fs";
 import * as path from "path";
 
 const definedAddresses: Array<Address> = [];
