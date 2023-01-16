@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import { HardhatUserConfig } from "hardhat/config";
 import type { HttpNetworkUserConfig } from "hardhat/types";
 import "@nomicfoundation/hardhat-toolbox";
+import "hardhat-deploy";
 
 import "./tasks/reality";
 import "./tasks/shrine";
@@ -44,6 +45,12 @@ const config: HardhatUserConfig = {
     goerli: {
       ...sharedNetworkConfig,
       url: `https://goerli.infura.io/v3/${INFURA_KEY}`,
+    },
+    localhost: {
+      saveDeployments: false,
+    },
+    hardhat: {
+      saveDeployments: false,
     },
   },
 };

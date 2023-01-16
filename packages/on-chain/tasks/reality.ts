@@ -25,7 +25,10 @@ const deployRealityModule = async (
   hardhatRuntime: HardhatRuntimeEnvironment
 ): Promise<Contract> => {
   const [caller] = await hardhatRuntime.ethers.getSigners();
+  const { deploy } = await hardhatRuntime.deployments;
+
   console.log("Using the account:", caller.address);
+  console.log(deploy);
 
   if (taskArgs.proxied) {
     const chainId = await hardhatRuntime.getChainId();
@@ -70,21 +73,29 @@ const deployRealityModule = async (
   const ModuleName = taskArgs.iserc20
     ? "RealityModuleERC20"
     : "RealityModuleETH";
-  const Module = await hardhatRuntime.ethers.getContractFactory(ModuleName);
-  const module = await Module.deploy(
-    taskArgs.owner,
-    taskArgs.avatar,
-    taskArgs.target,
-    taskArgs.oracle,
-    taskArgs.timeout,
-    taskArgs.cooldown,
-    taskArgs.expiration,
-    taskArgs.bond,
-    taskArgs.template,
-    taskArgs.oracle
+
+  // await deploy("");
+
+  const deployObject = await deploy(ModuleName, {
+    from: caller.address,
+    args: [
+      taskArgs.owner,
+      taskArgs.avatar,
+      taskArgs.target,
+      taskArgs.oracle,
+      taskArgs.timeout,
+      taskArgs.cooldown,
+      taskArgs.expiration,
+      taskArgs.bond,
+      taskArgs.template,
+      taskArgs.oracle,
+    ],
+  });
+
+  const module = await hardhatRuntime.ethers.getContractAt(
+    ModuleName,
+    deployObject.address
   );
-  await module.deployTransaction.wait();
-  console.log("ZodiacReality deployed to:", module.address);
 
   return module;
 };
