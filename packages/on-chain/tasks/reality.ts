@@ -74,8 +74,6 @@ const deployRealityModule = async (
     ? "RealityModuleERC20"
     : "RealityModuleETH";
 
-  // await deploy("");
-
   const deployObject = await deploy(ModuleName, {
     from: caller.address,
     args: [
@@ -167,7 +165,7 @@ task("reality:setup", "Deploys a Zodiac Reality module")
     return await deployRealityModule(taskArgs, hardhatRuntime);
   });
 
-task("verifyEtherscan", "Verifies the contract on etherscan")
+task("reality:verifyEtherscan", "Verifies the contract on etherscan")
   .addParam("module", "Address of the module", undefined, types.string)
   .addParam("owner", "Address of the owner", undefined, types.string)
   .addParam(
@@ -210,7 +208,6 @@ task("verifyEtherscan", "Verifies the contract on etherscan")
     types.int,
     true
   )
-  .addParam("arbitrator", "Arbitrator address", undefined, types.string)
   .addParam(
     "bond",
     "Minimum bond that is required for an answer to be accepted",
@@ -232,7 +229,7 @@ task("verifyEtherscan", "Verifies the contract on etherscan")
           `${taskArgs.expiration}`,
           `${taskArgs.bond}`,
           taskArgs.template,
-          taskArgs.arbitrator,
+          taskArgs.oracle,
         ],
       });
     }

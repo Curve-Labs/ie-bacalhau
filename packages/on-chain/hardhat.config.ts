@@ -53,6 +53,11 @@ const config: HardhatUserConfig = {
       saveDeployments: false,
     },
   },
+  etherscan: {
+    apiKey: {
+      goerli: ETHERSCAN_API_KEY,
+    },
+  },
 };
 
 export default config;
