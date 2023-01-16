@@ -130,6 +130,18 @@ function Main() {
     }
   }
 
+  const getOffersForVersion = async (v: number) => {
+    const versionEvents = await shrine.queryFilter('Offer', 0, 1000)
+    const decodedVersionEvents = versionEvents.map((e) =>
+      e?.decode(e.data, e.topics)
+    )
+    return decodedVersionEvents.map(({ amount, sender, token }) => ({
+      amount,
+      sender,
+      token,
+    }))
+  }
+
   const handleSearch = async () => {
     const isAddress = ethers.utils.isAddress(shrineTextField)
     if (!isAddress) return
@@ -163,6 +175,21 @@ function Main() {
       .then((c: PastClaim[]) => setPastUserClaims(c))
   }
 
+  const handleTokenInput = async (text: string) => {
+    if (ethers.utils.isAddress(text)) {
+      const offerEvents = await getOffersForVersion(version)
+      const isEligible = offerEvents.find(
+        (o) => o.token.toLowerCase() === text.toLowerCase()
+      )
+      if (isEligible) {
+        toast.success('Eligible airdrop found for token')
+      } else {
+        toast.error('No eligible airdrop found for token')
+      }
+    }
+    setTokenTextField(text)
+  }
+
   if (!address)
     return (
       <main className="flex h-96 items-center justify-center p-8 text-center">
@@ -178,7 +205,7 @@ function Main() {
       </div>
       <div className="flex justify-center">
         {!shrine ? (
-          <div className="flex w-7/12 flex-col p-6">
+          <div className="flex w-7/12 flex-col items-center p-6">
             <p className="mb-2 text-base">
               Enter the address of the Shrine contract that you want to claim
               from:
@@ -199,7 +226,7 @@ function Main() {
           </div>
         ) : (
           <div className="flex w-7/12 min-w-min flex-col p-6 text-left">
-            <div className="mb-12 border p-6">
+            <div className="mb-12 p-6 shadow-md sm:rounded-lg">
               <div className="mb-6 flex flex-row items-center">
                 <span className="mr-8 block text-sm font-medium text-gray-700">
                   Shrine:
@@ -225,66 +252,72 @@ function Main() {
                   </span>
                 </div>
               </div>
-              <div className="flex flex-row items-center justify-between">
-                <div>
-                  {' '}
-                  <label className="mr-8 text-sm font-medium text-gray-700">
-                    Token:
-                  </label>
-                  <input
-                    type="text"
-                    className="w-96 rounded-lg border-2 border-gray-300 p-2 text-sm"
-                    placeholder="Token Address"
-                    value={tokenTextField}
-                    onChange={(e) => setTokenTextField(e.target.value)}
-                  />
+              {userClaim?.shares ? (
+                <div className="flex flex-row items-center justify-between">
+                  <div>
+                    {' '}
+                    <label className="mr-8 text-sm font-medium text-gray-700">
+                      Token:
+                    </label>
+                    <input
+                      type="text"
+                      className="w-96 rounded-lg border-2 border-gray-300 p-2 text-sm"
+                      placeholder="Token Address"
+                      value={tokenTextField}
+                      onChange={(e) => handleTokenInput(e.target.value)}
+                    />
+                  </div>
+                  <button
+                    className="rounded-lg bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+                    onClick={() =>
+                      handleClaim(userClaim?.index, userClaim?.shares)
+                    }
+                  >
+                    Claim
+                  </button>
                 </div>
-                <button
-                  className="rounded-lg bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
-                  onClick={() =>
-                    handleClaim(userClaim?.index, userClaim?.shares)
-                  }
-                >
-                  Claim
-                </button>
-              </div>
+              ) : (
+                <div className="text-center text-red-500">Not eligible</div>
+              )}
             </div>
-
             {pastUserClaims && pastUserClaims.length > 0 && (
               <>
                 <h2 className="mt-0 mb-2 text-center text-base font-medium">
-                  Your past claims:
+                  {'Your past claims from version ' + version + ':'}
                 </h2>
-                <table className="table-auto">
-                  <thead>
-                    <tr>
-                      <th className="text-sm font-medium text-gray-700">
-                        Champion
-                      </th>
-                      <th className="text-sm font-medium text-gray-700">
-                        Token
-                      </th>
-                      <th className="text-sm font-medium text-gray-700">
-                        Claimed amount
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {pastUserClaims.map((p) => (
+                <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                  <table className="w-full text-left text-sm text-gray-500">
+                    <thead className="bg-gray-50 text-xs uppercase text-gray-700">
                       <tr>
-                        <td className="text-sm text-gray-700">
-                          {truncateEthAddress(p.champion)}
-                        </td>
-                        <td className="text-sm text-gray-700">
-                          {truncateEthAddress(p.token)}
-                        </td>
-                        <td className="text-sm text-gray-700">
-                          {p.claimedTokenAmount.toString()}
-                        </td>
+                        <th scope="col" className="px-6 py-3">
+                          Champion
+                        </th>
+                        <th scope="col" className="px-6 py-3">
+                          Token
+                        </th>
+                        <th scope="col" className="px-6 py-3">
+                          Claimed amount
+                        </th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {pastUserClaims.map((p, idx) => (
+                        <tr className="border-b bg-white" key={idx}>
+                          <th
+                            scope="row"
+                            className="whitespace-nowrap px-6 py-4 font-medium text-gray-900"
+                          >
+                            {truncateEthAddress(p.champion)}
+                          </th>
+                          <td className="px-6 py-4">{p.token}</td>
+                          <td className="px-6 py-4">
+                            {p.claimedTokenAmount.toString()}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </>
             )}
           </div>

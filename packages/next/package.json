@@ -20,6 +20,7 @@
     "@headlessui/react": "^1.5.0",
     "@heroicons/react": "^2.0.13",
     "@openzeppelin/merkle-tree": "^1.0.1",
+    "@self.id/framework": "^0.4.0",
     "@tailwindcss/aspect-ratio": "^0.4.0",
     "@tailwindcss/forms": "^0.4.0",
     "@tailwindcss/line-clamp": "^0.3.1",

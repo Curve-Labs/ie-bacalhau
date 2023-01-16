@@ -1,31 +1,14 @@
-// import React from 'react'
-// import Link from 'next/link'
-// import { Web3Button, Web3Address } from './index'
-
-// export const Navbar = () => {
-//   return (
-//     <nav className="flex flex-row justify-between bg-indigo-500 p-4">
-//       <Link href="/about">
-//         <a className="text-lg font-light">About</a>
-//       </Link>
-//       <div className="flex flex-col items-end justify-between bg-green-500">
-//         <Web3Button />
-//         <Web3Address />
-//         <p>Network</p>
-//       </div>
-//     </nav>
-//   )
-// }
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import truncateEthAddress from 'truncate-eth-address'
 import { Web3ConnectButton, Web3DisconnectButton } from './index'
 import { useWeb3Context } from '../context'
+import { useRouter } from 'next/router'
 
 const navigation = [
-  { name: 'Claim', href: '/shrine', current: true },
-  { name: 'Contribute', href: '/contribute', current: false },
+  { name: 'Claim', href: '/shrine' },
+  { name: 'Contribute', href: '/contribute' },
 ]
 
 function classNames(...classes) {
@@ -33,7 +16,8 @@ function classNames(...classes) {
 }
 
 export function Navbar() {
-  const { address, network, disconnect, web3Provider } = useWeb3Context()
+  const { address, network } = useWeb3Context()
+  const router = useRouter()
 
   return (
     <Disclosure as="nav" className="bg-gray-800">
@@ -72,12 +56,11 @@ export function Navbar() {
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                          item.current
+                          item.href === router.pathname
                             ? 'bg-gray-900 text-white'
                             : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                           'rounded-md px-3 py-2 text-sm font-medium'
                         )}
-                        aria-current={item.current ? 'page' : undefined}
                       >
                         {item.name}
                       </a>
