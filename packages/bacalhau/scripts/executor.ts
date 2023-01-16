@@ -1,3 +1,4 @@
+import { logSuccess } from './../utils/IO';
 import { log, logError, readDir } from "../utils/IO";
 import { pathToIEFunctionTS, dirOfIEFunction, pathToIEFunctionJS } from "./constants";
 import { impactEvaluatorFunction as defaultImpactEvaluatorFunction } from "./example";
@@ -25,7 +26,7 @@ async function execute() {
           "Impact Evaluator function file exists but function is either not exported or not defined"
         );
       } else {
-        console.log(impactEvaluatorFunction);
+        logSuccess("Impact Evaluator function exists");
       }
       main(impactEvaluatorFunction);
     } else {
