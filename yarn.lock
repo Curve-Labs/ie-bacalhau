@@ -8524,6 +8524,14 @@ __metadata:
   languageName: node
   linkType: hard
 
+"hundred@workspace:packages/examples/hundredIE":
+  version: 0.0.0-use.local
+  resolution: "hundred@workspace:packages/examples/hundredIE"
+  dependencies:
+    typescript: ^4.9.4
+  languageName: unknown
+  linkType: soft
+
 "iconv-lite@npm:0.4.24":
   version: 0.4.24
   resolution: "iconv-lite@npm:0.4.24"

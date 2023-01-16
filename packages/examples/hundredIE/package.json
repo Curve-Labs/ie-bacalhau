@@ -1,0 +1,16 @@
+{
+  "name": "hundred",
+  "version": "1.0.0",
+  "packageManager": "yarn@3.3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Curve-Labs/ie-bacalhau",
+    "directory": "packages/examples/hundred"
+  },
+  "scripts": {
+    "compile": "tsc"
+  },
+  "dependencies": {
+    "typescript": "^4.9.4"
+  }
+}

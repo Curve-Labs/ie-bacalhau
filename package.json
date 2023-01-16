@@ -9,6 +9,7 @@
   },
   "workspaces": [
     "packages/bacalhau",
+    "packages/examples/hundredIE",
     "packages/on-chain",
     "packages/next"
   ],
