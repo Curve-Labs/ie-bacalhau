@@ -10,17 +10,15 @@ import 'react-toastify/dist/ReactToastify.css'
 const aliases = {
   definitions: {
     contributions:
-      'kjzl6cwe1jw14772nexn0fxyl6az7aqm59i1lbbftcu6tudf4qkql6hsquci6d3',
+      'kjzl6cwe1jw147ealt0w4nbea8kfnf214a7slb9zsw3tc18vax6cty85ampap3y',
   },
   schemas: {
     Contribution:
-      'ceramic://k3y52l7qbv1fryooxshuoshsgifc2zumqjupq85bgk7i716fh2iixe2lr8vqhmxa8',
+      'ceramic://k3y52l7qbv1frxynpy6ilu8azuscd5neg4njfd9jf9jyp5uajxxju9uu8cxbp22v4',
     Contributions:
-      'ceramic://k3y52l7qbv1fryngdjw1xfs253mckpji81gkb82nql28wf84mkjj5j5ci2wyvh3pc',
+      'ceramic://k3y52l7qbv1frxtj20co0up5lbsukhanc4u62j4gx9tzkwwh6s25x0lgnqbptzt34',
   },
-  tiles: {
-    'week 1': 'kjzl6cwe1jw1494tmvqmrgnvw94qcv8tqhlvnzb5b4lixr7z3ik517r8ryi0iya',
-  },
+  tiles: {},
 }
 
 function MyApp({ Component, pageProps }: AppProps) {

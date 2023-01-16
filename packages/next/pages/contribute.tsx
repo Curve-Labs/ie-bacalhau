@@ -11,7 +11,8 @@ const contribute = () => {
   const [connection, connect] = useViewerConnection()
   const [selfId, setSelfId] = useState(null)
   const { address, provider } = useWeb3Context()
-  const [hoursTextField, setHoursTextField] = useState('')
+  const [contributionMetricTextField, setContributionMetricTextField] =
+    useState('')
   const [daoTextField, setDaoTextField] = useState('')
   const [contributionIdTextField, setContributionIdTextField] = useState('')
   const [daoAddress, setDaoAddress] = useState(null)
@@ -47,13 +48,17 @@ const contribute = () => {
         contributionsRecord.map((c) => {
           return dataStore.loader
             .load(c.id)
-            .then((tileDocument) => ({
-              metric: tileDocument.content.hoursPerWeek,
-              daoId: tileDocument.content.daoId,
-              commitId: tileDocument.commitId.toUrl(),
-              title: c.title,
-            }))
-            .catch(() => null)
+            .then((tileDocument) => {
+              return {
+                contributionMetric: tileDocument.content.contributionMetric,
+                daoId: tileDocument.content.daoId,
+                commitId: tileDocument.commitId.toUrl(),
+                contributionId: tileDocument.content.contributionId,
+              }
+            })
+            .catch((e) => {
+              return null
+            })
         })
       )
     ).filter((c) => c)
@@ -61,40 +66,38 @@ const contribute = () => {
     setContributions(parsedContributions)
   }
 
-  const addContribution = async (client, newContribution, contributionId) => {
+  const addContribution = async (client, newContribution) => {
     const { dataModel, dataStore } = client
-    const newContributionTile = await dataModel.createTile(
-      'Contribution',
-      newContribution
-    )
 
-    const existingContributions = await dataStore.get('contributions')
-    const oldRecord = existingContributions
-      ? existingContributions.contributions
-      : []
-    const newRecord = {
-      contributions: [
-        ...oldRecord,
-        { id: newContributionTile.id.toUrl(), title: contributionId },
-      ],
+    try {
+      const newContributionTile = await dataModel.createTile(
+        'Contribution',
+        newContribution
+      )
+      const existingContributions = await dataStore.get('contributions')
+      const oldRecord = existingContributions
+        ? existingContributions.contributions
+        : []
+      const newRecord = {
+        contributions: [...oldRecord, { id: newContributionTile.id.toUrl() }],
+      }
+      await dataStore.set('contributions', newRecord)
+    } catch (e) {
+      console.log(e)
     }
-    await dataStore.set('contributions', newRecord)
   }
 
   const handleContributionSubmission = async () => {
-    if (!contributionIdTextField || !hoursTextField)
+    if (!contributionIdTextField || !contributionMetricTextField)
       return toast.error('All textfields must be filled')
 
     setLoading(loadingSendContribution)
     try {
-      await addContribution(
-        selfId.client,
-        {
-          daoId: daoAddress,
-          hoursPerWeek: parseInt(hoursTextField),
-        },
-        contributionIdTextField
-      )
+      await addContribution(selfId.client, {
+        daoId: daoAddress,
+        contributionMetric: contributionMetricTextField,
+        contributionId: contributionIdTextField,
+      })
       await fetchContributions(selfId.client.dataStore)
       toast.success('submitted contribution')
     } catch (e) {
@@ -111,10 +114,16 @@ const contribute = () => {
     setDaoAddress(daoTextField)
   }
 
-  const getDaoContributions = (contributions) =>
-    contributions.filter((contribution) => {
+  const getDaoContributions = (contributions) => {
+    console.log('kek')
+    console.log(contributions)
+    return contributions.filter((contribution) => {
+      console.log(contribution)
       return contribution.daoId.toLowerCase() === daoAddress.toLowerCase()
     })
+  }
+
+  console.log(contributions)
 
   if (!address)
     return (
@@ -176,8 +185,10 @@ const contribute = () => {
                   type="number"
                   className="mb-4 block w-full rounded-lg border-2 border-gray-300 p-2"
                   placeholder="Metric"
-                  value={hoursTextField}
-                  onChange={(e) => setHoursTextField(e.target.value)}
+                  value={contributionMetricTextField}
+                  onChange={(e) =>
+                    setContributionMetricTextField(e.target.value)
+                  }
                 />
               </div>
               <div>
@@ -233,8 +244,8 @@ const contribute = () => {
                 <tbody>
                   {getDaoContributions(contributions).map((c) => (
                     <tr className="border-b bg-white" key={c.commitId}>
-                      <td className="px-6 py-4">{c.title}</td>
-                      <td className="px-6 py-4">{c.metric}</td>
+                      <td className="px-6 py-4">{c.contributionId}</td>
+                      <td className="px-6 py-4">{c.contributionMetric}</td>
                       <td className="px-6 py-4">
                         <p
                           onClick={() => {
