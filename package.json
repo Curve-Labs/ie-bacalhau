@@ -5,10 +5,11 @@
   "scripts": {
     "lint": "eslint .",
     "format": "prettier --write .",
-    "build:off-chain": "yarn workspace off-chain run build"
+    "build:bacalhau": "yarn workspace bacalhau run build"
   },
   "workspaces": [
-    "packages/off-chain",
+    "packages/bacalhau",
+    "packages/examples/hundredIE",
     "packages/on-chain",
     "packages/next"
   ],

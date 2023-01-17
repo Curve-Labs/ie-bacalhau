@@ -1,18 +1,19 @@
 {
-  "name": "off-chain",
+  "name": "bacalhau",
   "version": "1.0.0",
   "packageManager": "yarn@3.3.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/Curve-Labs/ie-bacalhau",
-    "directory": "packages/off-chain"
+    "directory": "packages/bacalhau"
   },
   "scripts": {
     "build": "sh shell/build.sh",
     "run:bacalhau": "sh shell/run_bacalhau.sh",
     "compile": "tsc",
-    "execute": "node scripts/index.js",
-    "execute:ts": "ts-node scripts/index.ts",
+    "execute:ie": "yarn compile && node scripts/executor.js",
+    "execute:ie:ts": "sh shell/clean_compile.sh && ts-node scripts/executor.ts",
+    "execute": "node scripts/executor.js",
     "import:merkle:tree": "sh shell/copy_merkle_tree.sh",
     "mock:contributions": "ts-node ./scripts/generateDummyContributor.ts"
   },
