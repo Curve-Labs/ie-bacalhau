@@ -9,6 +9,7 @@ import { useRouter } from 'next/router'
 const navigation = [
   { name: 'Claim', href: '/shrine' },
   { name: 'Contribute', href: '/contribute' },
+  { name: 'Manage', href: '/manage' },
 ]
 
 function classNames(...classes) {

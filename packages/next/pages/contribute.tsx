@@ -115,15 +115,10 @@ const contribute = () => {
   }
 
   const getDaoContributions = (contributions) => {
-    console.log('kek')
-    console.log(contributions)
     return contributions.filter((contribution) => {
-      console.log(contribution)
       return contribution.daoId.toLowerCase() === daoAddress.toLowerCase()
     })
   }
-
-  console.log(contributions)
 
   if (!address)
     return (
