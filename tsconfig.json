@@ -5,6 +5,7 @@
     },
     {
       "path": "./packages/off-chain"
-    }
+    },
+    {"path": "./packages/datamodel"}
   ]
 }

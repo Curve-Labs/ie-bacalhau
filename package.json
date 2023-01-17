@@ -5,12 +5,14 @@
   "scripts": {
     "lint": "eslint .",
     "format": "prettier --write .",
-    "build:off-chain": "yarn workspace off-chain run build"
+    "build:off-chain": "yarn workspace off-chain run build",
+    "deploy:model:daoContribution": "yarn workspace datamodel run deploy:model:daoContribution "
   },
   "workspaces": [
     "packages/off-chain",
     "packages/on-chain",
-    "packages/next"
+    "packages/next",
+    "packages/datamodel"
   ],
   "dependencies": {
     "@types/node": "^18.11.17",
