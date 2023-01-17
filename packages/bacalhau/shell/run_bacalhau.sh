@@ -1,13 +1,19 @@
 # shell script to run docker image on bacalhau
+# Accept Docker Username
+echo "Enter Docker Hub Username"
+read DOCKER_NAME
 
+# Accept Docker Image Name
+echo "Enter Docker Image Name"
+read IMAGE_NAME
 # get latest Docker Image digest
-IMAGE_INFO=$(curl -X 'GET' https://hub.docker.com/v2/namespaces/mihirsinhparmar/repositories/bacalhau-ie/tags/latest)
+IMAGE_INFO=$(curl -X 'GET' https://hub.docker.com/v2/namespaces/${DOCKER_NAME}/repositories/${IMAGE_NAME}/tags/latest)
 LATEST_DOCKER_IMAGE_DIGEST=`awk -F',"digest":"|","os"' '{print $2}' <<< "$IMAGE_INFO"`
 
 # Constants
-DOCKER_IMAGE=mihirsinhparmar/bacalhau-ie@$LATEST_DOCKER_IMAGE_DIGEST
-DEFAULT_HTTPS_URL=https://nftstorage.link/ipfs/bafybeiblg4ymbxuhpckcsfkdhn52o4l4iakc6wgjptp4fil4ctjcvdsvp4
-DEFAULT_IPFS_CID=bafybeiblg4ymbxuhpckcsfkdhn52o4l4iakc6wgjptp4fil4ctjcvdsvp4
+DOCKER_IMAGE=${DOCKER_NAME}/$IMAGE_NAME@$LATEST_DOCKER_IMAGE_DIGEST
+DEFAULT_HTTPS_URL=https://nftstorage.link/ipfs/bafybeihjfez2hb2i2bdpwkegxopzu6teqmgwnbxqhukjl7brmgwppipnwa
+DEFAULT_IPFS_CID=bafybeihjfez2hb2i2bdpwkegxopzu6teqmgwnbxqhukjl7brmgwppipnwa
 OUTPUT_FOLDER=results
 
 # create results directory
@@ -41,7 +47,7 @@ then
     echo "Provide HTTPs Input:"
     read INPUT_HTTPS_URL
     echo "Running Docker Image on Bacalhau..."
-    JOB_OUTPUT=`bacalhau docker run --input-urls $INPUT_HTTPS_URL $DOCKER_IMAGE`
+    JOB_OUTPUT=`bacalhau docker run -u $INPUT_HTTPS_URL/data.json -u $INPUT_HTTPS_URL/trustedSeed.json -u $INPUT_HTTPS_URL/previousRewards.json $DOCKER_IMAGE`
 elif [ $INPUT_URL_TYPE == "C" -o $INPUT_URL_TYPE == "c" ]
 then
    # Run docker image with no input
@@ -53,7 +59,7 @@ then
    # Run docker image with default HTTPs input
    echo "Default HTTPs Input"
    echo "Running Docker Image on Bacalhau..."
-   JOB_OUTPUT=`bacalhau docker run --input-urls $DEFAULT_HTTPS_URL $DOCKER_IMAGE`
+   JOB_OUTPUT=`bacalhau docker run -u $DEFAULT_HTTPS_URL/data.json -u $DEFAULT_HTTPS_URL/trustedSeed.json -u $DEFAULT_HTTPS_URL/previousRewards.json $DOCKER_IMAGE`
 elif [ $INPUT_URL_TYPE == "E" -o $INPUT_URL_TYPE == "e" ]
 then
    # run docker image with default IPFS input
