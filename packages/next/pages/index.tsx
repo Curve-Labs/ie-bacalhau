@@ -14,6 +14,12 @@ const Home: NextPage = () => {
         <div className="flex justify-center">
           <Link href="/shrine">Claim</Link>
         </div>
+        <div className="flex justify-center">
+          <Link href="/contribute">Contribute</Link>
+        </div>
+        <div className="flex justify-center">
+          <Link href="/manage">Manage</Link>
+        </div>
       </main>
     </div>
   )
