@@ -74,3 +74,12 @@ task("shrine:offer", "Sends tokens to Shrine to be distributed via merkle drop")
       `Offer ${amount} of token ${token} to shrine ${shrine} in tx ${tx.hash}`
     );
   });
+
+task("shrine:verifyEtherscan", "Verifies Shrine contract on Etherscan")
+  .addParam("shrine", "Address of Shrine contract", "undefined", types.string)
+  .setAction(async ({ shrine }, { ethers, run }) => {
+    await run("verify", {
+      address: shrine,
+      constructorArgsParams: [],
+    });
+  });
