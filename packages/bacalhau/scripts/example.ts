@@ -11,7 +11,7 @@ export function impactEvaluatorFunction(
   console.log("Example Impact Evaluator Function");
   let result: IEResult = {
     newRewards: dataList.reduce((output,data)=>({...output, ...data.data}), {}),
-    newTrustSeed: trustedSeedList.reduce((output, t)=>[...output, ...t], []),
+    newTrustedSeed: trustedSeedList.reduce((output, t)=>[...output, ...t], []),
   };
   console.log(result);
   return result;

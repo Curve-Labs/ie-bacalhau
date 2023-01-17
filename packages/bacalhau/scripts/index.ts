@@ -22,7 +22,7 @@ import {
   inputPath,
   merkleTreeOutputPath,
   rewardsOutputPath,
-  trustSeedOutputPath,
+  trustedSeedOutputPath,
   outputPath,
 } from "./constants";
 import { StandardMerkleTree } from "@openzeppelin/merkle-tree";
@@ -36,70 +36,60 @@ export function main(impactEvaluatorFunction: any) {
   log(contents);
   // if length is 0, no fils exist in input directory
   if (contents.length === 0) {
-    log("No input was found");
+    logError("No input was found");
   } else {
-    // run loop for each round (each folder in ./inputs represent a round)
-    for (const round of contents) {
-      logRoundStart(round);
-
-      // check if the content being scanned is directory or not.
-      // inputs should be inside a directory only
-      if (!isDirectory(`${inputPath}/${round}`)) {
-        logError(`Skipping ${round} as it is not a folder.`);
-        continue;
-      }
       // check if directory contains necessary files
-      if (!filesExist(inputPath, round)) {
-        logError(`Skipping ${round}`);
-        continue;
+      if (!filesExist(inputPath)) {
+        logError(`Cannot continue without necessary files`);
+        throw Error("Files doesn't exist");
       }
 
       // execute
       // read data
       // read inputs
       logProgress("Reading inputs now");
-      const round_contents = readDir(`${inputPath}/${round}/`);
 
-      const round_inputs: IEInputs = {
+      const inputs: IEInputs = {
         dataList: [],
         trustedSeedList: [],
         previousRewards: "",
-        extraData: undefined,
+        extraData: [],
       };
 
-      try {
-        // read data
-        for (const content of round_contents) {
-          const parsedData = readJson(`${inputPath}/${round}/${content}`);
+      // read data
+      for (const content of contents) {
+        try {
+          const parsedData = readJson(`${inputPath}/${content}`);
           if (content.includes("data")) {
-            logSuccess("data found in ", content, round);
-            round_inputs.dataList.push(parsedData);
+            logSuccess("data found in ", content);
+            inputs.dataList.push(parsedData);
           } else if (content.includes("trustedSeed")) {
-            logSuccess("trsusted seed found in ", content, round);
-            round_inputs.trustedSeedList.push(parsedData);
+            logSuccess("trsusted seed found in ", content);
+            inputs.trustedSeedList.push(parsedData);
           } else if (content.includes("previousRewards")) {
-            logSuccess("previousRewards found in ", content, round);
-            round_inputs.previousRewards = parsedData;
+            logSuccess("previousRewards found in ", content);
+            inputs.previousRewards = parsedData;
           } else {
-            logError("Unexpected file found: ", content);
+            logError("Extra data found: ", content);
+            inputs.extraData?.push(parsedData);
           }
+        } catch (e) {
+          logError(`Reading Inputs for ${content} failed`);
+          logError(e);
         }
-      } catch (e) {
-        logError(`Reading Inputs for ${round} failed`);
-        logError(e);
       }
 
-      logResult("Inputs for this round are:", round_inputs);
+      logResult("Inputs are:", inputs);
 
       // // pass data
-      logProgress(`Running IE function on data in: ${round}`);
+      logProgress(`Running IE function on data`);
       let resultForCurrentRound: IEResult | undefined;
       try {
         // todo: collect and pass extra data
         resultForCurrentRound = impactEvaluatorFunction(
-          round_inputs.dataList,
-          round_inputs.trustedSeedList,
-          round_inputs.previousRewards
+          inputs.dataList,
+          inputs.trustedSeedList,
+          inputs.previousRewards
         );
       } catch (e) {
         // to ensure an error can be thrown to stop execution
@@ -173,44 +163,43 @@ export function main(impactEvaluatorFunction: any) {
       // write data
 
       // check if output directory exists
-      checkAndCreateIfDoesntExist(outputPath(round), "Output");
+      checkAndCreateIfDoesntExist(outputPath(), "Output");
 
       // 1. merkle tree
       const treeOutput = merkleTree.dump();
       try {
-        writeJson(merkleTreeOutputPath(round), treeOutput);
+        writeJson(merkleTreeOutputPath(), treeOutput);
       } catch (e) {
-        logError("Failed at writing output for Merkle Tree at round:", round);
+        logError("Failed at writing output for Merkle Tree");
         logError(e);
       }
       // 2. new rewards
       try {
-        writeJson(rewardsOutputPath(round), resultForCurrentRound.newRewards);
+        writeJson(rewardsOutputPath(), resultForCurrentRound.newRewards);
       } catch (e) {
-        logError("Failed at writing output for New Rewards at round:", round);
+        logError("Failed at writing output for New Rewards");
         logError(e);
       }
       // 3. new trusted seed
       try {
         writeJson(
-          trustSeedOutputPath(round),
-          resultForCurrentRound.newTrustSeed
+          trustedSeedOutputPath(),
+          resultForCurrentRound.newTrustedSeed
         );
       } catch (e) {
         logError(
-          "Failed at writing output for new Trust Seed at round:",
-          round
+          "Failed at writing output for new Trust Seed"
         );
         logError(e);
       }
 
       logProgress("reading output file");
       try {
-        const newTrustSeed = readJson(trustSeedOutputPath(round));
-        const merkleTreeResult = readJson(merkleTreeOutputPath(round));
-        const rewardsResult = readJson(rewardsOutputPath(round));
+        const newTrustedSeed = readJson(trustedSeedOutputPath());
+        const merkleTreeResult = readJson(merkleTreeOutputPath());
+        const rewardsResult = readJson(rewardsOutputPath());
         log({
-          newTrustSeed: newTrustSeed,
+          newTrustedSeed: newTrustedSeed,
           merkleTree: merkleTreeResult,
           rewards: rewardsResult,
         });
@@ -219,7 +208,6 @@ export function main(impactEvaluatorFunction: any) {
         logError(e);
       }
 
-      logSuccess("Voila!");
+      logSuccess("Shaandaar!");
     }
-  }
 }

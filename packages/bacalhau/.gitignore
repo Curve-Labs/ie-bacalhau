@@ -1,6 +1,7 @@
 /scripts/*.js
 /outputs/*.json
 !/outputs/merkleTree.json
-!/outputs/metadata.json
+!/outputs/newRewards.json
+!/outputs/newTrustedSeed.json
 /utils/*.js
 /results/*

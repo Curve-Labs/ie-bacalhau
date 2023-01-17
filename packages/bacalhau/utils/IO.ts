@@ -29,17 +29,19 @@ export function isDirectory(pathToDirectory: string): boolean {
   return fs.statSync(pathToDirectory).isDirectory();
 }
 
-export function filesExist(directory: string, round: string): boolean {
+export function filesExist(directory: string): boolean {
   const fileExistenceList = inputFiles.filter(
-    (inputFile: string) => !fs.existsSync(`${directory}/${round}/${inputFile}`)
+    (inputFile: string) => !fs.existsSync(`${directory}/${inputFile}`)
   );
   const concatenatedMissingInputFiles = fileExistenceList.reduce(
     (prev, missingFile) => missingFile + " " + prev,
     ""
   );
-  log(
-    `Following files don't exists in ${round}: ${concatenatedMissingInputFiles}`
-  );
+  if(concatenatedMissingInputFiles.length>0) {
+    log(
+      `Following files don't exists: ${concatenatedMissingInputFiles}`
+    );
+  }
   return fileExistenceList.length === 0;
 }
 

@@ -17,17 +17,17 @@ export const pathToIEFunctionJS = path.join(
 );
 
 // a standard of outputting all the data in one big JSON file with defined schema
-export const outputPath = (round: string): string => path.join(__dirname, `../outputs/${round}`);
-export const merkleTreeOutputPath= (round: string): string => path.join(
+export const outputPath = (): string => path.join(__dirname, `../outputs/`);
+export const merkleTreeOutputPath= (): string => path.join(
   __dirname,
-  `../outputs/${round}/merkleTree.json`
+  `../outputs/merkleTree.json`
 );
-export const rewardsOutputPath= (round: string): string => path.join(
+export const rewardsOutputPath= (): string => path.join(
   __dirname,
-  `../outputs/${round}/newRewards.json`
+  `../outputs/newRewards.json`
 );
 
-export const trustSeedOutputPath = (round: string): string =>  path.join(
+export const trustedSeedOutputPath = (): string =>  path.join(
   __dirname,
-  `../outputs/${round}/newTrustSeed.json`
+  `../outputs/newTrustedSeed.json`
 );

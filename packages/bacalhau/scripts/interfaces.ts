@@ -2,7 +2,7 @@
 import {Address} from "ethers";
 export interface IEResult {
   newRewards: any;
-  newTrustSeed: any;
+  newTrustedSeed: any;
 }
 
 export interface InputData {
