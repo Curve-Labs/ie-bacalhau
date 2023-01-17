@@ -1,5 +1,19 @@
 # Bacalhau
 
+# Install Bacalhau
+Ensure you have bacalhau installed
+```sh
+curl -sL https://get.bacalhau.org/install.sh | bash
+```
+
+Check if it is already installed using:
+```sh
+bacalhau version
+
+> Client Version: v0.x.y
+> Server Version: v0.x.y
+```
+
 ## Links
 Docker Image: mihirsinhparmar/ie-bac
 
