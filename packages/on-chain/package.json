@@ -6,7 +6,8 @@
     "directory": "packages/on-chain"
   },
   "scripts": {
-    "local:network": "hardhat node"
+    "local:network": "hardhat node",
+    "compile": "hardhat compile"
   },
   "packageManager": "yarn@3.3.0",
   "dependencies": {
