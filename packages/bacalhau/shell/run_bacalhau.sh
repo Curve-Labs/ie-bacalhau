@@ -21,9 +21,9 @@ echo ""
 echo "Provide inputs using (Not Case Sensitive) 
 A) IPFS 
 B) HTTPs 
-C) No Input 
-D) Default HTTPs Input 
-E) Default IPFS Input"
+C) No Input to Bacalhau
+D) Use default HTTPs Input 
+E) Use default IPFS Input"
 read INPUT_URL_TYPE
 echo ""
 
@@ -33,27 +33,32 @@ then
    # Read Input URL (HTTPS)
     echo "Provide IPFS Input:"
     read INPUT_CID
+    echo "Running Docker Image on Bacalhau..."
     JOB_OUTPUT=`bacalhau docker run --inputs $INPUT_CID $DOCKER_IMAGE`
 elif [ $INPUT_URL_TYPE == "B" -o $INPUT_URL_TYPE == "b" ]
 then
    # Read Input URL (HTTPS)
     echo "Provide HTTPs Input:"
     read INPUT_HTTPS_URL
+    echo "Running Docker Image on Bacalhau..."
     JOB_OUTPUT=`bacalhau docker run --input-urls $INPUT_HTTPS_URL $DOCKER_IMAGE`
 elif [ $INPUT_URL_TYPE == "C" -o $INPUT_URL_TYPE == "c" ]
 then
    # Run docker image with no input
    echo "No Input"
+   echo "Running Docker Image on Bacalhau..."
    JOB_OUTPUT=$(bacalhau docker run $DOCKER_IMAGE)
 elif [ $INPUT_URL_TYPE == "D" -o $INPUT_URL_TYPE == "d" ]
 then
    # Run docker image with default HTTPs input
    echo "Default HTTPs Input"
+   echo "Running Docker Image on Bacalhau..."
    JOB_OUTPUT=`bacalhau docker run --input-urls $DEFAULT_HTTPS_URL $DOCKER_IMAGE`
 elif [ $INPUT_URL_TYPE == "E" -o $INPUT_URL_TYPE == "e" ]
 then
    # run docker image with default IPFS input
    echo "Default IPFS Input"
+   echo "Running Docker Image on Bacalhau..."
    JOB_OUTPUT=`bacalhau docker run --inputs $DEFAULT_IPFS_CID $DOCKER_IMAGE`
 else
    # Invalid Input
