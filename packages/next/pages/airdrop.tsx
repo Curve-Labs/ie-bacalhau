@@ -7,7 +7,7 @@ import { ethers } from 'ethers'
 import axios from 'axios'
 import { Web3ConnectButton } from '../components'
 
-const Manage: NextPage = () => {
+const Airdrop: NextPage = () => {
   const [connection, connect] = useViewerConnection()
   const { address, provider, web3Provider, network } = useWeb3Context()
   const [selfId, setSelfId] = useState(null)
@@ -371,4 +371,4 @@ const Manage: NextPage = () => {
   )
 }
 
-export default Manage
+export default Airdrop

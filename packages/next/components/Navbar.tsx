@@ -7,9 +7,9 @@ import { useWeb3Context } from '../context'
 import { useRouter } from 'next/router'
 
 const navigation = [
-  { name: 'Claim', href: '/shrine' },
-  { name: 'Contribute', href: '/contribute' },
-  { name: 'Manage', href: '/manage' },
+  { name: 'Rewards', href: '/rewards' },
+  { name: 'Contributions', href: '/contributions' },
+  { name: 'Airdrop', href: '/airdrop' },
 ]
 
 function classNames(...classes) {

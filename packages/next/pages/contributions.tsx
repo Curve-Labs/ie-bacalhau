@@ -7,7 +7,7 @@ import { Web3ConnectButton } from '../components'
 
 const loadingSendContribution = 'loading_send_contribution'
 
-const contribute = () => {
+const Contributions = () => {
   const [connection, connect] = useViewerConnection()
   const [selfId, setSelfId] = useState(null)
   const { address, provider } = useWeb3Context()
@@ -263,4 +263,4 @@ const contribute = () => {
   )
 }
 
-export default contribute
+export default Contributions
