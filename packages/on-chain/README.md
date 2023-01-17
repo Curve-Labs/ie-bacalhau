@@ -14,6 +14,8 @@ npx hardhat run scripts/deploy.ts
 
 # Instructions
 
+Test Gnosis Safe on Goerli: 0xa192aBe4667FC4d11e46385902309cd7421997ed
+
 1. Fill in your `SEEDPHRASE` in `.env` in the root directory as well as your `INFURA_KEY` and your `ETHERSCAN_API_KEY`
 
 2. create a gnosis safe: https://app.safe.global/
@@ -35,3 +37,7 @@ npx hardhat run scripts/deploy.ts
    npx hardhat --network <network_name> reality:verifyEtherscan --module <address_of_module_from_prev_step> --owner <safe_address> --avatar <safe_address> --target <safe_address> --oracle <reality_address> --template <id_from_step_1> --timeout <timeout_in_seconds> --cooldown <cooldown_in_seconds> --expiration <expiration_in_seconds> --bond <minimum_bond> --proxied false --iserc20 false
 
 5. enable the newly deployed Zodiac Reality module from previous step on the safe
+
+6. deploy a shrine contract:
+
+   npx hardhat --network <network_name> shrine:setup --avatar <safe_address>
