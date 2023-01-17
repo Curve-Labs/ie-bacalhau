@@ -186,38 +186,50 @@ const Airdrop: NextPage = () => {
         {!contributionSpecification && (
           <div className="mb-6 flex w-7/12 min-w-min flex-col p-6 text-left">
             <div className="p-6 shadow-md sm:rounded-lg">
-              <label
-                className="mr-8 text-sm font-medium text-gray-700"
-                htmlFor="dao-id"
-              >
-                Contributor addresses:
-              </label>
-              <textarea
-                id="message"
-                rows="10"
-                className="mb-4 block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
-                placeholder="address1, address2, address3"
-                value={addressesTextField}
-                onChange={(e) => setAddressesTextField(e.target.value)}
-              ></textarea>
+              <div>
+                <label
+                  className="mr-8 text-sm font-medium text-gray-700"
+                  htmlFor="dao-id"
+                >
+                  DAO address:
+                </label>
+                <input
+                  id="dao-id"
+                  type="text"
+                  className="mb-4 block w-full rounded-lg border-2 border-gray-300 p-2"
+                  placeholder="0x1234.."
+                  value={daoTextField}
+                  onChange={(e) => setDaoTextField(e.target.value)}
+                />
+              </div>
+              <div>
+                <label
+                  className="mr-8 text-sm font-medium text-gray-700"
+                  htmlFor="contribution-id"
+                >
+                  Contribution Identifier:
+                </label>
+                <input
+                  id="contribution-id"
+                  type="text"
+                  className="mb-4 block w-full rounded-lg border-2 border-gray-300 p-2"
+                  placeholder="e.g. week 3, landing page"
+                  value={contributionIdTextField}
+                  onChange={(e) => setContributionIdTextField(e.target.value)}
+                />
+              </div>
               <div className="flex flex-row justify-end">
                 <button
-                  onClick={handleContributorAddresses}
-                  className={
-                    loading === 'loading_contributions'
-                      ? 'cursor-not-allowed rounded-lg bg-blue-300 py-2 px-4 font-bold text-white'
-                      : 'rounded-lg bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700'
-                  }
-                  disabled={loading === 'loading_send_contribution'}
+                  className="rounded-lg bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+                  onClick={handleSpecifyContribution}
                 >
-                  {loading === 'loading_contributions'
-                    ? 'loading contributions..'
-                    : 'Get contributions'}
+                  Set
                 </button>
               </div>
             </div>
           </div>
         )}
+
         {contributionSpecification && contributorAddresses.length === 0 && (
           <div className="mb-6 flex w-7/12 min-w-min flex-col p-6 text-left">
             <div className="p-6 shadow-md sm:rounded-lg">
@@ -253,6 +265,7 @@ const Airdrop: NextPage = () => {
             </div>
           </div>
         )}
+
         {contributionSpecification && contributorAddresses.length > 0 && (
           <div className="mb-12 flex w-7/12 min-w-min flex-col p-6 text-left">
             <div className="p-6 shadow-md sm:rounded-lg">
@@ -278,7 +291,7 @@ const Airdrop: NextPage = () => {
                 </div>
                 <div className="text-sm font-medium text-gray-700">
                   {contributorAddresses.map((address) => (
-                    <div>{address}</div>
+                    <div key={address}>{address}</div>
                   ))}
                 </div>
               </div>
