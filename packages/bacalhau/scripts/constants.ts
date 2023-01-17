@@ -2,7 +2,7 @@ import * as path from "path";
 
 const impactEvaluatorTSFileName = "ImpactEvaluatorFunction.ts";
 const impactEvaluatorJSFileName = "ImpactEvaluatorFunction.js";
-export const inputFiles = ["data.json", "trustedSeed.json", "previousRewards.json"];
+export const inputFiles = ["data.json"];
 
 // bacalhau by default puts the input data (given via IPFS) into ../inputs directory
 export const inputPath: string = path.join(__dirname, "../inputs/");
