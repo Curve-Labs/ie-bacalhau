@@ -53,7 +53,7 @@ export function main(impactEvaluatorFunction: any) {
         dataList: [],
         trustedSeedList: [],
         previousRewards: "",
-        extraData: [],
+        otherData: [],
       };
 
       // read data
@@ -71,7 +71,7 @@ export function main(impactEvaluatorFunction: any) {
             inputs.previousRewards = parsedData;
           } else {
             logError("Extra data found: ", content);
-            inputs.extraData?.push(parsedData);
+            inputs.otherData?.push(parsedData);
           }
         } catch (e) {
           logError(`Reading Inputs for ${content} failed`);

@@ -18,7 +18,7 @@ export interface IEInputs {
   dataList: Array<InputData>;
   trustedSeedList: Array<Array<Address>>;
   previousRewards: string;
-  extraData?: Array<any> | undefined
+  otherData?: Array<any> | undefined
 }
 
 export type MerkleTreeTuple = [Address, number | string];

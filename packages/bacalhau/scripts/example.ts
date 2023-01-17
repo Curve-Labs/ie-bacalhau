@@ -6,7 +6,7 @@ export function impactEvaluatorFunction(
   dataList: Array<InputData>,
   trustedSeedList: Array<Array<Address>>,
   previousRewards: string,
-  extraData: Array<any> | undefined = undefined
+  otherData: Array<any> | undefined = undefined
 ): IEResult {
   console.log("Example Impact Evaluator Function");
   let result: IEResult = {
