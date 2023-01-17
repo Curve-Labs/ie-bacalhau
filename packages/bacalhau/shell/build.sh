@@ -1,7 +1,7 @@
 # Shell Script to build images and push
 
 # Copy merkleTree.ts file from package hardhat
-echo "Ensure your command line is on directory ./packages/off-chain/"
+echo "Ensure your command line is on directory ./packages/bacalhau/"
 
 echo "Copying merkle tree script from hardhat package."
 sh "../shell/copy_merkle_tree.sh"

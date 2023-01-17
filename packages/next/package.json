@@ -27,6 +27,7 @@
     "@tailwindcss/typography": "^0.5.2",
     "@walletconnect/web3-provider": "^1.7.1",
     "axios": "^1.2.2",
+    "bacalhau": "workspace:*",
     "ethers": "^5.5.4",
     "next": "12.1.0",
     "react": "17.0.2",
