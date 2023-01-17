@@ -28,7 +28,6 @@ const deployRealityModule = async (
   const { deploy } = await hardhatRuntime.deployments;
 
   console.log("Using the account:", caller.address);
-  console.log(deploy);
 
   if (taskArgs.proxied) {
     const chainId = await hardhatRuntime.getChainId();
