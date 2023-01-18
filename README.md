@@ -1,151 +1,121 @@
 # Impact Evaluator
 
-# Setup
+## Description
 
-1. Clone Repo using
+## Table of Contents
 
-using SSH
+- [Monorepo Architecture](#monorepo-architecture)
+- [Getting Started](#getting-started)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Development](#development)
+
+## Monorepo Architecture
+
+This mono repo contains 5 packages that are used to create and deploy and use an Impact Evaluator.
+
+```sh
+project
+├── packages
+│   ├── bacalhau
+│   │   ├── README.md
+│   ├── datamodel
+│   │   ├── README.md
+│   ├── next
+│   │   ├── README.md
+│   ├── on-chain
+│   │   ├── README.md
+│   └── templates
+│       └── hundredIE
+│           ├── README.md
+├── README.md
+```
+
+**Please Note:** Each package in this monorepo includes a dedicated `README.md` file which provides detailed instructions on how to interact with the code and the different steps involved.
+
+The functions of the different packages can be summarized as follows:
+
+### bacalhau
+
+The [bacalhau package](./packages/bacalhau/) is used to create a parent Docker image for the Impact Evaluator. This parent image is linked to within the Impact Evaluator template repository.
+
+### datamodel
+
+The [datamodel package](./packages/datamodel/) is used to create and deploy the Ceramic data model to which DAO contributors store contribution metrics.
+
+### next
+
+The [next package](./packages/next/) contains all the code for the UI. The UI is built using the Next.js frontend framework. It includes all the necessary components and pages for the UI.
+
+### on-chain
+
+The [on-chain package](./packages/on-chain/)
+contains all the Solidity contracts used for token distribution based on the output of the Impact Evaluator function. This includes the shrine.sol contract, the Zodiac RealityModule.sol contract, and other interfaces.
+
+### templates
+
+The [template package](./packages/templates/) contains a template for the final Impact Evaluator, however, it's recommended to fork the [template-impact-evaluator](https://github.com/Curve-Labs/template-impact-evaluator) repo to use it.
+
+## Getting Started
+
+Clone the repository
+
+Using SSH
 
 ```
 git clone git@github.com:Curve-Labs/ie-bacalhau.git
 ```
 
-or using HTTPS
+Using HTTPS
 
 ```
 git clone https://github.com/Curve-Labs/ie-bacalhau.git
 ```
 
-2. Go to the repo
+## Prerequisites
+
+### Global
+
+- NodeJS [(Install NodeJS)](https://nodejs.org/en/download/)
+- Yarn [(Install Yarn)](https://classic.yarnpkg.com/en/docs/install)
+
+### Package specific
+
+For more information on what prerequisites are required for each package, please refer to the README.md file in the corresponding package.
+
+## Installation
+
+To install the dependencies for this project, please run the command yarn install in your terminal. This command will install all the necessary packages required to run the application.
 
 ```
-cd ie-bacalhau
+yarn
 ```
 
-3. Install packages
+## Usage
 
-```
-yarn install
-```
+**For guidance on how to use the individual packages, please refer to the README.md file within each package.**
 
-4. (Optional) Test
-
-```
-yarn test-setup
-```
-
-## Playaround with monorepo setup
-
-### Run a file from different workspace
-
-```
-yarn workspace on-chain run invade
-```
-
-or
-
-```
-yarn run invade
-```
-
-# How to work in workspaces
-
-- Go to your workspace using
-
-```
-cd packages/{WORKSPACE}
-```
-
-Note: replace your workspace name with "{WORKSPACE}"
-
-- Work normally, like how you work on a single repository.
-- After adding new dependencies, go to root and run
-
-```
-yarn install
-```
-
-- go back to your workspace and work normally
-
-# Adding new Dependency
-
-## From Root directory
-
-```
-yarn workspace {WORKSPACE} add ...
-```
-
-Note: here `add` is the normal yarn command
-
-### Example
-
-Adding Dotenv package
-
-```
-yarn workspace bacalhau add dotenv
-```
-
-or
-
-```
-yarn workspace bacalhau add -d dotenv
-```
-
-## From workspace directory
-
-1. Be on your workspace directory, if you are not, go to your workspace directory using
-
-```
-cd packages/{WORKSPACE}
-```
-
-2. Install package that you want to install
-
-```
-yarn add ...
-```
-
-3. (Safe Side) go to root directory
-
-```
-cd ../..
-```
-
-4. (Safe Side) yarn install
-
-```
-yarn install
-```
-
-# Git Workflow
-
-Git workflow is the same. New guidelines will be shared here.
-
-# Useful commands
-
-## Run any command in workspace
+### Run any command from within root
 
 ```
 yarn workspace <workspaceName> <commandName> ...
 ```
 
-## List workplaces
+### List workplaces
 
 ```
 yarn workspaces list
 ```
 
-# Making Changes
+## Development
 
-- Any code changes relevant to a workspace should be made inside workspace.
-- If you want to add scripts, lint or hooks that should apply to whole repo (monorepo), add it in root directory.
+### Things to keep in mind
 
-# Things to keep in mind
-
-- `./package.json` file deals with whole monorepo.
-- `./packages/{WORKSPACE}/package.json` file deals with that {WORKSPACE} only. Any changes made in thi file will only reflect in that workspace.
-- All the dependencies are installed globally and no node_modules folder should exist inside workspace directory.
-- Lint rules and scripts should be global hence added in root directory.
-- Try to run commands while staying in root directory as much as possible.
-- Enviornment Variables are not shared and are specific to each workspace
-- Import files with proper path from different workspace
+- When making code changes, it is important to consider the scope of the changes. Changes that are relevant to a specific workspace should be made within that workspace.
+- If you want to add scripts, linting rules, or hooks that should apply to the entire repo, they should be added in the root directory.
+- The `./package.json` file in the root directory manages the entire monorepo, whereas the `./packages/{WORKSPACE}/package.json` file manages only that specific workspace. Any changes made in this file will only affect that workspace.
+- All dependencies are installed globally and there should not be any node_modules folder within the workspace directory.
+- Linting rules and scripts should also be global, therefore added in the root directory.
+- Environment variables are not shared across workspaces and are specific to each one.
+- When importing files from different workspaces, be sure to use the proper path.
