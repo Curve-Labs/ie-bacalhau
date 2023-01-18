@@ -1,29 +1,24 @@
-# Sample Hardhat Project
+# Impact Evaluator Contracts
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+This project contains all contracts that are required for executing an airdrop via Zodiac Reality and the tasks that facilitate contract interactions. Processes that can be done through this package involve deploying & configuring a Zodiac reality module (`/tasks/reality`) and deploying and configuring a Shrine contract (`tasks/shrine`).
 
-Try running some of the following tasks:
+## Background
 
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.ts
-```
+When an round of rewards has been specified through an Impact Evaluator Function, the rewards need to be brought onchain. This happens in form of an Airdrop through the Shrine contract. The Shrine contract uses merkle proofs for gas-efficient token distributions. To minimize trust assumptions a Zodiac Reality module is used to initiate the Airdrop. Essentially, Zodiac Reality allows anyone to make a transaction on behalf of a Safe, if some real world state is true. To determine what the state of the real world is, an economic escalation game is put in place that incentivices participant to truthfully report the state of the world on the blockchain. In our case this means that a proposed airdrop corresponds to a legitimate rewards allocation based on a verfiable round of Impact Evalutation.
 
-# Instructions
+## Instructions
 
-Test Gnosis Safe on Goerli: 0xa192aBe4667FC4d11e46385902309cd7421997ed
-TemplateId for the Impact Evaluator Proposal on Goerli is: `0x000000000000000000000000000000000000000000000000000000000000009e`
+The instructions section consists of two parts: the first part describes how a new Zodiac Reality & Shrine system can be set up for a DAO (this is something that happens _per_ DAO). The second part describes how a user can propose and execute an airdrop through Zodiac Reality.
 
-## Setup
+### 1. Setup the contracts
 
 1. Fill in your `SEEDPHRASE` in `.env` in the root directory as well as your `INFURA_KEY` and your `ETHERSCAN_API_KEY`
 
 2. create a gnosis safe: https://app.safe.global/
 
-3. register reality eth template with reality eth oracle (only needs to happen once!):
+   => there is a test gnosis safe deployed on goerli at 0xa192aBe4667FC4d11e46385902309cd7421997ed
+
+3. register reality eth template with reality eth oracle (only needs to happen once and if the template doesn't exist yet):
 
    npx hardhat --network <network_name> reality:createDaoTemplate --oracle <reality_address>
 
@@ -39,17 +34,17 @@ TemplateId for the Impact Evaluator Proposal on Goerli is: `0x000000000000000000
 
    npx hardhat --network <network_name> reality:verifyEtherscan --module <address_of_module_from_prev_step> --owner <safe_address> --avatar <safe_address> --target <safe_address> --oracle <reality_address> --template <id_from_step_1> --timeout <timeout_in_seconds> --cooldown <cooldown_in_seconds> --expiration <expiration_in_seconds> --bond <minimum_bond> --proxied false --iserc20 false
 
-5. enable the newly deployed Zodiac Reality module from previous step on the safe (`enableModule`)
+5. enable the newly deployed Zodiac Reality module from previous step on the safe
 
-6. deploy & configure a shrine contract:
+6. deploy & setup a shrine contract:
 
    npx hardhat --network <network_name> shrine:setup --avatar <safe_address>
 
-## As a user proposing an airdrop
+### 2. As a user proposing an airdrop
 
 1. propose a new airdrop:
 
-   npx hardhat --network <network_name> reality:propose --module <address_of_reality_module> --shrine <address_of_shrine> --ipfs <ipfs_hash_pointing_to_airdrop_specification_from_IEF> --token <token_address_of_reward_erc20_token> --root <merkle_root> --amount <total_amount_of_token_to_be_dropped> --id <ipfs_hash_pointing_to_airdrop_specification_from_IEF>
+   npx hardhat --network <network_name> reality:propose --module <address_of_reality_module> --shrine <address_of_shrine> --ipfs <ipfs_hash_pointing_to_MERKLE_TREE_specification_from_IEF> --token <token_address_of_reward_erc20_token> --root <merkle_root> --amount <total_amount_of_token_to_be_dropped> --id <ipfs_hash_pointing_to_output_from_IEF>
 
    **note the questionId that is printed on the console, it is required as an input later on**
 
@@ -59,4 +54,4 @@ TemplateId for the Impact Evaluator Proposal on Goerli is: `0x000000000000000000
 
 3. executing the proposal
 
-   npx hardhat --network <network_name> reality:execute --module <address_of_reality_module> --shrine <address_of_shrine> --ipfs <ipfs_hash_pointing_to_airdrop_specification_from_IEF> --token <token_address_of_reward_erc20_token> --root <merkle_root> --amount <total_amount_of_token_to_be_dropped> --id <ipfs_hash_pointing_to_airdrop_specification_from_IEF>
+   npx hardhat --network <network_name> reality:execute --module <address_of_reality_module> --shrine <address_of_shrine> --ipfs <ipfs_hash_pointing_to_MERKLE_TREE_specification_from_IEF> --token <token_address_of_reward_erc20_token> --root <merkle_root> --amount <total_amount_of_token_to_be_dropped> --id <ipfs_hash_pointing_to_output_from_IEF>
