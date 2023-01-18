@@ -2,6 +2,10 @@
 
 ## Description
 
+This repository contains all the necessary packages and tools to create and deploy an Impact Evaluator. The repo is structured as a mono repo, with each package serving a specific purpose such as creating a parent Docker image, deploying the data model, creating the UI, and the contract for handling the token distribution based on the output of the Impact Evaluator function.
+
+The repo also includes README.md files in each package that provide detailed instructions on how to interact with the code and the different steps involved.
+
 ## Table of Contents
 
 - [Monorepo Architecture](#monorepo-architecture)
