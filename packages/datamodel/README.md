@@ -6,7 +6,7 @@ In order to use a decentralized identifier (DID) to authenticate a Ceramic sessi
 
 ### Rename the .env.example file
 
-Rename the `.env.example` file in the root directory of your project to `.env`. This file will contain the private key (PK) environment variable for the DID.
+Rename the `.env.example` file in the package to `.env`. This file will contain the private key (PK) environment variable for the DID.
 
 ### Set your Private Key
 
