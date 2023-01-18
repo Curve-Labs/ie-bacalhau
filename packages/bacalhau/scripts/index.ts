@@ -13,8 +13,6 @@ import {
   readDir,
   log,
   logError,
-  isDirectory,
-  filesExist,
   logSuccess,
 } from "./../utils/IO";
 import { getMerkleTree } from "../utils/merkleTree";
@@ -39,10 +37,9 @@ export function main(impactEvaluatorFunction: any) {
     logError("No input was found");
   } else {
       // check if directory contains necessary files
-      if (!filesExist(inputPath)) {
-        logError(`Cannot continue without necessary files`);
-        throw Error("Files doesn't exist");
-      }
+      log(`Using data from following file: ${contents[0]}`);
+
+      const input = readJson(`${inputPath}/${contents[0]}`);
 
       // execute
       // read data
@@ -57,24 +54,25 @@ export function main(impactEvaluatorFunction: any) {
       };
 
       // read data
-      for (const content of contents) {
+      const inputFileKeys = Object.keys(input)
+      for (const key of inputFileKeys) {
         try {
-          const parsedData = readJson(`${inputPath}/${content}`);
-          if (content.includes("data")) {
-            logSuccess("data found in ", content);
-            inputs.dataList.push(parsedData);
-          } else if (content.includes("trustedSeed")) {
-            logSuccess("trsusted seed found in ", content);
-            inputs.trustedSeedList.push(parsedData);
-          } else if (content.includes("previousRewards")) {
-            logSuccess("previousRewards found in ", content);
-            inputs.previousRewards = parsedData;
+          const keyData = input[key];
+          if (key.includes("data")) {
+            logSuccess("data found in ", key);
+            inputs.dataList.push({data: keyData});
+          } else if (key.includes("trustedSeed")) {
+            logSuccess("trsusted seed found in ", key);
+            inputs.trustedSeedList.push(keyData);
+          } else if (key.includes("previousRewards")) {
+            logSuccess("previousRewards found in ", key);
+            inputs.previousRewards = keyData;
           } else {
-            logError("Extra data found: ", content);
-            inputs.otherData?.push(parsedData);
+            logError("Extra data found: ", key);
+            inputs.otherData?.push(keyData);
           }
         } catch (e) {
-          logError(`Reading Inputs for ${content} failed`);
+          logError(`Reading Inputs for ${key} failed`);
           logError(e);
         }
       }
