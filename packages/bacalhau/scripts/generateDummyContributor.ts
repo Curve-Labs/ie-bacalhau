@@ -9,15 +9,7 @@ const definedAddresses: Array<Address> = [];
 
 const maxHours: number = 100;
 const contributors: number = 10;
-const destinationPath = path.join(__dirname, "../inputs/round_1/");
-const trustedSeedDestinationPath = path.join(
-  destinationPath,
-  "trustedSeed.json"
-);
-const previousRewardsDestinationPath = path.join(
-  destinationPath,
-  "previousRewards.json"
-);
+const destinationPath = path.join(__dirname, "../inputs/");
 const dataDestinationPath = path.join(destinationPath, "data.json");
 
 interface ContributionData {
@@ -52,13 +44,15 @@ const generate = (
   logResult(contributions);
   const data = {
     data: contributions,
+    trustedSeed: trustedSeed,
+    previousRewards: "ipfsCID"
   };
-  return { data, trustedSeed };
+  return { data };
 };
 
 const main = () => {
   logProgress("Generating Mock Contributions Data");
-  const { data, trustedSeed } = generate(
+  const { data } = generate(
     definedAddresses,
     maxHours,
     contributors
@@ -67,8 +61,6 @@ const main = () => {
   logProgress("Writing Mock Contribution data");
   checkAndCreateIfDoesntExist(destinationPath, "Mock Data Destination Path");
   writeJson(dataDestinationPath, data);
-  writeJson(trustedSeedDestinationPath, trustedSeed);
-  writeJson(previousRewardsDestinationPath, "ipfsCID");
   logSuccess("Mock Data written");
 };
 
