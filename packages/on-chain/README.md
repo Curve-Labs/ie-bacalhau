@@ -12,7 +12,7 @@ The instructions section consists of two parts: the first part describes how a n
 
 ### 1. Setup the contracts
 
-1. Fill in your `SEEDPHRASE` in `.env` in the root directory as well as your `INFURA_KEY` and your `ETHERSCAN_API_KEY`
+1. Fill in your `SEEDPHRASE` in `.env` in the directory of this package as well as your `INFURA_KEY` and your `ETHERSCAN_API_KEY`
 
 2. create a gnosis safe: https://app.safe.global/
 
