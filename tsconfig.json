@@ -6,6 +6,7 @@
     { "path": "./packages/datamodel" },
     {
       "path": "./packages/bacalhau"
-    }
+    },
+    { "path": "./packages/next" }
   ]
 }
