@@ -1,6 +1,0 @@
-{
-  "function": {
-    "params": ["contributions"],
-    "code": "return contributions.map(contribution=>({contributor: contribution.contributor, shares: contribution.shares*100}))"
-  }
-}

@@ -1,17 +1,18 @@
 {
   "name": "on-chain",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/Curve-Labs/ie-bacalhau",
     "directory": "packages/on-chain"
   },
   "scripts": {
-    "local:network": "hardhat node"
+    "local:network": "hardhat node",
+    "compile": "hardhat compile"
   },
   "packageManager": "yarn@3.3.0",
   "dependencies": {
-    "dotenv": "^16.0.3",
-    "off-chain": "workspace:*"
+    "dotenv": "^16.0.3"
   },
   "devDependencies": {
     "@gnosis.pm/zodiac": "1.0.1",
@@ -31,6 +32,7 @@
     "chai": "^4.3.7",
     "ethers": "^5.7.2",
     "hardhat": "^2.12.4",
+    "hardhat-deploy": "^0.11.22",
     "hardhat-gas-reporter": "^1.0.9",
     "solidity-coverage": "^0.8.2",
     "solmate": "^6.6.1",

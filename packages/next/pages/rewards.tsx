@@ -37,7 +37,7 @@ interface StandardMerkleTreeData<T extends any[]> {
   leafEncoding: string[]
 }
 
-function Main() {
+function Rewards() {
   const { web3Provider, address } = useWeb3Context()
   const [shrineTextField, setShrineTextField] = useState('')
   const [tokenTextField, setTokenTextField] = useState('')
@@ -327,4 +327,4 @@ function Main() {
   )
 }
 
-export default Main
+export default Rewards

@@ -3,9 +3,9 @@
     {
       "path": "./packages/on-chain"
     },
+    { "path": "./packages/datamodel" },
     {
-      "path": "./packages/off-chain"
-    },
-    {"path": "./packages/datamodel"}
+      "path": "./packages/bacalhau"
+    }
   ]
 }

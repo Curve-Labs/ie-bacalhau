@@ -82,13 +82,13 @@ Note: here `add` is the normal yarn command
 Adding Dotenv package
 
 ```
-yarn workspace off-chain add dotenv
+yarn workspace bacalhau add dotenv
 ```
 
 or
 
 ```
-yarn workspace off-chain add -d dotenv
+yarn workspace bacalhau add -d dotenv
 ```
 
 ## From workspace directory

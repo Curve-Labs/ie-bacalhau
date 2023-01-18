@@ -1,0 +1,1162 @@
+{
+  "address": "0xfeE3324EFdA8d30A6286837f3879017483D313dd",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "Ownable_NewOwnerZeroAddress",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Ownable_NotOwner",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "ReentrancyGuard_Reentrancy",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Shrine_AlreadyInitialized",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Shrine_InputArraysLengthMismatch",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Shrine_InvalidMerkleProof",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Shrine_LedgerZeroTotalShares",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "Shrine_NotAuthorized",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "recipient",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "Shrine.Version",
+          "name": "version",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "contract ERC20",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "Shrine.Champion",
+          "name": "champion",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "claimedTokenAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "Claim",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "contract Shrine",
+          "name": "metaShrine",
+          "type": "address"
+        }
+      ],
+      "name": "ClaimFromMetaShrine",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "sender",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "contract ERC20",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "Offer",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "Shrine.Champion",
+          "name": "champion",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "recipient",
+          "type": "address"
+        }
+      ],
+      "name": "TransferChampionStatus",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "Shrine.Version",
+          "name": "newVersion",
+          "type": "uint256"
+        },
+        {
+          "components": [
+            {
+              "internalType": "bytes32",
+              "name": "merkleRoot",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint256",
+              "name": "totalShares",
+              "type": "uint256"
+            }
+          ],
+          "indexed": false,
+          "internalType": "struct Shrine.Ledger",
+          "name": "newLedger",
+          "type": "tuple"
+        }
+      ],
+      "name": "UpdateLedger",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "Shrine.Version",
+          "name": "version",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "newLedgerMetadataIPFSHash",
+          "type": "string"
+        }
+      ],
+      "name": "UpdateLedgerMetadata",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "Shrine.Champion",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "championClaimRightOwner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "recipient",
+          "type": "address"
+        },
+        {
+          "components": [
+            {
+              "internalType": "Shrine.Version",
+              "name": "version",
+              "type": "uint256"
+            },
+            {
+              "internalType": "contract ERC20",
+              "name": "token",
+              "type": "address"
+            },
+            {
+              "internalType": "Shrine.Champion",
+              "name": "champion",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "shares",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "merkleProof",
+              "type": "bytes32[]"
+            }
+          ],
+          "internalType": "struct Shrine.ClaimInfo",
+          "name": "claimInfo",
+          "type": "tuple"
+        }
+      ],
+      "name": "claim",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "claimedTokenAmount",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "contract Shrine",
+              "name": "metaShrine",
+              "type": "address"
+            },
+            {
+              "internalType": "Shrine.Version",
+              "name": "version",
+              "type": "uint256"
+            },
+            {
+              "internalType": "contract ERC20",
+              "name": "token",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "shares",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "merkleProof",
+              "type": "bytes32[]"
+            }
+          ],
+          "internalType": "struct Shrine.MetaShrineClaimInfo",
+          "name": "claimInfo",
+          "type": "tuple"
+        }
+      ],
+      "name": "claimFromMetaShrine",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "claimedTokenAmount",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "recipient",
+          "type": "address"
+        },
+        {
+          "components": [
+            {
+              "internalType": "Shrine.Version",
+              "name": "version",
+              "type": "uint256"
+            },
+            {
+              "internalType": "contract ERC20",
+              "name": "token",
+              "type": "address"
+            },
+            {
+              "internalType": "Shrine.Champion",
+              "name": "champion",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "shares",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "merkleProof",
+              "type": "bytes32[]"
+            }
+          ],
+          "internalType": "struct Shrine.ClaimInfo[]",
+          "name": "claimInfoList",
+          "type": "tuple[]"
+        }
+      ],
+      "name": "claimMultiple",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "claimedTokenAmountList",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "contract Shrine",
+              "name": "metaShrine",
+              "type": "address"
+            },
+            {
+              "internalType": "Shrine.Version",
+              "name": "version",
+              "type": "uint256"
+            },
+            {
+              "internalType": "contract ERC20",
+              "name": "token",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "shares",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes32[]",
+              "name": "merkleProof",
+              "type": "bytes32[]"
+            }
+          ],
+          "internalType": "struct Shrine.MetaShrineClaimInfo[]",
+          "name": "claimInfoList",
+          "type": "tuple[]"
+        }
+      ],
+      "name": "claimMultipleFromMetaShrine",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "claimedTokenAmountList",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "recipient",
+          "type": "address"
+        },
+        {
+          "internalType": "Shrine.Version",
+          "name": "version",
+          "type": "uint256"
+        },
+        {
+          "internalType": "contract ERC20[]",
+          "name": "tokenList",
+          "type": "address[]"
+        },
+        {
+          "internalType": "Shrine.Champion",
+          "name": "champion",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "shares",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes32[]",
+          "name": "merkleProof",
+          "type": "bytes32[]"
+        }
+      ],
+      "name": "claimMultipleTokensForChampion",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "claimedTokenAmountList",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "Shrine.Version",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "contract ERC20",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "Shrine.Champion",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "claimedTokens",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "Shrine.Version",
+          "name": "version",
+          "type": "uint256"
+        },
+        {
+          "internalType": "contract ERC20",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "internalType": "Shrine.Champion",
+          "name": "champion",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "shares",
+          "type": "uint256"
+        }
+      ],
+      "name": "computeClaimableTokenAmount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "claimableTokenAmount",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "currentLedgerVersion",
+      "outputs": [
+        {
+          "internalType": "Shrine.Version",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "Shrine.Version",
+          "name": "version",
+          "type": "uint256"
+        }
+      ],
+      "name": "getLedgerOfVersion",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "bytes32",
+              "name": "merkleRoot",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint256",
+              "name": "totalShares",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct Shrine.Ledger",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "guardian",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "initialGuardian",
+          "type": "address"
+        },
+        {
+          "components": [
+            {
+              "internalType": "bytes32",
+              "name": "merkleRoot",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint256",
+              "name": "totalShares",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct Shrine.Ledger",
+          "name": "initialLedger",
+          "type": "tuple"
+        },
+        {
+          "internalType": "string",
+          "name": "initialLedgerMetadataIPFSHash",
+          "type": "string"
+        }
+      ],
+      "name": "initialize",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "Shrine.Version",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "ledgerOfVersion",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "merkleRoot",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "totalShares",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract ERC20",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "offer",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "Shrine.Version[]",
+          "name": "versionList",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "contract ERC20[]",
+          "name": "tokenList",
+          "type": "address[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "amountList",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "offerMultiple",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "Shrine.Version",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "contract ERC20",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "offeredTokens",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "Shrine.Champion",
+          "name": "champion",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferChampionClaimRight",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "bytes32",
+              "name": "merkleRoot",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint256",
+              "name": "totalShares",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct Shrine.Ledger",
+          "name": "newLedger",
+          "type": "tuple"
+        }
+      ],
+      "name": "updateLedger",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "Shrine.Version",
+          "name": "version",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "newLedgerMetadataIPFSHash",
+          "type": "string"
+        }
+      ],
+      "name": "updateLedgerMetadata",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x163abebab2fede0fc9c6d1f249ba41f654aa729ea58fdc7d0b8659770817f30d",
+  "receipt": {
+    "to": null,
+    "from": "0x9cA70B93CaE5576645F5F069524A9B9c3aef5006",
+    "contractAddress": "0xfeE3324EFdA8d30A6286837f3879017483D313dd",
+    "transactionIndex": 32,
+    "gasUsed": "3384800",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0xe8851c2c1cd36d5f095bebd5f3e0b2ac34ae885cfee44f71bebc64021c47c4a0",
+    "transactionHash": "0x163abebab2fede0fc9c6d1f249ba41f654aa729ea58fdc7d0b8659770817f30d",
+    "logs": [],
+    "blockNumber": 8328813,
+    "cumulativeGasUsed": "25107013",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "numDeployments": 1,
+  "solcInputHash": "8163d8f515b92211ddd04425cec1241f",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"Ownable_NewOwnerZeroAddress\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"Ownable_NotOwner\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"ReentrancyGuard_Reentrancy\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"Shrine_AlreadyInitialized\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"Shrine_InputArraysLengthMismatch\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"Shrine_InvalidMerkleProof\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"Shrine_LedgerZeroTotalShares\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"Shrine_NotAuthorized\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"Shrine.Version\",\"name\":\"version\",\"type\":\"uint256\"},{\"indexed\":true,\"internalType\":\"contract ERC20\",\"name\":\"token\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"Shrine.Champion\",\"name\":\"champion\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"claimedTokenAmount\",\"type\":\"uint256\"}],\"name\":\"Claim\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"contract Shrine\",\"name\":\"metaShrine\",\"type\":\"address\"}],\"name\":\"ClaimFromMetaShrine\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"contract ERC20\",\"name\":\"token\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"Offer\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"Shrine.Champion\",\"name\":\"champion\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"}],\"name\":\"TransferChampionStatus\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"Shrine.Version\",\"name\":\"newVersion\",\"type\":\"uint256\"},{\"components\":[{\"internalType\":\"bytes32\",\"name\":\"merkleRoot\",\"type\":\"bytes32\"},{\"internalType\":\"uint256\",\"name\":\"totalShares\",\"type\":\"uint256\"}],\"indexed\":false,\"internalType\":\"struct Shrine.Ledger\",\"name\":\"newLedger\",\"type\":\"tuple\"}],\"name\":\"UpdateLedger\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"Shrine.Version\",\"name\":\"version\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"newLedgerMetadataIPFSHash\",\"type\":\"string\"}],\"name\":\"UpdateLedgerMetadata\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"Shrine.Champion\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"championClaimRightOwner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"},{\"components\":[{\"internalType\":\"Shrine.Version\",\"name\":\"version\",\"type\":\"uint256\"},{\"internalType\":\"contract ERC20\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"Shrine.Champion\",\"name\":\"champion\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"shares\",\"type\":\"uint256\"},{\"internalType\":\"bytes32[]\",\"name\":\"merkleProof\",\"type\":\"bytes32[]\"}],\"internalType\":\"struct Shrine.ClaimInfo\",\"name\":\"claimInfo\",\"type\":\"tuple\"}],\"name\":\"claim\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"claimedTokenAmount\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"contract Shrine\",\"name\":\"metaShrine\",\"type\":\"address\"},{\"internalType\":\"Shrine.Version\",\"name\":\"version\",\"type\":\"uint256\"},{\"internalType\":\"contract ERC20\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"shares\",\"type\":\"uint256\"},{\"internalType\":\"bytes32[]\",\"name\":\"merkleProof\",\"type\":\"bytes32[]\"}],\"internalType\":\"struct Shrine.MetaShrineClaimInfo\",\"name\":\"claimInfo\",\"type\":\"tuple\"}],\"name\":\"claimFromMetaShrine\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"claimedTokenAmount\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"},{\"components\":[{\"internalType\":\"Shrine.Version\",\"name\":\"version\",\"type\":\"uint256\"},{\"internalType\":\"contract ERC20\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"Shrine.Champion\",\"name\":\"champion\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"shares\",\"type\":\"uint256\"},{\"internalType\":\"bytes32[]\",\"name\":\"merkleProof\",\"type\":\"bytes32[]\"}],\"internalType\":\"struct Shrine.ClaimInfo[]\",\"name\":\"claimInfoList\",\"type\":\"tuple[]\"}],\"name\":\"claimMultiple\",\"outputs\":[{\"internalType\":\"uint256[]\",\"name\":\"claimedTokenAmountList\",\"type\":\"uint256[]\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"contract Shrine\",\"name\":\"metaShrine\",\"type\":\"address\"},{\"internalType\":\"Shrine.Version\",\"name\":\"version\",\"type\":\"uint256\"},{\"internalType\":\"contract ERC20\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"shares\",\"type\":\"uint256\"},{\"internalType\":\"bytes32[]\",\"name\":\"merkleProof\",\"type\":\"bytes32[]\"}],\"internalType\":\"struct Shrine.MetaShrineClaimInfo[]\",\"name\":\"claimInfoList\",\"type\":\"tuple[]\"}],\"name\":\"claimMultipleFromMetaShrine\",\"outputs\":[{\"internalType\":\"uint256[]\",\"name\":\"claimedTokenAmountList\",\"type\":\"uint256[]\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"},{\"internalType\":\"Shrine.Version\",\"name\":\"version\",\"type\":\"uint256\"},{\"internalType\":\"contract ERC20[]\",\"name\":\"tokenList\",\"type\":\"address[]\"},{\"internalType\":\"Shrine.Champion\",\"name\":\"champion\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"shares\",\"type\":\"uint256\"},{\"internalType\":\"bytes32[]\",\"name\":\"merkleProof\",\"type\":\"bytes32[]\"}],\"name\":\"claimMultipleTokensForChampion\",\"outputs\":[{\"internalType\":\"uint256[]\",\"name\":\"claimedTokenAmountList\",\"type\":\"uint256[]\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"Shrine.Version\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"contract ERC20\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"Shrine.Champion\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"claimedTokens\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"Shrine.Version\",\"name\":\"version\",\"type\":\"uint256\"},{\"internalType\":\"contract ERC20\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"Shrine.Champion\",\"name\":\"champion\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"shares\",\"type\":\"uint256\"}],\"name\":\"computeClaimableTokenAmount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"claimableTokenAmount\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"currentLedgerVersion\",\"outputs\":[{\"internalType\":\"Shrine.Version\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"Shrine.Version\",\"name\":\"version\",\"type\":\"uint256\"}],\"name\":\"getLedgerOfVersion\",\"outputs\":[{\"components\":[{\"internalType\":\"bytes32\",\"name\":\"merkleRoot\",\"type\":\"bytes32\"},{\"internalType\":\"uint256\",\"name\":\"totalShares\",\"type\":\"uint256\"}],\"internalType\":\"struct Shrine.Ledger\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"guardian\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"initialGuardian\",\"type\":\"address\"},{\"components\":[{\"internalType\":\"bytes32\",\"name\":\"merkleRoot\",\"type\":\"bytes32\"},{\"internalType\":\"uint256\",\"name\":\"totalShares\",\"type\":\"uint256\"}],\"internalType\":\"struct Shrine.Ledger\",\"name\":\"initialLedger\",\"type\":\"tuple\"},{\"internalType\":\"string\",\"name\":\"initialLedgerMetadataIPFSHash\",\"type\":\"string\"}],\"name\":\"initialize\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"Shrine.Version\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"ledgerOfVersion\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"merkleRoot\",\"type\":\"bytes32\"},{\"internalType\":\"uint256\",\"name\":\"totalShares\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"contract ERC20\",\"name\":\"token\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"offer\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"Shrine.Version[]\",\"name\":\"versionList\",\"type\":\"uint256[]\"},{\"internalType\":\"contract ERC20[]\",\"name\":\"tokenList\",\"type\":\"address[]\"},{\"internalType\":\"uint256[]\",\"name\":\"amountList\",\"type\":\"uint256[]\"}],\"name\":\"offerMultiple\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"Shrine.Version\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"contract ERC20\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"offeredTokens\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"Shrine.Champion\",\"name\":\"champion\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferChampionClaimRight\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"bytes32\",\"name\":\"merkleRoot\",\"type\":\"bytes32\"},{\"internalType\":\"uint256\",\"name\":\"totalShares\",\"type\":\"uint256\"}],\"internalType\":\"struct Shrine.Ledger\",\"name\":\"newLedger\",\"type\":\"tuple\"}],\"name\":\"updateLedger\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"Shrine.Version\",\"name\":\"version\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"newLedgerMetadataIPFSHash\",\"type\":\"string\"}],\"name\":\"updateLedgerMetadata\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"author\":\"zefram.eth\",\"kind\":\"dev\",\"methods\":{\"claim(address,(uint256,address,address,uint256,bytes32[]))\":{\"params\":{\"claimInfo\":\"The info of the claim\"},\"returns\":{\"claimedTokenAmount\":\"The amount of tokens claimed\"}},\"claimFromMetaShrine((address,uint256,address,uint256,bytes32[]))\":{\"params\":{\"claimInfo\":\"The info of the claim\"},\"returns\":{\"claimedTokenAmount\":\"The amount of tokens claimed\"}},\"claimMultipleTokensForChampion(address,uint256,address[],address,uint256,bytes32[])\":{\"details\":\"This is more efficient than {claimMultiple} since it only checks Champion ownership & verifies Merkle proof once.\"},\"computeClaimableTokenAmount(uint256,address,address,uint256)\":{\"params\":{\"champion\":\"The Champion address\",\"shares\":\"The share amount of the Champion\",\"token\":\"The ERC-20 token to be claimed\",\"version\":\"The Merkle tree version\"},\"returns\":{\"claimableTokenAmount\":\"The amount of tokens claimable\"}},\"getLedgerOfVersion(uint256)\":{\"params\":{\"version\":\"The version of the ledger to query\"},\"returns\":{\"_0\":\"The ledger at the specified version\"}},\"guardian()\":{\"returns\":{\"_0\":\"The Guardian's address\"}},\"initialize(address,(bytes32,uint256),string)\":{\"params\":{\"initialGuardian\":\"The Shrine's initial guardian, who controls the ledger\",\"initialLedger\":\"The Shrine's initial ledger with the distribution shares\",\"initialLedgerMetadataIPFSHash\":\"The IPFS hash of the initial metadata\"}},\"offer(address,uint256)\":{\"params\":{\"amount\":\"The amount of tokens to offer\",\"token\":\"The ERC-20 token being offered to the Shrine\"}},\"offerMultiple(uint256[],address[],uint256[])\":{\"params\":{\"amountList\":\"The list of amounts of tokens to offer\",\"tokenList\":\"The list of ERC-20 tokens being offered to the Shrine\",\"versionList\":\"The list of ledger versions to distribute to\"}},\"owner()\":{\"details\":\"Returns the address of the current owner.\"},\"renounceOwnership()\":{\"details\":\"Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner.\"},\"transferChampionClaimRight(address,address)\":{\"params\":{\"champion\":\"The champion whose claim rights will be transferred away\",\"newOwner\":\"The address that will receive all rights of the champion\"}},\"transferOwnership(address)\":{\"details\":\"Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.\"},\"updateLedger((bytes32,uint256))\":{\"params\":{\"newLedger\":\"The new Merkle tree to use for the list of champions and their shares\"}},\"updateLedgerMetadata(uint256,string)\":{\"details\":\"This function simply emits the IPFS hash in an event, so that an off-chain indexer can pick it up.\",\"params\":{\"newLedgerMetadataIPFSHash\":\"The IPFS hash of the updated metadata\"}}},\"title\":\"Shrine\",\"version\":1},\"userdoc\":{\"errors\":{\"Shrine_AlreadyInitialized()\":[{\"notice\":\"----------------------------------------------------------------------- Errors -----------------------------------------------------------------------\"}]},\"events\":{\"Offer(address,address,uint256)\":{\"notice\":\"----------------------------------------------------------------------- Events -----------------------------------------------------------------------\"}},\"kind\":\"user\",\"methods\":{\"championClaimRightOwner(address)\":{\"notice\":\"champion => address\"},\"claim(address,(uint256,address,address,uint256,bytes32[]))\":{\"notice\":\"A Champion or the owner of a Champion may call this to claim their share of the tokens offered to this Shrine. Requires a Merkle proof to prove that the Champion is part of this Shrine's Merkle tree. Only callable by the champion (if the right was never transferred) or the owner (that the original champion transferred their rights to)\"},\"claimFromMetaShrine((address,uint256,address,uint256,bytes32[]))\":{\"notice\":\"If this Shrine is a Champion of another Shrine (MetaShrine), calling this can claim the tokens from the MetaShrine and distribute them to this Shrine's Champions. Callable by anyone.\"},\"claimMultiple(address,(uint256,address,address,uint256,bytes32[])[])\":{\"notice\":\"A variant of {claim} that combines multiple claims into a single call.\"},\"claimMultipleFromMetaShrine((address,uint256,address,uint256,bytes32[])[])\":{\"notice\":\"A variant of {claimFromMetaShrine} that combines multiple claims into a single call.\"},\"claimMultipleTokensForChampion(address,uint256,address[],address,uint256,bytes32[])\":{\"notice\":\"A variant of {claim} that combines multiple claims for the same Champion & version into a single call.\"},\"claimedTokens(uint256,address,address)\":{\"notice\":\"version => (token => (champion => claimedTokens))\"},\"computeClaimableTokenAmount(uint256,address,address,uint256)\":{\"notice\":\"Computes the amount of a particular ERC-20 token claimable by a Champion from a particular version of the Merkle tree.\"},\"currentLedgerVersion()\":{\"notice\":\"The current version of the ledger, starting from 1\"},\"getLedgerOfVersion(uint256)\":{\"notice\":\"The ledger at a particular version\"},\"guardian()\":{\"notice\":\"The Shrine Guardian's address (same as the contract owner)\"},\"initialize(address,(bytes32,uint256),string)\":{\"notice\":\"Initialize the Shrine contract.\"},\"ledgerOfVersion(uint256)\":{\"notice\":\"version => ledger\"},\"offer(address,uint256)\":{\"notice\":\"Offer ERC-20 tokens to the Shrine and distribute them to Champions proportional to their shares in the Shrine. Callable by anyone.\"},\"offerMultiple(uint256[],address[],uint256[])\":{\"notice\":\"Offer multiple ERC-20 tokens to the Shrine and distribute them to Champions proportional to their shares in the Shrine. The input arrays must be of the same length. Callable by anyone.\"},\"offeredTokens(uint256,address)\":{\"notice\":\"version => (token => offeredTokens)\"},\"transferChampionClaimRight(address,address)\":{\"notice\":\"Allows a champion to transfer their right to claim from this shrine to another address. The champion will effectively lose their shrine membership, so make sure the new owner is a trusted party. Only callable by the champion (if the right was never transferred) or the owner (that the original champion transferred their rights to)\"},\"updateLedger((bytes32,uint256))\":{\"notice\":\"The Guardian may call this function to update the ledger, so that the list of champions and the associated weights are updated.\"},\"updateLedgerMetadata(uint256,string)\":{\"notice\":\"The Guardian may call this function to update the ledger metadata IPFS hash.\"}},\"notice\":\"A Shrine maintains a list of Champions with individual weights (shares), and anyone could offer any ERC-20 tokens to the Shrine in order to distribute them to the Champions proportional to their shares. A Champion transfer their right to claim all future tokens offered to the Champion to another address.\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/astrodrop/Shrine.sol\":\"Shrine\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/utils/cryptography/MerkleProof.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v4.8.0) (utils/cryptography/MerkleProof.sol)\\n\\npragma solidity ^0.8.0;\\n\\n/**\\n * @dev These functions deal with verification of Merkle Tree proofs.\\n *\\n * The tree and the proofs can be generated using our\\n * https://github.com/OpenZeppelin/merkle-tree[JavaScript library].\\n * You will find a quickstart guide in the readme.\\n *\\n * WARNING: You should avoid using leaf values that are 64 bytes long prior to\\n * hashing, or use a hash function other than keccak256 for hashing leaves.\\n * This is because the concatenation of a sorted pair of internal nodes in\\n * the merkle tree could be reinterpreted as a leaf value.\\n * OpenZeppelin's JavaScript library generates merkle trees that are safe\\n * against this attack out of the box.\\n */\\nlibrary MerkleProof {\\n    /**\\n     * @dev Returns true if a `leaf` can be proved to be a part of a Merkle tree\\n     * defined by `root`. For this, a `proof` must be provided, containing\\n     * sibling hashes on the branch from the leaf to the root of the tree. Each\\n     * pair of leaves and each pair of pre-images are assumed to be sorted.\\n     */\\n    function verify(\\n        bytes32[] memory proof,\\n        bytes32 root,\\n        bytes32 leaf\\n    ) internal pure returns (bool) {\\n        return processProof(proof, leaf) == root;\\n    }\\n\\n    /**\\n     * @dev Calldata version of {verify}\\n     *\\n     * _Available since v4.7._\\n     */\\n    function verifyCalldata(\\n        bytes32[] calldata proof,\\n        bytes32 root,\\n        bytes32 leaf\\n    ) internal pure returns (bool) {\\n        return processProofCalldata(proof, leaf) == root;\\n    }\\n\\n    /**\\n     * @dev Returns the rebuilt hash obtained by traversing a Merkle tree up\\n     * from `leaf` using `proof`. A `proof` is valid if and only if the rebuilt\\n     * hash matches the root of the tree. When processing the proof, the pairs\\n     * of leafs & pre-images are assumed to be sorted.\\n     *\\n     * _Available since v4.4._\\n     */\\n    function processProof(bytes32[] memory proof, bytes32 leaf) internal pure returns (bytes32) {\\n        bytes32 computedHash = leaf;\\n        for (uint256 i = 0; i < proof.length; i++) {\\n            computedHash = _hashPair(computedHash, proof[i]);\\n        }\\n        return computedHash;\\n    }\\n\\n    /**\\n     * @dev Calldata version of {processProof}\\n     *\\n     * _Available since v4.7._\\n     */\\n    function processProofCalldata(bytes32[] calldata proof, bytes32 leaf) internal pure returns (bytes32) {\\n        bytes32 computedHash = leaf;\\n        for (uint256 i = 0; i < proof.length; i++) {\\n            computedHash = _hashPair(computedHash, proof[i]);\\n        }\\n        return computedHash;\\n    }\\n\\n    /**\\n     * @dev Returns true if the `leaves` can be simultaneously proven to be a part of a merkle tree defined by\\n     * `root`, according to `proof` and `proofFlags` as described in {processMultiProof}.\\n     *\\n     * CAUTION: Not all merkle trees admit multiproofs. See {processMultiProof} for details.\\n     *\\n     * _Available since v4.7._\\n     */\\n    function multiProofVerify(\\n        bytes32[] memory proof,\\n        bool[] memory proofFlags,\\n        bytes32 root,\\n        bytes32[] memory leaves\\n    ) internal pure returns (bool) {\\n        return processMultiProof(proof, proofFlags, leaves) == root;\\n    }\\n\\n    /**\\n     * @dev Calldata version of {multiProofVerify}\\n     *\\n     * CAUTION: Not all merkle trees admit multiproofs. See {processMultiProof} for details.\\n     *\\n     * _Available since v4.7._\\n     */\\n    function multiProofVerifyCalldata(\\n        bytes32[] calldata proof,\\n        bool[] calldata proofFlags,\\n        bytes32 root,\\n        bytes32[] memory leaves\\n    ) internal pure returns (bool) {\\n        return processMultiProofCalldata(proof, proofFlags, leaves) == root;\\n    }\\n\\n    /**\\n     * @dev Returns the root of a tree reconstructed from `leaves` and sibling nodes in `proof`. The reconstruction\\n     * proceeds by incrementally reconstructing all inner nodes by combining a leaf/inner node with either another\\n     * leaf/inner node or a proof sibling node, depending on whether each `proofFlags` item is true or false\\n     * respectively.\\n     *\\n     * CAUTION: Not all merkle trees admit multiproofs. To use multiproofs, it is sufficient to ensure that: 1) the tree\\n     * is complete (but not necessarily perfect), 2) the leaves to be proven are in the opposite order they are in the\\n     * tree (i.e., as seen from right to left starting at the deepest layer and continuing at the next layer).\\n     *\\n     * _Available since v4.7._\\n     */\\n    function processMultiProof(\\n        bytes32[] memory proof,\\n        bool[] memory proofFlags,\\n        bytes32[] memory leaves\\n    ) internal pure returns (bytes32 merkleRoot) {\\n        // This function rebuild the root hash by traversing the tree up from the leaves. The root is rebuilt by\\n        // consuming and producing values on a queue. The queue starts with the `leaves` array, then goes onto the\\n        // `hashes` array. At the end of the process, the last hash in the `hashes` array should contain the root of\\n        // the merkle tree.\\n        uint256 leavesLen = leaves.length;\\n        uint256 totalHashes = proofFlags.length;\\n\\n        // Check proof validity.\\n        require(leavesLen + proof.length - 1 == totalHashes, \\\"MerkleProof: invalid multiproof\\\");\\n\\n        // The xxxPos values are \\\"pointers\\\" to the next value to consume in each array. All accesses are done using\\n        // `xxx[xxxPos++]`, which return the current value and increment the pointer, thus mimicking a queue's \\\"pop\\\".\\n        bytes32[] memory hashes = new bytes32[](totalHashes);\\n        uint256 leafPos = 0;\\n        uint256 hashPos = 0;\\n        uint256 proofPos = 0;\\n        // At each step, we compute the next hash using two values:\\n        // - a value from the \\\"main queue\\\". If not all leaves have been consumed, we get the next leaf, otherwise we\\n        //   get the next hash.\\n        // - depending on the flag, either another value for the \\\"main queue\\\" (merging branches) or an element from the\\n        //   `proof` array.\\n        for (uint256 i = 0; i < totalHashes; i++) {\\n            bytes32 a = leafPos < leavesLen ? leaves[leafPos++] : hashes[hashPos++];\\n            bytes32 b = proofFlags[i] ? leafPos < leavesLen ? leaves[leafPos++] : hashes[hashPos++] : proof[proofPos++];\\n            hashes[i] = _hashPair(a, b);\\n        }\\n\\n        if (totalHashes > 0) {\\n            return hashes[totalHashes - 1];\\n        } else if (leavesLen > 0) {\\n            return leaves[0];\\n        } else {\\n            return proof[0];\\n        }\\n    }\\n\\n    /**\\n     * @dev Calldata version of {processMultiProof}.\\n     *\\n     * CAUTION: Not all merkle trees admit multiproofs. See {processMultiProof} for details.\\n     *\\n     * _Available since v4.7._\\n     */\\n    function processMultiProofCalldata(\\n        bytes32[] calldata proof,\\n        bool[] calldata proofFlags,\\n        bytes32[] memory leaves\\n    ) internal pure returns (bytes32 merkleRoot) {\\n        // This function rebuild the root hash by traversing the tree up from the leaves. The root is rebuilt by\\n        // consuming and producing values on a queue. The queue starts with the `leaves` array, then goes onto the\\n        // `hashes` array. At the end of the process, the last hash in the `hashes` array should contain the root of\\n        // the merkle tree.\\n        uint256 leavesLen = leaves.length;\\n        uint256 totalHashes = proofFlags.length;\\n\\n        // Check proof validity.\\n        require(leavesLen + proof.length - 1 == totalHashes, \\\"MerkleProof: invalid multiproof\\\");\\n\\n        // The xxxPos values are \\\"pointers\\\" to the next value to consume in each array. All accesses are done using\\n        // `xxx[xxxPos++]`, which return the current value and increment the pointer, thus mimicking a queue's \\\"pop\\\".\\n        bytes32[] memory hashes = new bytes32[](totalHashes);\\n        uint256 leafPos = 0;\\n        uint256 hashPos = 0;\\n        uint256 proofPos = 0;\\n        // At each step, we compute the next hash using two values:\\n        // - a value from the \\\"main queue\\\". If not all leaves have been consumed, we get the next leaf, otherwise we\\n        //   get the next hash.\\n        // - depending on the flag, either another value for the \\\"main queue\\\" (merging branches) or an element from the\\n        //   `proof` array.\\n        for (uint256 i = 0; i < totalHashes; i++) {\\n            bytes32 a = leafPos < leavesLen ? leaves[leafPos++] : hashes[hashPos++];\\n            bytes32 b = proofFlags[i] ? leafPos < leavesLen ? leaves[leafPos++] : hashes[hashPos++] : proof[proofPos++];\\n            hashes[i] = _hashPair(a, b);\\n        }\\n\\n        if (totalHashes > 0) {\\n            return hashes[totalHashes - 1];\\n        } else if (leavesLen > 0) {\\n            return leaves[0];\\n        } else {\\n            return proof[0];\\n        }\\n    }\\n\\n    function _hashPair(bytes32 a, bytes32 b) private pure returns (bytes32) {\\n        return a < b ? _efficientHash(a, b) : _efficientHash(b, a);\\n    }\\n\\n    function _efficientHash(bytes32 a, bytes32 b) private pure returns (bytes32 value) {\\n        /// @solidity memory-safe-assembly\\n        assembly {\\n            mstore(0x00, a)\\n            mstore(0x20, b)\\n            value := keccak256(0x00, 0x40)\\n        }\\n    }\\n}\\n\",\"keccak256\":\"0xd466e8b07f4c6220eac16da5127f3ff142e65f0c15c03c7d38f257b02c8585e1\",\"license\":\"MIT\"},\"contracts/astrodrop/Shrine.sol\":{\"content\":\"// SPDX-License-Identifier: AGPL-3.0\\n\\n// this contract has been copied from https://github.com/Astrodrop/shrine\\n// the only change that has been made to the code is how the leafs of the merkle tree are constructed\\n// this is to prevent second preimage attacks (https://flawed.net.nz/2018/02/21/attacking-merkle-trees-with-a-second-preimage-attack/)\\n\\n/**\\n                                                                                                      \\n                                                                                                      \\n           .o.                    .                            .o8                                    \\n          .888.                 .o8                           \\\"888                                    \\n         .8\\\"888.      .oooo.o .o888oo oooo d8b  .ooooo.   .oooo888  oooo d8b  .ooooo.  oo.ooooo.      \\n        .8' `888.    d88(  \\\"8   888   `888\\\"\\\"8P d88' `88b d88' `888  `888\\\"\\\"8P d88' `88b  888' `88b     \\n       .88ooo8888.   `\\\"Y88b.    888    888     888   888 888   888   888     888   888  888   888     \\n      .8'     `888.  o.  )88b   888 .  888     888   888 888   888   888     888   888  888   888     \\n     o88o     o8888o 8\\\"\\\"888P'   \\\"888\\\" d888b    `Y8bod8P' `Y8bod88P\\\" d888b    `Y8bod8P'  888bod8P'     \\n                                                                                        888           \\n                                                                                       o888o          \\n                                                                                                      \\n                                                                                                      \\n */\\npragma solidity ^0.8.11;\\n\\nimport {MerkleProof} from \\\"@openzeppelin/contracts/utils/cryptography/MerkleProof.sol\\\";\\n\\nimport \\\"solmate/src/tokens/ERC20.sol\\\";\\nimport \\\"solmate/src/utils/SafeTransferLib.sol\\\";\\n\\nimport {Ownable} from \\\"./lib/Ownable.sol\\\";\\nimport {ReentrancyGuard} from \\\"./lib/ReentrancyGuard.sol\\\";\\n\\n/// @title Shrine\\n/// @author zefram.eth\\n/// @notice A Shrine maintains a list of Champions with individual weights (shares), and anyone could\\n/// offer any ERC-20 tokens to the Shrine in order to distribute them to the Champions proportional to their\\n/// shares. A Champion transfer their right to claim all future tokens offered to\\n/// the Champion to another address.\\ncontract Shrine is Ownable, ReentrancyGuard {\\n    /// -----------------------------------------------------------------------\\n    /// Errors\\n    /// -----------------------------------------------------------------------\\n\\n    error Shrine_AlreadyInitialized();\\n    error Shrine_InputArraysLengthMismatch();\\n    error Shrine_NotAuthorized();\\n    error Shrine_InvalidMerkleProof();\\n    error Shrine_LedgerZeroTotalShares();\\n\\n    /// -----------------------------------------------------------------------\\n    /// Custom types\\n    /// -----------------------------------------------------------------------\\n\\n    type Champion is address;\\n    type Version is uint256;\\n\\n    /// -----------------------------------------------------------------------\\n    /// Library usage\\n    /// -----------------------------------------------------------------------\\n\\n    using SafeTransferLib for ERC20;\\n\\n    /// -----------------------------------------------------------------------\\n    /// Events\\n    /// -----------------------------------------------------------------------\\n\\n    event Offer(address indexed sender, ERC20 indexed token, uint256 amount);\\n    event Claim(\\n        address recipient,\\n        Version indexed version,\\n        ERC20 indexed token,\\n        Champion indexed champion,\\n        uint256 claimedTokenAmount\\n    );\\n    event ClaimFromMetaShrine(Shrine indexed metaShrine);\\n    event TransferChampionStatus(Champion indexed champion, address recipient);\\n    event UpdateLedger(Version indexed newVersion, Ledger newLedger);\\n    event UpdateLedgerMetadata(\\n        Version indexed version,\\n        string newLedgerMetadataIPFSHash\\n    );\\n\\n    /// -----------------------------------------------------------------------\\n    /// Structs\\n    /// -----------------------------------------------------------------------\\n\\n    /// @param version The Merkle tree version\\n    /// @param token The ERC-20 token to be claimed\\n    /// @param champion The Champion address. If the Champion rights have been transferred, the tokens will be sent to its owner.\\n    /// @param shares The share amount of the Champion\\n    /// @param merkleProof The Merkle proof showing the Champion is part of this Shrine's Merkle tree\\n    struct ClaimInfo {\\n        Version version;\\n        ERC20 token;\\n        Champion champion;\\n        uint256 shares;\\n        bytes32[] merkleProof;\\n    }\\n\\n    /// @param metaShrine The shrine to claim from\\n    /// @param version The Merkle tree version\\n    /// @param token The ERC-20 token to be claimed\\n    /// @param shares The share amount of the Champion\\n    /// @param merkleProof The Merkle proof showing the Champion is part of this Shrine's Merkle tree\\n    struct MetaShrineClaimInfo {\\n        Shrine metaShrine;\\n        Version version;\\n        ERC20 token;\\n        uint256 shares;\\n        bytes32[] merkleProof;\\n    }\\n\\n    struct Ledger {\\n        bytes32 merkleRoot;\\n        uint256 totalShares;\\n    }\\n\\n    /// -----------------------------------------------------------------------\\n    /// Storage variables\\n    /// -----------------------------------------------------------------------\\n\\n    /// @notice The current version of the ledger, starting from 1\\n    Version public currentLedgerVersion;\\n\\n    /// @notice version => ledger\\n    mapping(Version => Ledger) public ledgerOfVersion;\\n\\n    /// @notice version => (token => (champion => claimedTokens))\\n    mapping(Version => mapping(ERC20 => mapping(Champion => uint256)))\\n        public claimedTokens;\\n\\n    /// @notice version => (token => offeredTokens)\\n    mapping(Version => mapping(ERC20 => uint256)) public offeredTokens;\\n\\n    /// @notice champion => address\\n    mapping(Champion => address) public championClaimRightOwner;\\n\\n    /// -----------------------------------------------------------------------\\n    /// Initialization\\n    /// -----------------------------------------------------------------------\\n\\n    /// @notice Initialize the Shrine contract.\\n    /// @param initialGuardian The Shrine's initial guardian, who controls the ledger\\n    /// @param initialLedger The Shrine's initial ledger with the distribution shares\\n    /// @param initialLedgerMetadataIPFSHash The IPFS hash of the initial metadata\\n    function initialize(\\n        address initialGuardian,\\n        Ledger calldata initialLedger,\\n        string calldata initialLedgerMetadataIPFSHash\\n    ) external {\\n        // we use currentLedgerVersion as a flag for whether the Shrine\\n        // has already been initialized\\n        if (Version.unwrap(currentLedgerVersion) != 0) {\\n            revert Shrine_AlreadyInitialized();\\n        }\\n\\n        // 0 total shares makes no sense\\n        if (initialLedger.totalShares == 0)\\n            revert Shrine_LedgerZeroTotalShares();\\n\\n        __ReentrancyGuard_init();\\n        __Ownable_init(initialGuardian);\\n\\n        // the version number start at 1\\n        currentLedgerVersion = Version.wrap(1);\\n        ledgerOfVersion[Version.wrap(1)] = initialLedger;\\n\\n        // emit event to let indexers pick up ledger & metadata IPFS hash\\n        emit UpdateLedger(Version.wrap(1), initialLedger);\\n        emit UpdateLedgerMetadata(\\n            Version.wrap(1),\\n            initialLedgerMetadataIPFSHash\\n        );\\n    }\\n\\n    /// -----------------------------------------------------------------------\\n    /// User actions\\n    /// -----------------------------------------------------------------------\\n\\n    /// @notice Offer ERC-20 tokens to the Shrine and distribute them to Champions proportional\\n    /// to their shares in the Shrine. Callable by anyone.\\n    /// @param token The ERC-20 token being offered to the Shrine\\n    /// @param amount The amount of tokens to offer\\n    function offer(ERC20 token, uint256 amount) external {\\n        // -------------------------------------------------------------------\\n        // State updates\\n        // -------------------------------------------------------------------\\n\\n        // distribute tokens to Champions\\n        offeredTokens[currentLedgerVersion][token] += amount;\\n\\n        // -------------------------------------------------------------------\\n        // Effects\\n        // -------------------------------------------------------------------\\n\\n        // transfer tokens from sender\\n        token.safeTransferFrom(msg.sender, address(this), amount);\\n\\n        emit Offer(msg.sender, token, amount);\\n    }\\n\\n    /// @notice Offer multiple ERC-20 tokens to the Shrine and distribute them to Champions proportional\\n    /// to their shares in the Shrine. The input arrays must be of the same length. Callable by anyone.\\n    /// @param versionList The list of ledger versions to distribute to\\n    /// @param tokenList The list of ERC-20 tokens being offered to the Shrine\\n    /// @param amountList The list of amounts of tokens to offer\\n    function offerMultiple(\\n        Version[] calldata versionList,\\n        ERC20[] calldata tokenList,\\n        uint256[] calldata amountList\\n    ) external {\\n        // -------------------------------------------------------------------\\n        // Validation\\n        // -------------------------------------------------------------------\\n\\n        if (\\n            versionList.length != tokenList.length ||\\n            versionList.length != amountList.length\\n        ) {\\n            revert Shrine_InputArraysLengthMismatch();\\n        }\\n\\n        // -------------------------------------------------------------------\\n        // State updates\\n        // -------------------------------------------------------------------\\n\\n        for (uint256 i = 0; i < versionList.length; i++) {\\n            // distribute tokens to Champions\\n            offeredTokens[versionList[i]][tokenList[i]] += amountList[i];\\n        }\\n\\n        // -------------------------------------------------------------------\\n        // Effects\\n        // -------------------------------------------------------------------\\n\\n        for (uint256 i = 0; i < versionList.length; i++) {\\n            // transfer tokens from sender\\n            tokenList[i].safeTransferFrom(\\n                msg.sender,\\n                address(this),\\n                amountList[i]\\n            );\\n\\n            emit Offer(msg.sender, tokenList[i], amountList[i]);\\n        }\\n    }\\n\\n    /// @notice A Champion or the owner of a Champion may call this to claim their share of the tokens offered to this Shrine.\\n    /// Requires a Merkle proof to prove that the Champion is part of this Shrine's Merkle tree.\\n    /// Only callable by the champion (if the right was never transferred) or the owner\\n    /// (that the original champion transferred their rights to)\\n    /// @param claimInfo The info of the claim\\n    /// @return claimedTokenAmount The amount of tokens claimed\\n    function claim(address recipient, ClaimInfo calldata claimInfo)\\n        external\\n        returns (uint256 claimedTokenAmount)\\n    {\\n        // -------------------------------------------------------------------\\n        // Validation\\n        // -------------------------------------------------------------------\\n        \\n        // verify sender auth\\n        _verifyChampionOwnership(claimInfo.champion);\\n\\n        // verify Merkle proof that the champion is part of the Merkle tree\\n        _verifyMerkleProof(\\n            claimInfo.version,\\n            claimInfo.champion,\\n            claimInfo.shares,\\n            claimInfo.merkleProof\\n        );\\n\\n        // compute claimable amount\\n        uint256 championClaimedTokens = claimedTokens[claimInfo.version][\\n            claimInfo.token\\n        ][claimInfo.champion];\\n        claimedTokenAmount = _computeClaimableTokenAmount(\\n            claimInfo.version,\\n            claimInfo.token,\\n            claimInfo.shares,\\n            championClaimedTokens\\n        );\\n\\n        // -------------------------------------------------------------------\\n        // State updates\\n        // -------------------------------------------------------------------\\n\\n        // record total tokens claimed by the champion\\n        claimedTokens[claimInfo.version][claimInfo.token][claimInfo.champion] =\\n            championClaimedTokens +\\n            claimedTokenAmount;\\n\\n        // -------------------------------------------------------------------\\n        // Effects\\n        // -------------------------------------------------------------------\\n\\n        // transfer tokens to the recipient\\n        claimInfo.token.safeTransfer(recipient, claimedTokenAmount);\\n\\n        emit Claim(\\n            recipient,\\n            claimInfo.version,\\n            claimInfo.token,\\n            claimInfo.champion,\\n            claimedTokenAmount\\n        );\\n    }\\n\\n    /// @notice A variant of {claim} that combines multiple claims into a single call.\\n    function claimMultiple(\\n        address recipient,\\n        ClaimInfo[] calldata claimInfoList\\n    ) external returns (uint256[] memory claimedTokenAmountList) {\\n        claimedTokenAmountList = new uint256[](claimInfoList.length);\\n        for (uint256 i = 0; i < claimInfoList.length; i++) {\\n            // -------------------------------------------------------------------\\n            // Validation\\n            // -------------------------------------------------------------------\\n\\n            // verify sender auth\\n            _verifyChampionOwnership(claimInfoList[i].champion);\\n\\n            // verify Merkle proof that the champion is part of the Merkle tree\\n            _verifyMerkleProof(\\n                claimInfoList[i].version,\\n                claimInfoList[i].champion,\\n                claimInfoList[i].shares,\\n                claimInfoList[i].merkleProof\\n            );\\n\\n            // compute claimable amount\\n            uint256 championClaimedTokens = claimedTokens[\\n                claimInfoList[i].version\\n            ][claimInfoList[i].token][claimInfoList[i].champion];\\n            claimedTokenAmountList[i] = _computeClaimableTokenAmount(\\n                claimInfoList[i].version,\\n                claimInfoList[i].token,\\n                claimInfoList[i].shares,\\n                championClaimedTokens\\n            );\\n\\n            // -------------------------------------------------------------------\\n            // State updates\\n            // -------------------------------------------------------------------\\n\\n            // record total tokens claimed by the champion\\n            claimedTokens[claimInfoList[i].version][claimInfoList[i].token][\\n                claimInfoList[i].champion\\n            ] = championClaimedTokens + claimedTokenAmountList[i];\\n        }\\n\\n        for (uint256 i = 0; i < claimInfoList.length; i++) {\\n            // -------------------------------------------------------------------\\n            // Effects\\n            // -------------------------------------------------------------------\\n\\n            // transfer tokens to the recipient\\n            claimInfoList[i].token.safeTransfer(\\n                recipient,\\n                claimedTokenAmountList[i]\\n            );\\n\\n            emit Claim(\\n                recipient,\\n                claimInfoList[i].version,\\n                claimInfoList[i].token,\\n                claimInfoList[i].champion,\\n                claimedTokenAmountList[i]\\n            );\\n        }\\n    }\\n\\n    /// @notice A variant of {claim} that combines multiple claims for the same Champion & version into a single call.\\n    /// @dev This is more efficient than {claimMultiple} since it only checks Champion ownership & verifies Merkle proof once.\\n    function claimMultipleTokensForChampion(\\n        address recipient,\\n        Version version,\\n        ERC20[] calldata tokenList,\\n        Champion champion,\\n        uint256 shares,\\n        bytes32[] calldata merkleProof\\n    ) external returns (uint256[] memory claimedTokenAmountList) {\\n        // -------------------------------------------------------------------\\n        // Validation\\n        // -------------------------------------------------------------------\\n\\n        // verify sender auth\\n        _verifyChampionOwnership(champion);\\n\\n        // verify Merkle proof that the champion is part of the Merkle tree\\n        _verifyMerkleProof(version, champion, shares, merkleProof);\\n\\n        claimedTokenAmountList = new uint256[](tokenList.length);\\n        for (uint256 i = 0; i < tokenList.length; i++) {\\n            // compute claimable amount\\n            uint256 championClaimedTokens = claimedTokens[version][\\n                tokenList[i]\\n            ][champion];\\n            claimedTokenAmountList[i] = _computeClaimableTokenAmount(\\n                version,\\n                tokenList[i],\\n                shares,\\n                championClaimedTokens\\n            );\\n\\n            // -------------------------------------------------------------------\\n            // State updates\\n            // -------------------------------------------------------------------\\n\\n            // record total tokens claimed by the champion\\n            claimedTokens[version][tokenList[i]][champion] =\\n                championClaimedTokens +\\n                claimedTokenAmountList[i];\\n        }\\n\\n        for (uint256 i = 0; i < tokenList.length; i++) {\\n            // -------------------------------------------------------------------\\n            // Effects\\n            // -------------------------------------------------------------------\\n\\n            // transfer tokens to the recipient\\n            tokenList[i].safeTransfer(recipient, claimedTokenAmountList[i]);\\n\\n            emit Claim(\\n                recipient,\\n                version,\\n                tokenList[i],\\n                champion,\\n                claimedTokenAmountList[i]\\n            );\\n        }\\n    }\\n\\n    /// @notice If this Shrine is a Champion of another Shrine (MetaShrine), calling this can claim the tokens\\n    /// from the MetaShrine and distribute them to this Shrine's Champions. Callable by anyone.\\n    /// @param claimInfo The info of the claim\\n    /// @return claimedTokenAmount The amount of tokens claimed\\n    function claimFromMetaShrine(MetaShrineClaimInfo calldata claimInfo)\\n        external\\n        nonReentrant\\n        returns (uint256 claimedTokenAmount)\\n    {\\n        return _claimFromMetaShrine(claimInfo);\\n    }\\n\\n    /// @notice A variant of {claimFromMetaShrine} that combines multiple claims into a single call.\\n    function claimMultipleFromMetaShrine(\\n        MetaShrineClaimInfo[] calldata claimInfoList\\n    ) external nonReentrant returns (uint256[] memory claimedTokenAmountList) {\\n        // claim and distribute tokens\\n        claimedTokenAmountList = new uint256[](claimInfoList.length);\\n        for (uint256 i = 0; i < claimInfoList.length; i++) {\\n            claimedTokenAmountList[i] = _claimFromMetaShrine(claimInfoList[i]);\\n        }\\n    }\\n\\n    /// @notice Allows a champion to transfer their right to claim from this shrine to\\n    /// another address. The champion will effectively lose their shrine membership, so\\n    /// make sure the new owner is a trusted party.\\n    /// Only callable by the champion (if the right was never transferred) or the owner\\n    /// (that the original champion transferred their rights to)\\n    /// @param champion The champion whose claim rights will be transferred away\\n    /// @param newOwner The address that will receive all rights of the champion\\n    function transferChampionClaimRight(Champion champion, address newOwner)\\n        external\\n    {\\n        // -------------------------------------------------------------------\\n        // Validation\\n        // -------------------------------------------------------------------\\n\\n        // verify sender auth\\n        _verifyChampionOwnership(champion);\\n\\n        // -------------------------------------------------------------------\\n        // State updates\\n        // -------------------------------------------------------------------\\n\\n        championClaimRightOwner[champion] = newOwner;\\n        emit TransferChampionStatus(champion, newOwner);\\n    }\\n\\n    /// -----------------------------------------------------------------------\\n    /// Getters\\n    /// -----------------------------------------------------------------------\\n\\n    /// @notice Computes the amount of a particular ERC-20 token claimable by a Champion from\\n    /// a particular version of the Merkle tree.\\n    /// @param version The Merkle tree version\\n    /// @param token The ERC-20 token to be claimed\\n    /// @param champion The Champion address\\n    /// @param shares The share amount of the Champion\\n    /// @return claimableTokenAmount The amount of tokens claimable\\n    function computeClaimableTokenAmount(\\n        Version version,\\n        ERC20 token,\\n        Champion champion,\\n        uint256 shares\\n    ) public view returns (uint256 claimableTokenAmount) {\\n        return\\n            _computeClaimableTokenAmount(\\n                version,\\n                token,\\n                shares,\\n                claimedTokens[version][token][champion]\\n            );\\n    }\\n\\n    /// @notice The Shrine Guardian's address (same as the contract owner)\\n    /// @return The Guardian's address\\n    function guardian() external view returns (address) {\\n        return owner();\\n    }\\n\\n    /// @notice The ledger at a particular version\\n    /// @param version The version of the ledger to query\\n    /// @return The ledger at the specified version\\n    function getLedgerOfVersion(Version version)\\n        external\\n        view\\n        returns (Ledger memory)\\n    {\\n        return ledgerOfVersion[version];\\n    }\\n\\n    /// -----------------------------------------------------------------------\\n    /// Guardian actions\\n    /// -----------------------------------------------------------------------\\n\\n    /// @notice The Guardian may call this function to update the ledger, so that the list of\\n    /// champions and the associated weights are updated.\\n    /// @param newLedger The new Merkle tree to use for the list of champions and their shares\\n    function updateLedger(Ledger calldata newLedger) external onlyOwner {\\n        // 0 total shares makes no sense\\n        if (newLedger.totalShares == 0) revert Shrine_LedgerZeroTotalShares();\\n\\n        Version newVersion = Version.wrap(\\n            Version.unwrap(currentLedgerVersion) + 1\\n        );\\n        currentLedgerVersion = newVersion;\\n        ledgerOfVersion[newVersion] = newLedger;\\n\\n        emit UpdateLedger(newVersion, newLedger);\\n    }\\n\\n    /// @notice The Guardian may call this function to update the ledger metadata IPFS hash.\\n    /// @dev This function simply emits the IPFS hash in an event, so that an off-chain indexer\\n    /// can pick it up.\\n    /// @param newLedgerMetadataIPFSHash The IPFS hash of the updated metadata\\n    function updateLedgerMetadata(\\n        Version version,\\n        string calldata newLedgerMetadataIPFSHash\\n    ) external onlyOwner {\\n        emit UpdateLedgerMetadata(version, newLedgerMetadataIPFSHash);\\n    }\\n\\n    /// -----------------------------------------------------------------------\\n    /// Internal utilities\\n    /// -----------------------------------------------------------------------\\n\\n    /// @dev Reverts if the sender isn't the champion or does not own the champion claim right\\n    /// @param champion The champion whose ownership will be verified\\n    function _verifyChampionOwnership(Champion champion) internal view {\\n        {\\n            address _championClaimRightOwner = championClaimRightOwner[\\n                champion\\n            ];\\n            if (_championClaimRightOwner == address(0)) {\\n                // claim right not transferred, sender should be the champion\\n                if (msg.sender != Champion.unwrap(champion))\\n                    revert Shrine_NotAuthorized();\\n            } else {\\n                // claim right transferred, sender should be the owner\\n                if (msg.sender != _championClaimRightOwner)\\n                    revert Shrine_NotAuthorized();\\n            }\\n        }\\n    }\\n\\n    /// @dev Reverts if the champion is not part of the Merkle tree\\n    /// @param version The Merkle tree version\\n    /// @param champion The Champion address. If the Champion rights have been transferred, the tokens will be sent to its owner.\\n    /// @param shares The share amount of the Champion\\n    /// @param merkleProof The Merkle proof showing the Champion is part of this Shrine's Merkle tree\\n    function _verifyMerkleProof(\\n        Version version,\\n        Champion champion,\\n        uint256 shares,\\n        bytes32[] calldata merkleProof\\n    ) internal view {\\n        if (\\n            !MerkleProof.verify(\\n                merkleProof,\\n                ledgerOfVersion[version].merkleRoot,\\n                keccak256(bytes.concat(keccak256(abi.encode(champion, shares)))) // keccak256(abi.encodePacked(champion, shares))\\n            )\\n        ) {\\n            revert Shrine_InvalidMerkleProof();\\n        }\\n    }\\n\\n    /// @dev See {computeClaimableTokenAmount}\\n    function _computeClaimableTokenAmount(\\n        Version version,\\n        ERC20 token,\\n        uint256 shares,\\n        uint256 claimedTokenAmount\\n    ) internal view returns (uint256 claimableTokenAmount) {\\n        uint256 totalShares = ledgerOfVersion[version].totalShares;\\n        uint256 offeredTokenAmount = (offeredTokens[version][token] * shares) /\\n            totalShares;\\n\\n        // rounding may cause (offeredTokenAmount < claimedTokenAmount)\\n        // don't want to revert because of it\\n        claimableTokenAmount = offeredTokenAmount >= claimedTokenAmount\\n            ? offeredTokenAmount - claimedTokenAmount\\n            : 0;\\n    }\\n\\n    /// @dev See {claimFromMetaShrine}\\n    function _claimFromMetaShrine(MetaShrineClaimInfo calldata claimInfo)\\n        internal\\n        returns (uint256 claimedTokenAmount)\\n    {\\n        // -------------------------------------------------------------------\\n        // Effects\\n        // -------------------------------------------------------------------\\n\\n        // claim tokens from the meta shrine\\n        uint256 beforeBalance = claimInfo.token.balanceOf(address(this));\\n        claimInfo.metaShrine.claim(\\n            address(this),\\n            ClaimInfo({\\n                version: claimInfo.version,\\n                token: claimInfo.token,\\n                champion: Champion.wrap(address(this)),\\n                shares: claimInfo.shares,\\n                merkleProof: claimInfo.merkleProof\\n            })\\n        );\\n        claimedTokenAmount =\\n            claimInfo.token.balanceOf(address(this)) -\\n            beforeBalance;\\n\\n        // -------------------------------------------------------------------\\n        // State updates\\n        // -------------------------------------------------------------------\\n\\n        // distribute tokens to Champions\\n        offeredTokens[currentLedgerVersion][\\n            claimInfo.token\\n        ] += claimedTokenAmount;\\n\\n        emit Offer(\\n            address(claimInfo.metaShrine),\\n            claimInfo.token,\\n            claimedTokenAmount\\n        );\\n        emit ClaimFromMetaShrine(claimInfo.metaShrine);\\n    }\\n}\\n\",\"keccak256\":\"0x0c56276ac418afae97f304f9213c2aa784719942bb0db134f2f03597f7acfda7\",\"license\":\"AGPL-3.0\"},\"contracts/astrodrop/lib/Ownable.sol\":{\"content\":\"// SPDX-License-Identifier: AGPL-3.0\\n\\n// this contract has been copied from https://github.com/Astrodrop/shrine\\n\\npragma solidity ^0.8.11;\\n\\nabstract contract Ownable {\\n    error Ownable_NotOwner();\\n    error Ownable_NewOwnerZeroAddress();\\n\\n    address private _owner;\\n\\n    event OwnershipTransferred(\\n        address indexed previousOwner,\\n        address indexed newOwner\\n    );\\n\\n    /// @dev Initializes the contract setting the deployer as the initial owner.\\n    function __Ownable_init(address initialOwner) internal {\\n        _transferOwnership(initialOwner);\\n    }\\n\\n    /// @dev Returns the address of the current owner.\\n    function owner() public view virtual returns (address) {\\n        return _owner;\\n    }\\n\\n    /// @dev Throws if called by any account other than the owner.\\n    modifier onlyOwner() {\\n        if (owner() != msg.sender) revert Ownable_NotOwner();\\n        _;\\n    }\\n\\n    /// @dev Leaves the contract without owner. It will not be possible to call\\n    /// `onlyOwner` functions anymore. Can only be called by the current owner.\\n    /// NOTE: Renouncing ownership will leave the contract without an owner,\\n    /// thereby removing any functionality that is only available to the owner.\\n    function renounceOwnership() public virtual onlyOwner {\\n        _transferOwnership(address(0));\\n    }\\n\\n    /// @dev Transfers ownership of the contract to a new account (`newOwner`).\\n    /// Can only be called by the current owner.\\n    function transferOwnership(address newOwner) public virtual onlyOwner {\\n        if (newOwner == address(0)) revert Ownable_NewOwnerZeroAddress();\\n        _transferOwnership(newOwner);\\n    }\\n\\n    /// @dev Transfers ownership of the contract to a new account (`newOwner`).\\n    /// Internal function without access restriction.\\n    function _transferOwnership(address newOwner) internal virtual {\\n        address oldOwner = _owner;\\n        _owner = newOwner;\\n        emit OwnershipTransferred(oldOwner, newOwner);\\n    }\\n}\\n\",\"keccak256\":\"0xc294dc6cd5817c181451864aa4e33a068769fa6d21a861a9cde100fd92f3ebac\",\"license\":\"AGPL-3.0\"},\"contracts/astrodrop/lib/ReentrancyGuard.sol\":{\"content\":\"// SPDX-License-Identifier: AGPL-3.0-only\\n\\n// this contract has been copied from https://github.com/Astrodrop/shrine\\n\\npragma solidity ^0.8.11;\\n\\n/// @notice Gas optimized reentrancy protection for smart contracts.\\n/// @author Solmate (https://github.com/Rari-Capital/solmate/blob/main/src/utils/ReentrancyGuard.sol)\\n/// @author Modified from OpenZeppelin (https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/security/ReentrancyGuard.sol)\\nabstract contract ReentrancyGuard {\\n    error ReentrancyGuard_Reentrancy();\\n\\n    uint256 private locked;\\n\\n    modifier nonReentrant() {\\n        if (locked != 1) revert ReentrancyGuard_Reentrancy();\\n\\n        locked = 2;\\n\\n        _;\\n\\n        locked = 1;\\n    }\\n\\n    function __ReentrancyGuard_init() internal {\\n        locked = 1;\\n    }\\n}\\n\",\"keccak256\":\"0x59d5c5968ac1950be38ceb2994927d62b0ac0ef536e6168c55783b66ad6c9e21\",\"license\":\"AGPL-3.0-only\"},\"solmate/src/tokens/ERC20.sol\":{\"content\":\"// SPDX-License-Identifier: AGPL-3.0-only\\npragma solidity >=0.8.0;\\n\\n/// @notice Modern and gas efficient ERC20 + EIP-2612 implementation.\\n/// @author Solmate (https://github.com/transmissions11/solmate/blob/main/src/tokens/ERC20.sol)\\n/// @author Modified from Uniswap (https://github.com/Uniswap/uniswap-v2-core/blob/master/contracts/UniswapV2ERC20.sol)\\n/// @dev Do not manually set balances without updating totalSupply, as the sum of all user balances must not exceed it.\\nabstract contract ERC20 {\\n    /*//////////////////////////////////////////////////////////////\\n                                 EVENTS\\n    //////////////////////////////////////////////////////////////*/\\n\\n    event Transfer(address indexed from, address indexed to, uint256 amount);\\n\\n    event Approval(address indexed owner, address indexed spender, uint256 amount);\\n\\n    /*//////////////////////////////////////////////////////////////\\n                            METADATA STORAGE\\n    //////////////////////////////////////////////////////////////*/\\n\\n    string public name;\\n\\n    string public symbol;\\n\\n    uint8 public immutable decimals;\\n\\n    /*//////////////////////////////////////////////////////////////\\n                              ERC20 STORAGE\\n    //////////////////////////////////////////////////////////////*/\\n\\n    uint256 public totalSupply;\\n\\n    mapping(address => uint256) public balanceOf;\\n\\n    mapping(address => mapping(address => uint256)) public allowance;\\n\\n    /*//////////////////////////////////////////////////////////////\\n                            EIP-2612 STORAGE\\n    //////////////////////////////////////////////////////////////*/\\n\\n    uint256 internal immutable INITIAL_CHAIN_ID;\\n\\n    bytes32 internal immutable INITIAL_DOMAIN_SEPARATOR;\\n\\n    mapping(address => uint256) public nonces;\\n\\n    /*//////////////////////////////////////////////////////////////\\n                               CONSTRUCTOR\\n    //////////////////////////////////////////////////////////////*/\\n\\n    constructor(\\n        string memory _name,\\n        string memory _symbol,\\n        uint8 _decimals\\n    ) {\\n        name = _name;\\n        symbol = _symbol;\\n        decimals = _decimals;\\n\\n        INITIAL_CHAIN_ID = block.chainid;\\n        INITIAL_DOMAIN_SEPARATOR = computeDomainSeparator();\\n    }\\n\\n    /*//////////////////////////////////////////////////////////////\\n                               ERC20 LOGIC\\n    //////////////////////////////////////////////////////////////*/\\n\\n    function approve(address spender, uint256 amount) public virtual returns (bool) {\\n        allowance[msg.sender][spender] = amount;\\n\\n        emit Approval(msg.sender, spender, amount);\\n\\n        return true;\\n    }\\n\\n    function transfer(address to, uint256 amount) public virtual returns (bool) {\\n        balanceOf[msg.sender] -= amount;\\n\\n        // Cannot overflow because the sum of all user\\n        // balances can't exceed the max uint256 value.\\n        unchecked {\\n            balanceOf[to] += amount;\\n        }\\n\\n        emit Transfer(msg.sender, to, amount);\\n\\n        return true;\\n    }\\n\\n    function transferFrom(\\n        address from,\\n        address to,\\n        uint256 amount\\n    ) public virtual returns (bool) {\\n        uint256 allowed = allowance[from][msg.sender]; // Saves gas for limited approvals.\\n\\n        if (allowed != type(uint256).max) allowance[from][msg.sender] = allowed - amount;\\n\\n        balanceOf[from] -= amount;\\n\\n        // Cannot overflow because the sum of all user\\n        // balances can't exceed the max uint256 value.\\n        unchecked {\\n            balanceOf[to] += amount;\\n        }\\n\\n        emit Transfer(from, to, amount);\\n\\n        return true;\\n    }\\n\\n    /*//////////////////////////////////////////////////////////////\\n                             EIP-2612 LOGIC\\n    //////////////////////////////////////////////////////////////*/\\n\\n    function permit(\\n        address owner,\\n        address spender,\\n        uint256 value,\\n        uint256 deadline,\\n        uint8 v,\\n        bytes32 r,\\n        bytes32 s\\n    ) public virtual {\\n        require(deadline >= block.timestamp, \\\"PERMIT_DEADLINE_EXPIRED\\\");\\n\\n        // Unchecked because the only math done is incrementing\\n        // the owner's nonce which cannot realistically overflow.\\n        unchecked {\\n            address recoveredAddress = ecrecover(\\n                keccak256(\\n                    abi.encodePacked(\\n                        \\\"\\\\x19\\\\x01\\\",\\n                        DOMAIN_SEPARATOR(),\\n                        keccak256(\\n                            abi.encode(\\n                                keccak256(\\n                                    \\\"Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)\\\"\\n                                ),\\n                                owner,\\n                                spender,\\n                                value,\\n                                nonces[owner]++,\\n                                deadline\\n                            )\\n                        )\\n                    )\\n                ),\\n                v,\\n                r,\\n                s\\n            );\\n\\n            require(recoveredAddress != address(0) && recoveredAddress == owner, \\\"INVALID_SIGNER\\\");\\n\\n            allowance[recoveredAddress][spender] = value;\\n        }\\n\\n        emit Approval(owner, spender, value);\\n    }\\n\\n    function DOMAIN_SEPARATOR() public view virtual returns (bytes32) {\\n        return block.chainid == INITIAL_CHAIN_ID ? INITIAL_DOMAIN_SEPARATOR : computeDomainSeparator();\\n    }\\n\\n    function computeDomainSeparator() internal view virtual returns (bytes32) {\\n        return\\n            keccak256(\\n                abi.encode(\\n                    keccak256(\\\"EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)\\\"),\\n                    keccak256(bytes(name)),\\n                    keccak256(\\\"1\\\"),\\n                    block.chainid,\\n                    address(this)\\n                )\\n            );\\n    }\\n\\n    /*//////////////////////////////////////////////////////////////\\n                        INTERNAL MINT/BURN LOGIC\\n    //////////////////////////////////////////////////////////////*/\\n\\n    function _mint(address to, uint256 amount) internal virtual {\\n        totalSupply += amount;\\n\\n        // Cannot overflow because the sum of all user\\n        // balances can't exceed the max uint256 value.\\n        unchecked {\\n            balanceOf[to] += amount;\\n        }\\n\\n        emit Transfer(address(0), to, amount);\\n    }\\n\\n    function _burn(address from, uint256 amount) internal virtual {\\n        balanceOf[from] -= amount;\\n\\n        // Cannot underflow because a user's balance\\n        // will never be larger than the total supply.\\n        unchecked {\\n            totalSupply -= amount;\\n        }\\n\\n        emit Transfer(from, address(0), amount);\\n    }\\n}\\n\",\"keccak256\":\"0xcdfd8db76b2a3415620e4d18cc5545f3d50de792dbf2c3dd5adb40cbe6f94b10\",\"license\":\"AGPL-3.0-only\"},\"solmate/src/utils/SafeTransferLib.sol\":{\"content\":\"// SPDX-License-Identifier: AGPL-3.0-only\\npragma solidity >=0.8.0;\\n\\nimport {ERC20} from \\\"../tokens/ERC20.sol\\\";\\n\\n/// @notice Safe ETH and ERC20 transfer library that gracefully handles missing return values.\\n/// @author Solmate (https://github.com/transmissions11/solmate/blob/main/src/utils/SafeTransferLib.sol)\\n/// @dev Use with caution! Some functions in this library knowingly create dirty bits at the destination of the free memory pointer.\\n/// @dev Note that none of the functions in this library check that a token has code at all! That responsibility is delegated to the caller.\\nlibrary SafeTransferLib {\\n    /*//////////////////////////////////////////////////////////////\\n                             ETH OPERATIONS\\n    //////////////////////////////////////////////////////////////*/\\n\\n    function safeTransferETH(address to, uint256 amount) internal {\\n        bool success;\\n\\n        assembly {\\n            // Transfer the ETH and store if it succeeded or not.\\n            success := call(gas(), to, amount, 0, 0, 0, 0)\\n        }\\n\\n        require(success, \\\"ETH_TRANSFER_FAILED\\\");\\n    }\\n\\n    /*//////////////////////////////////////////////////////////////\\n                            ERC20 OPERATIONS\\n    //////////////////////////////////////////////////////////////*/\\n\\n    function safeTransferFrom(\\n        ERC20 token,\\n        address from,\\n        address to,\\n        uint256 amount\\n    ) internal {\\n        bool success;\\n\\n        assembly {\\n            // Get a pointer to some free memory.\\n            let freeMemoryPointer := mload(0x40)\\n\\n            // Write the abi-encoded calldata into memory, beginning with the function selector.\\n            mstore(freeMemoryPointer, 0x23b872dd00000000000000000000000000000000000000000000000000000000)\\n            mstore(add(freeMemoryPointer, 4), from) // Append the \\\"from\\\" argument.\\n            mstore(add(freeMemoryPointer, 36), to) // Append the \\\"to\\\" argument.\\n            mstore(add(freeMemoryPointer, 68), amount) // Append the \\\"amount\\\" argument.\\n\\n            success := and(\\n                // Set success to whether the call reverted, if not we check it either\\n                // returned exactly 1 (can't just be non-zero data), or had no return data.\\n                or(and(eq(mload(0), 1), gt(returndatasize(), 31)), iszero(returndatasize())),\\n                // We use 100 because the length of our calldata totals up like so: 4 + 32 * 3.\\n                // We use 0 and 32 to copy up to 32 bytes of return data into the scratch space.\\n                // Counterintuitively, this call must be positioned second to the or() call in the\\n                // surrounding and() call or else returndatasize() will be zero during the computation.\\n                call(gas(), token, 0, freeMemoryPointer, 100, 0, 32)\\n            )\\n        }\\n\\n        require(success, \\\"TRANSFER_FROM_FAILED\\\");\\n    }\\n\\n    function safeTransfer(\\n        ERC20 token,\\n        address to,\\n        uint256 amount\\n    ) internal {\\n        bool success;\\n\\n        assembly {\\n            // Get a pointer to some free memory.\\n            let freeMemoryPointer := mload(0x40)\\n\\n            // Write the abi-encoded calldata into memory, beginning with the function selector.\\n            mstore(freeMemoryPointer, 0xa9059cbb00000000000000000000000000000000000000000000000000000000)\\n            mstore(add(freeMemoryPointer, 4), to) // Append the \\\"to\\\" argument.\\n            mstore(add(freeMemoryPointer, 36), amount) // Append the \\\"amount\\\" argument.\\n\\n            success := and(\\n                // Set success to whether the call reverted, if not we check it either\\n                // returned exactly 1 (can't just be non-zero data), or had no return data.\\n                or(and(eq(mload(0), 1), gt(returndatasize(), 31)), iszero(returndatasize())),\\n                // We use 68 because the length of our calldata totals up like so: 4 + 32 * 2.\\n                // We use 0 and 32 to copy up to 32 bytes of return data into the scratch space.\\n                // Counterintuitively, this call must be positioned second to the or() call in the\\n                // surrounding and() call or else returndatasize() will be zero during the computation.\\n                call(gas(), token, 0, freeMemoryPointer, 68, 0, 32)\\n            )\\n        }\\n\\n        require(success, \\\"TRANSFER_FAILED\\\");\\n    }\\n\\n    function safeApprove(\\n        ERC20 token,\\n        address to,\\n        uint256 amount\\n    ) internal {\\n        bool success;\\n\\n        assembly {\\n            // Get a pointer to some free memory.\\n            let freeMemoryPointer := mload(0x40)\\n\\n            // Write the abi-encoded calldata into memory, beginning with the function selector.\\n            mstore(freeMemoryPointer, 0x095ea7b300000000000000000000000000000000000000000000000000000000)\\n            mstore(add(freeMemoryPointer, 4), to) // Append the \\\"to\\\" argument.\\n            mstore(add(freeMemoryPointer, 36), amount) // Append the \\\"amount\\\" argument.\\n\\n            success := and(\\n                // Set success to whether the call reverted, if not we check it either\\n                // returned exactly 1 (can't just be non-zero data), or had no return data.\\n                or(and(eq(mload(0), 1), gt(returndatasize(), 31)), iszero(returndatasize())),\\n                // We use 68 because the length of our calldata totals up like so: 4 + 32 * 2.\\n                // We use 0 and 32 to copy up to 32 bytes of return data into the scratch space.\\n                // Counterintuitively, this call must be positioned second to the or() call in the\\n                // surrounding and() call or else returndatasize() will be zero during the computation.\\n                call(gas(), token, 0, freeMemoryPointer, 68, 0, 32)\\n            )\\n        }\\n\\n        require(success, \\\"APPROVE_FAILED\\\");\\n    }\\n}\\n\",\"keccak256\":\"0x333b56bef66ff71e3838910781df214acbeb6c2d6ace27a04ebb510f0e669300\",\"license\":\"AGPL-3.0-only\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b50613c68806100206000396000f3fe608060405234801561001057600080fd5b50600436106101425760003560e01c80636cfaa4be116100b85780638b874fe31161007c5780638b874fe31461039a5780638da5cb5b146103ca57806395b06f25146103e857806397d2cc1614610418578063aa19abeb14610448578063f2fde38b1461046457610142565b80636cfaa4be1461030a5780636e448cde14610326578063715018a6146103565780637b1266401461036057806384d0bf8b1461037e57610142565b80633c08b0301161010a5780633c08b03014610223578063416f339114610253578063452a93201461028357806358e5ba54146102a15780636799b217146102d25780636b212960146102ee57610142565b80631901367814610147578063209b732f146101775780632aacf3f4146101935780632e933f65146101c35780632f64a357146101f3575b600080fd5b610161600480360381019061015c9190612715565b610480565b60405161016e9190612777565b60405180910390f35b610191600480360381019061018c91906128a3565b6104dc565b005b6101ad60048036038101906101a89190612a1f565b61074c565b6040516101ba9190612777565b60405180910390f35b6101dd60048036038101906101d89190612a72565b61077e565b6040516101ea9190612aae565b60405180910390f35b61020d60048036038101906102089190612b14565b6107b1565b60405161021a9190612777565b60405180910390f35b61023d60048036038101906102389190612b70565b610a7e565b60405161024a9190612bf4565b60405180910390f35b61026d60048036038101906102689190612c91565b610abf565b60405161027a9190612e0f565b60405180910390f35b61028b610e74565b6040516102989190612aae565b60405180910390f35b6102bb60048036038101906102b69190612b70565b610e83565b6040516102c9929190612e40565b60405180910390f35b6102ec60048036038101906102e79190612e69565b610ea7565b005b61030860048036038101906103039190612ea9565b610f80565b005b610324600480360381019061031f9190612f3f565b61107f565b005b610340600480360381019061033b9190612f9f565b61112a565b60405161034d9190612777565b60405180910390f35b61035e61114f565b005b6103686111c7565b604051610375919061301a565b60405180910390f35b61039860048036038101906103939190613054565b6111cd565b005b6103b460048036038101906103af91906130c8565b6112fe565b6040516103c19190612777565b60405180910390f35b6103d26113a3565b6040516103df9190612aae565b60405180910390f35b61040260048036038101906103fd9190613185565b6113cc565b60405161040f9190612e0f565b60405180910390f35b610432600480360381019061042d9190613228565b6114da565b60405161043f9190612e0f565b60405180910390f35b610462600480360381019061045d9190613288565b611b2d565b005b61047e600480360381019061047991906132b5565b611c50565b005b600060018054146104bd576040517f0a228fcc00000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b60026001819055506104ce82611d2e565b905060018081905550919050565b83839050868690501415806104f75750818190508686905014155b1561052e576040517ff2d3329800000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b60005b8686905081101561060f5782828281811061054f5761054e6132e2565b5b905060200201356005600089898581811061056d5761056c6132e2565b5b9050602002013581526020019081526020016000206000878785818110610597576105966132e2565b5b90506020020160208101906105ac9190613311565b73ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008282546105f5919061336d565b925050819055508080610607906133a1565b915050610531565b5060005b868690508110156107435761068b3330858585818110610636576106356132e2565b5b905060200201358888868181106106505761064f6132e2565b5b90506020020160208101906106659190613311565b73ffffffffffffffffffffffffffffffffffffffff16612103909392919063ffffffff16565b84848281811061069e5761069d6132e2565b5b90506020020160208101906106b39190613311565b73ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff167fd4bc91a009901ca054eba9f44b35a11baf96d773416d3936fc2d05214afd3903858585818110610714576107136132e2565b5b905060200201356040516107289190612777565b60405180910390a3808061073b906133a1565b915050610613565b50505050505050565b600460205282600052604060002060205281600052604060002060205280600052604060002060009250925050505481565b60066020528060005260406000206000915054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b60006107ce8260400160208101906107c99190612a72565b6121a2565b61080382600001358360400160208101906107e99190612a72565b84606001358580608001906107fe91906133f8565b61230e565b6000600460008460000135815260200190815260200160002060008460200160208101906108319190613311565b73ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008460400160208101906108809190612a72565b73ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000205490506108e383600001358460200160208101906108d89190613311565b8560600135846123fb565b915081816108f1919061336d565b6004600085600001358152602001908152602001600020600085602001602081019061091d9190613311565b73ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600085604001602081019061096c9190612a72565b73ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020819055506109e784838560200160208101906109c29190613311565b73ffffffffffffffffffffffffffffffffffffffff166124aa9092919063ffffffff16565b8260400160208101906109fa9190612a72565b73ffffffffffffffffffffffffffffffffffffffff16836020016020810190610a239190613311565b73ffffffffffffffffffffffffffffffffffffffff1684600001357f3724d42f5f089f2713ad8830c50b88009ac14a31385e37c240b0eec85477616a8786604051610a6f92919061345b565b60405180910390a45092915050565b610a866126ca565b60036000838152602001908152602001600020604051806040016040529081600082015481526020016001820154815250509050919050565b6060610aca856121a2565b610ad7888686868661230e565b8686905067ffffffffffffffff811115610af457610af3613484565b5b604051908082528060200260200182016040528015610b225781602001602082028036833780820191505090505b50905060005b87879050811015610d30576000600460008b815260200190815260200160002060008a8a85818110610b5d57610b5c6132e2565b5b9050602002016020810190610b729190613311565b73ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008873ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020549050610c1f8a8a8a85818110610c0357610c026132e2565b5b9050602002016020810190610c189190613311565b88846123fb565b838381518110610c3257610c316132e2565b5b602002602001018181525050828281518110610c5157610c506132e2565b5b602002602001015181610c64919061336d565b600460008c815260200190815260200160002060008b8b86818110610c8c57610c8b6132e2565b5b9050602002016020810190610ca19190613311565b73ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008973ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002081905550508080610d28906133a1565b915050610b28565b5060005b87879050811015610e6757610dab8a838381518110610d5657610d556132e2565b5b60200260200101518a8a85818110610d7157610d706132e2565b5b9050602002016020810190610d869190613311565b73ffffffffffffffffffffffffffffffffffffffff166124aa9092919063ffffffff16565b8573ffffffffffffffffffffffffffffffffffffffff16888883818110610dd557610dd46132e2565b5b9050602002016020810190610dea9190613311565b73ffffffffffffffffffffffffffffffffffffffff168a7f3724d42f5f089f2713ad8830c50b88009ac14a31385e37c240b0eec85477616a8d868681518110610e3657610e356132e2565b5b6020026020010151604051610e4c92919061345b565b60405180910390a48080610e5f906133a1565b915050610d34565b5098975050505050505050565b6000610e7e6113a3565b905090565b60036020528060005260406000206000915090508060000154908060010154905082565b610eb0826121a2565b80600660008473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055508173ffffffffffffffffffffffffffffffffffffffff167f9c1b389f9b1309928184e98d7f6bfc770d6f07dd4828bfd635219d5467e3fd3382604051610f749190612aae565b60405180910390a25050565b8060056000600254815260200190815260200160002060008473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000828254610fe2919061336d565b925050819055506110163330838573ffffffffffffffffffffffffffffffffffffffff16612103909392919063ffffffff16565b8173ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff167fd4bc91a009901ca054eba9f44b35a11baf96d773416d3936fc2d05214afd3903836040516110739190612777565b60405180910390a35050565b3373ffffffffffffffffffffffffffffffffffffffff1661109e6113a3565b73ffffffffffffffffffffffffffffffffffffffff16146110eb576040517f5eee3ad100000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b827f05001ef18c2475856286d130e4bc0a9c9429c5c026d0a443a8e3c02c46d2de45838360405161111d929190613511565b60405180910390a2505050565b6005602052816000526040600020602052806000526040600020600091509150505481565b3373ffffffffffffffffffffffffffffffffffffffff1661116e6113a3565b73ffffffffffffffffffffffffffffffffffffffff16146111bb576040517f5eee3ad100000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b6111c56000612542565b565b60025481565b600060025414611209576040517ffb3fef9d00000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b6000836020013503611247576040517f96c1076c00000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b61124f612606565b6112588461260f565b60016002819055508260036000600181526020019081526020016000208181611281919061368e565b90505060017f8958f2cb529d3de2663bb35c5523142fd5bd23a7574f94dbebb8d2624485954b846040516112b5919061371e565b60405180910390a260017f05001ef18c2475856286d130e4bc0a9c9429c5c026d0a443a8e3c02c46d2de4583836040516112f0929190613511565b60405180910390a250505050565b6000611399858584600460008a815260200190815260200160002060008973ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008873ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020546123fb565b9050949350505050565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16905090565b60606001805414611409576040517f0a228fcc00000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b60026001819055508282905067ffffffffffffffff81111561142e5761142d613484565b5b60405190808252806020026020018201604052801561145c5781602001602082028036833780820191505090505b50905060005b838390508110156114cc5761149a848483818110611483576114826132e2565b5b90506020028101906114959190613739565b611d2e565b8282815181106114ad576114ac6132e2565b5b60200260200101818152505080806114c4906133a1565b915050611462565b506001808190555092915050565b60608282905067ffffffffffffffff8111156114f9576114f8613484565b5b6040519080825280602002602001820160405280156115275781602001602082028036833780820191505090505b50905060005b838390508110156119725761157784848381811061154e5761154d6132e2565b5b90506020028101906115609190613761565b60400160208101906115729190612a72565b6121a2565b61163c84848381811061158d5761158c6132e2565b5b905060200281019061159f9190613761565b600001358585848181106115b6576115b56132e2565b5b90506020028101906115c89190613761565b60400160208101906115da9190612a72565b8686858181106115ed576115ec6132e2565b5b90506020028101906115ff9190613761565b60600135878786818110611616576116156132e2565b5b90506020028101906116289190613761565b806080019061163791906133f8565b61230e565b600060046000868685818110611655576116546132e2565b5b90506020028101906116679190613761565b600001358152602001908152602001600020600086868581811061168e5761168d6132e2565b5b90506020028101906116a09190613761565b60200160208101906116b29190613311565b73ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000868685818110611701576117006132e2565b5b90506020028101906117139190613761565b60400160208101906117259190612a72565b73ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000205490506117f4858584818110611778576117776132e2565b5b905060200281019061178a9190613761565b600001358686858181106117a1576117a06132e2565b5b90506020028101906117b39190613761565b60200160208101906117c59190613311565b8787868181106117d8576117d76132e2565b5b90506020028101906117ea9190613761565b60600135846123fb565b838381518110611807576118066132e2565b5b602002602001018181525050828281518110611826576118256132e2565b5b602002602001015181611839919061336d565b600460008787868181106118505761184f6132e2565b5b90506020028101906118629190613761565b6000013581526020019081526020016000206000878786818110611889576118886132e2565b5b905060200281019061189b9190613761565b60200160208101906118ad9190613311565b73ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008787868181106118fc576118fb6132e2565b5b905060200281019061190e9190613761565b60400160208101906119209190612a72565b73ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000208190555050808061196a906133a1565b91505061152d565b5060005b83839050811015611b25576119fc85838381518110611998576119976132e2565b5b60200260200101518686858181106119b3576119b26132e2565b5b90506020028101906119c59190613761565b60200160208101906119d79190613311565b73ffffffffffffffffffffffffffffffffffffffff166124aa9092919063ffffffff16565b838382818110611a0f57611a0e6132e2565b5b9050602002810190611a219190613761565b6040016020810190611a339190612a72565b73ffffffffffffffffffffffffffffffffffffffff16848483818110611a5c57611a5b6132e2565b5b9050602002810190611a6e9190613761565b6020016020810190611a809190613311565b73ffffffffffffffffffffffffffffffffffffffff16858584818110611aa957611aa86132e2565b5b9050602002810190611abb9190613761565b600001357f3724d42f5f089f2713ad8830c50b88009ac14a31385e37c240b0eec85477616a88868681518110611af457611af36132e2565b5b6020026020010151604051611b0a92919061345b565b60405180910390a48080611b1d906133a1565b915050611976565b509392505050565b3373ffffffffffffffffffffffffffffffffffffffff16611b4c6113a3565b73ffffffffffffffffffffffffffffffffffffffff1614611b99576040517f5eee3ad100000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b6000816020013503611bd7576040517f96c1076c00000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b60006001600254611be8919061336d565b90508060028190555081600360008381526020019081526020016000208181611c11919061368e565b905050807f8958f2cb529d3de2663bb35c5523142fd5bd23a7574f94dbebb8d2624485954b83604051611c44919061371e565b60405180910390a25050565b3373ffffffffffffffffffffffffffffffffffffffff16611c6f6113a3565b73ffffffffffffffffffffffffffffffffffffffff1614611cbc576040517f5eee3ad100000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b600073ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff1603611d22576040517fedf1b1fc00000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b611d2b81612542565b50565b600080826040016020810190611d449190613311565b73ffffffffffffffffffffffffffffffffffffffff166370a08231306040518263ffffffff1660e01b8152600401611d7c9190612aae565b602060405180830381865afa158015611d99573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190611dbd919061379e565b9050826000016020810190611dd29190613809565b73ffffffffffffffffffffffffffffffffffffffff16632f64a357306040518060a0016040528087602001358152602001876040016020810190611e169190613311565b73ffffffffffffffffffffffffffffffffffffffff1681526020013073ffffffffffffffffffffffffffffffffffffffff16815260200187606001358152602001878060800190611e6791906133f8565b80806020026020016040519081016040528093929190818152602001838360200280828437600081840152601f19601f820116905080830192505050505050508152506040518363ffffffff1660e01b8152600401611ec79291906139e0565b6020604051808303816000875af1158015611ee6573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190611f0a919061379e565b5080836040016020810190611f1f9190613311565b73ffffffffffffffffffffffffffffffffffffffff166370a08231306040518263ffffffff1660e01b8152600401611f579190612aae565b602060405180830381865afa158015611f74573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190611f98919061379e565b611fa29190613a10565b9150816005600060025481526020019081526020016000206000856040016020810190611fcf9190613311565b73ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000828254612018919061336d565b925050819055508260400160208101906120329190613311565b73ffffffffffffffffffffffffffffffffffffffff1683600001602081019061205b9190613809565b73ffffffffffffffffffffffffffffffffffffffff167fd4bc91a009901ca054eba9f44b35a11baf96d773416d3936fc2d05214afd3903846040516120a09190612777565b60405180910390a38260000160208101906120bb9190613809565b73ffffffffffffffffffffffffffffffffffffffff167f73dfb6633f7e1ecb19eb2bad39ae17cde7596d99205c49bddaa38172ccc5bba060405160405180910390a250919050565b60006040517f23b872dd0000000000000000000000000000000000000000000000000000000081528460048201528360248201528260448201526020600060648360008a5af13d15601f3d116001600051141617169150508061219b576040517f08c379a000000000000000000000000000000000000000000000000000000000815260040161219290613a90565b60405180910390fd5b5050505050565b6000600660008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff169050600073ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff16036122a4578173ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161461229f576040517fe6d8540d00000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b61230a565b8073ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614612309576040517fe6d8540d00000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b5b5050565b6123be828280806020026020016040519081016040528093929190818152602001838360200280828437600081840152601f19601f820116905080830192505050505050506003600088815260200190815260200160002060000154868660405160200161237d929190613abf565b604051602081830303815290604052805190602001206040516020016123a39190613b09565b6040516020818303038152906040528051906020012061261b565b6123f4576040517fe18d1c4d00000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b5050505050565b6000806003600087815260200190815260200160002060010154905060008185600560008a815260200190815260200160002060008973ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020546124769190613b24565b6124809190613b95565b90508381101561249157600061249e565b838161249d9190613a10565b5b92505050949350505050565b60006040517fa9059cbb000000000000000000000000000000000000000000000000000000008152836004820152826024820152602060006044836000895af13d15601f3d116001600051141617169150508061253c576040517f08c379a000000000000000000000000000000000000000000000000000000000815260040161253390613c12565b60405180910390fd5b50505050565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff169050816000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055508173ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff167f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e060405160405180910390a35050565b60018081905550565b61261881612542565b50565b6000826126288584612632565b1490509392505050565b60008082905060005b845181101561267d576126688286838151811061265b5761265a6132e2565b5b6020026020010151612688565b91508080612675906133a1565b91505061263b565b508091505092915050565b60008183106126a05761269b82846126b3565b6126ab565b6126aa83836126b3565b5b905092915050565b600082600052816020526040600020905092915050565b604051806040016040528060008019168152602001600081525090565b600080fd5b600080fd5b600080fd5b600060a0828403121561270c5761270b6126f1565b5b81905092915050565b60006020828403121561272b5761272a6126e7565b5b600082013567ffffffffffffffff811115612749576127486126ec565b5b612755848285016126f6565b91505092915050565b6000819050919050565b6127718161275e565b82525050565b600060208201905061278c6000830184612768565b92915050565b600080fd5b600080fd5b600080fd5b60008083601f8401126127b7576127b6612792565b5b8235905067ffffffffffffffff8111156127d4576127d3612797565b5b6020830191508360208202830111156127f0576127ef61279c565b5b9250929050565b60008083601f84011261280d5761280c612792565b5b8235905067ffffffffffffffff81111561282a57612829612797565b5b6020830191508360208202830111156128465761284561279c565b5b9250929050565b60008083601f84011261286357612862612792565b5b8235905067ffffffffffffffff8111156128805761287f612797565b5b60208301915083602082028301111561289c5761289b61279c565b5b9250929050565b600080600080600080606087890312156128c0576128bf6126e7565b5b600087013567ffffffffffffffff8111156128de576128dd6126ec565b5b6128ea89828a016127a1565b9650965050602087013567ffffffffffffffff81111561290d5761290c6126ec565b5b61291989828a016127f7565b9450945050604087013567ffffffffffffffff81111561293c5761293b6126ec565b5b61294889828a0161284d565b92509250509295509295509295565b6129608161275e565b811461296b57600080fd5b50565b60008135905061297d81612957565b92915050565b600073ffffffffffffffffffffffffffffffffffffffff82169050919050565b60006129ae82612983565b9050919050565b60006129c0826129a3565b9050919050565b6129d0816129b5565b81146129db57600080fd5b50565b6000813590506129ed816129c7565b92915050565b6129fc816129a3565b8114612a0757600080fd5b50565b600081359050612a19816129f3565b92915050565b600080600060608486031215612a3857612a376126e7565b5b6000612a468682870161296e565b9350506020612a57868287016129de565b9250506040612a6886828701612a0a565b9150509250925092565b600060208284031215612a8857612a876126e7565b5b6000612a9684828501612a0a565b91505092915050565b612aa8816129a3565b82525050565b6000602082019050612ac36000830184612a9f565b92915050565b612ad2816129a3565b8114612add57600080fd5b50565b600081359050612aef81612ac9565b92915050565b600060a08284031215612b0b57612b0a6126f1565b5b81905092915050565b60008060408385031215612b2b57612b2a6126e7565b5b6000612b3985828601612ae0565b925050602083013567ffffffffffffffff811115612b5a57612b596126ec565b5b612b6685828601612af5565b9150509250929050565b600060208284031215612b8657612b856126e7565b5b6000612b948482850161296e565b91505092915050565b6000819050919050565b612bb081612b9d565b82525050565b612bbf8161275e565b82525050565b604082016000820151612bdb6000850182612ba7565b506020820151612bee6020850182612bb6565b50505050565b6000604082019050612c096000830184612bc5565b92915050565b612c188161275e565b8114612c2357600080fd5b50565b600081359050612c3581612c0f565b92915050565b60008083601f840112612c5157612c50612792565b5b8235905067ffffffffffffffff811115612c6e57612c6d612797565b5b602083019150836020820283011115612c8a57612c8961279c565b5b9250929050565b60008060008060008060008060c0898b031215612cb157612cb06126e7565b5b6000612cbf8b828c01612ae0565b9850506020612cd08b828c0161296e565b975050604089013567ffffffffffffffff811115612cf157612cf06126ec565b5b612cfd8b828c016127f7565b96509650506060612d108b828c01612a0a565b9450506080612d218b828c01612c26565b93505060a089013567ffffffffffffffff811115612d4257612d416126ec565b5b612d4e8b828c01612c3b565b92509250509295985092959890939650565b600081519050919050565b600082825260208201905092915050565b6000819050602082019050919050565b6000612d988383612bb6565b60208301905092915050565b6000602082019050919050565b6000612dbc82612d60565b612dc68185612d6b565b9350612dd183612d7c565b8060005b83811015612e02578151612de98882612d8c565b9750612df483612da4565b925050600181019050612dd5565b5085935050505092915050565b60006020820190508181036000830152612e298184612db1565b905092915050565b612e3a81612b9d565b82525050565b6000604082019050612e556000830185612e31565b612e626020830184612768565b9392505050565b60008060408385031215612e8057612e7f6126e7565b5b6000612e8e85828601612a0a565b9250506020612e9f85828601612ae0565b9150509250929050565b60008060408385031215612ec057612ebf6126e7565b5b6000612ece858286016129de565b9250506020612edf85828601612c26565b9150509250929050565b60008083601f840112612eff57612efe612792565b5b8235905067ffffffffffffffff811115612f1c57612f1b612797565b5b602083019150836001820283011115612f3857612f3761279c565b5b9250929050565b600080600060408486031215612f5857612f576126e7565b5b6000612f668682870161296e565b935050602084013567ffffffffffffffff811115612f8757612f866126ec565b5b612f9386828701612ee9565b92509250509250925092565b60008060408385031215612fb657612fb56126e7565b5b6000612fc48582860161296e565b9250506020612fd5858286016129de565b9150509250929050565b6000819050919050565b6000613004612fff612ffa8461275e565b612fdf565b61275e565b9050919050565b61301481612fe9565b82525050565b600060208201905061302f600083018461300b565b92915050565b60006040828403121561304b5761304a6126f1565b5b81905092915050565b6000806000806080858703121561306e5761306d6126e7565b5b600061307c87828801612ae0565b945050602061308d87828801613035565b935050606085013567ffffffffffffffff8111156130ae576130ad6126ec565b5b6130ba87828801612ee9565b925092505092959194509250565b600080600080608085870312156130e2576130e16126e7565b5b60006130f08782880161296e565b9450506020613101878288016129de565b935050604061311287828801612a0a565b925050606061312387828801612c26565b91505092959194509250565b60008083601f84011261314557613144612792565b5b8235905067ffffffffffffffff81111561316257613161612797565b5b60208301915083602082028301111561317e5761317d61279c565b5b9250929050565b6000806020838503121561319c5761319b6126e7565b5b600083013567ffffffffffffffff8111156131ba576131b96126ec565b5b6131c68582860161312f565b92509250509250929050565b60008083601f8401126131e8576131e7612792565b5b8235905067ffffffffffffffff81111561320557613204612797565b5b6020830191508360208202830111156132215761322061279c565b5b9250929050565b600080600060408486031215613241576132406126e7565b5b600061324f86828701612ae0565b935050602084013567ffffffffffffffff8111156132705761326f6126ec565b5b61327c868287016131d2565b92509250509250925092565b60006040828403121561329e5761329d6126e7565b5b60006132ac84828501613035565b91505092915050565b6000602082840312156132cb576132ca6126e7565b5b60006132d984828501612ae0565b91505092915050565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052603260045260246000fd5b600060208284031215613327576133266126e7565b5b6000613335848285016129de565b91505092915050565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052601160045260246000fd5b60006133788261275e565b91506133838361275e565b925082820190508082111561339b5761339a61333e565b5b92915050565b60006133ac8261275e565b91507fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff82036133de576133dd61333e565b5b600182019050919050565b600080fd5b600080fd5b600080fd5b60008083356001602003843603038112613415576134146133e9565b5b80840192508235915067ffffffffffffffff821115613437576134366133ee565b5b602083019250602082023603831315613453576134526133f3565b5b509250929050565b60006040820190506134706000830185612a9f565b61347d6020830184612768565b9392505050565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052604160045260246000fd5b600082825260208201905092915050565b82818337600083830152505050565b6000601f19601f8301169050919050565b60006134f083856134b3565b93506134fd8385846134c4565b613506836134d3565b840190509392505050565b6000602082019050818103600083015261352c8184866134e4565b90509392505050565b61353e81612b9d565b811461354957600080fd5b50565b6000813561355981613535565b80915050919050565b60008160001b9050919050565b60007fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff61359b84613562565b9350801983169250808416831791505092915050565b60006135bc82612b9d565b9050919050565b60008160001c9050919050565b60006135db826135c3565b9050919050565b6135eb826135b1565b6135fe6135f7826135d0565b835461356f565b8255505050565b6000813561361281612c0f565b80915050919050565b6000819050919050565b61362e82612fe9565b61364161363a8261361b565b835461356f565b8255505050565b60008101600083018061365a8161354c565b905061366681846135e2565b50505060018101602083018061367b81613605565b90506136878184613625565b5050505050565b6136988282613648565b5050565b6000813590506136ab81613535565b92915050565b60006136c0602084018461369c565b905092915050565b60006136d76020840184612c26565b905092915050565b604082016136f060008301836136b1565b6136fd6000850182612ba7565b5061370b60208301836136c8565b6137186020850182612bb6565b50505050565b600060408201905061373360008301846136df565b92915050565b60008235600160a003833603038112613755576137546133e9565b5b80830191505092915050565b60008235600160a00383360303811261377d5761377c6133e9565b5b80830191505092915050565b60008151905061379881612c0f565b92915050565b6000602082840312156137b4576137b36126e7565b5b60006137c284828501613789565b91505092915050565b60006137d6826129a3565b9050919050565b6137e6816137cb565b81146137f157600080fd5b50565b600081359050613803816137dd565b92915050565b60006020828403121561381f5761381e6126e7565b5b600061382d848285016137f4565b91505092915050565b61383f81612fe9565b82525050565b600061386061385b61385684612983565b612fdf565b612983565b9050919050565b600061387282613845565b9050919050565b600061388482613867565b9050919050565b61389481613879565b82525050565b60006138a582613867565b9050919050565b6138b58161389a565b82525050565b600081519050919050565b600082825260208201905092915050565b6000819050602082019050919050565b60006138f38383612ba7565b60208301905092915050565b6000602082019050919050565b6000613917826138bb565b61392181856138c6565b935061392c836138d7565b8060005b8381101561395d57815161394488826138e7565b975061394f836138ff565b925050600181019050613930565b5085935050505092915050565b600060a0830160008301516139826000860182613836565b506020830151613995602086018261388b565b5060408301516139a860408601826138ac565b5060608301516139bb6060860182612bb6565b50608083015184820360808601526139d3828261390c565b9150508091505092915050565b60006040820190506139f56000830185612a9f565b8181036020830152613a07818461396a565b90509392505050565b6000613a1b8261275e565b9150613a268361275e565b9250828203905081811115613a3e57613a3d61333e565b5b92915050565b7f5452414e534645525f46524f4d5f4641494c4544000000000000000000000000600082015250565b6000613a7a6014836134b3565b9150613a8582613a44565b602082019050919050565b60006020820190508181036000830152613aa981613a6d565b9050919050565b613ab98161389a565b82525050565b6000604082019050613ad46000830185613ab0565b613ae16020830184612768565b9392505050565b6000819050919050565b613b03613afe82612b9d565b613ae8565b82525050565b6000613b158284613af2565b60208201915081905092915050565b6000613b2f8261275e565b9150613b3a8361275e565b9250828202613b488161275e565b91508282048414831517613b5f57613b5e61333e565b5b5092915050565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052601260045260246000fd5b6000613ba08261275e565b9150613bab8361275e565b925082613bbb57613bba613b66565b5b828204905092915050565b7f5452414e534645525f4641494c45440000000000000000000000000000000000600082015250565b6000613bfc600f836134b3565b9150613c0782613bc6565b602082019050919050565b60006020820190508181036000830152613c2b81613bef565b905091905056fea2646970667358221220e0599b45051fceb433ea16ef4dbe63641a52206a967ff47853ac835c4c1f239864736f6c63430008110033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106101425760003560e01c80636cfaa4be116100b85780638b874fe31161007c5780638b874fe31461039a5780638da5cb5b146103ca57806395b06f25146103e857806397d2cc1614610418578063aa19abeb14610448578063f2fde38b1461046457610142565b80636cfaa4be1461030a5780636e448cde14610326578063715018a6146103565780637b1266401461036057806384d0bf8b1461037e57610142565b80633c08b0301161010a5780633c08b03014610223578063416f339114610253578063452a93201461028357806358e5ba54146102a15780636799b217146102d25780636b212960146102ee57610142565b80631901367814610147578063209b732f146101775780632aacf3f4146101935780632e933f65146101c35780632f64a357146101f3575b600080fd5b610161600480360381019061015c9190612715565b610480565b60405161016e9190612777565b60405180910390f35b610191600480360381019061018c91906128a3565b6104dc565b005b6101ad60048036038101906101a89190612a1f565b61074c565b6040516101ba9190612777565b60405180910390f35b6101dd60048036038101906101d89190612a72565b61077e565b6040516101ea9190612aae565b60405180910390f35b61020d60048036038101906102089190612b14565b6107b1565b60405161021a9190612777565b60405180910390f35b61023d60048036038101906102389190612b70565b610a7e565b60405161024a9190612bf4565b60405180910390f35b61026d60048036038101906102689190612c91565b610abf565b60405161027a9190612e0f565b60405180910390f35b61028b610e74565b6040516102989190612aae565b60405180910390f35b6102bb60048036038101906102b69190612b70565b610e83565b6040516102c9929190612e40565b60405180910390f35b6102ec60048036038101906102e79190612e69565b610ea7565b005b61030860048036038101906103039190612ea9565b610f80565b005b610324600480360381019061031f9190612f3f565b61107f565b005b610340600480360381019061033b9190612f9f565b61112a565b60405161034d9190612777565b60405180910390f35b61035e61114f565b005b6103686111c7565b604051610375919061301a565b60405180910390f35b61039860048036038101906103939190613054565b6111cd565b005b6103b460048036038101906103af91906130c8565b6112fe565b6040516103c19190612777565b60405180910390f35b6103d26113a3565b6040516103df9190612aae565b60405180910390f35b61040260048036038101906103fd9190613185565b6113cc565b60405161040f9190612e0f565b60405180910390f35b610432600480360381019061042d9190613228565b6114da565b60405161043f9190612e0f565b60405180910390f35b610462600480360381019061045d9190613288565b611b2d565b005b61047e600480360381019061047991906132b5565b611c50565b005b600060018054146104bd576040517f0a228fcc00000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b60026001819055506104ce82611d2e565b905060018081905550919050565b83839050868690501415806104f75750818190508686905014155b1561052e576040517ff2d3329800000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b60005b8686905081101561060f5782828281811061054f5761054e6132e2565b5b905060200201356005600089898581811061056d5761056c6132e2565b5b9050602002013581526020019081526020016000206000878785818110610597576105966132e2565b5b90506020020160208101906105ac9190613311565b73ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008282546105f5919061336d565b925050819055508080610607906133a1565b915050610531565b5060005b868690508110156107435761068b3330858585818110610636576106356132e2565b5b905060200201358888868181106106505761064f6132e2565b5b90506020020160208101906106659190613311565b73ffffffffffffffffffffffffffffffffffffffff16612103909392919063ffffffff16565b84848281811061069e5761069d6132e2565b5b90506020020160208101906106b39190613311565b73ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff167fd4bc91a009901ca054eba9f44b35a11baf96d773416d3936fc2d05214afd3903858585818110610714576107136132e2565b5b905060200201356040516107289190612777565b60405180910390a3808061073b906133a1565b915050610613565b50505050505050565b600460205282600052604060002060205281600052604060002060205280600052604060002060009250925050505481565b60066020528060005260406000206000915054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b60006107ce8260400160208101906107c99190612a72565b6121a2565b61080382600001358360400160208101906107e99190612a72565b84606001358580608001906107fe91906133f8565b61230e565b6000600460008460000135815260200190815260200160002060008460200160208101906108319190613311565b73ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008460400160208101906108809190612a72565b73ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000205490506108e383600001358460200160208101906108d89190613311565b8560600135846123fb565b915081816108f1919061336d565b6004600085600001358152602001908152602001600020600085602001602081019061091d9190613311565b73ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600085604001602081019061096c9190612a72565b73ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020819055506109e784838560200160208101906109c29190613311565b73ffffffffffffffffffffffffffffffffffffffff166124aa9092919063ffffffff16565b8260400160208101906109fa9190612a72565b73ffffffffffffffffffffffffffffffffffffffff16836020016020810190610a239190613311565b73ffffffffffffffffffffffffffffffffffffffff1684600001357f3724d42f5f089f2713ad8830c50b88009ac14a31385e37c240b0eec85477616a8786604051610a6f92919061345b565b60405180910390a45092915050565b610a866126ca565b60036000838152602001908152602001600020604051806040016040529081600082015481526020016001820154815250509050919050565b6060610aca856121a2565b610ad7888686868661230e565b8686905067ffffffffffffffff811115610af457610af3613484565b5b604051908082528060200260200182016040528015610b225781602001602082028036833780820191505090505b50905060005b87879050811015610d30576000600460008b815260200190815260200160002060008a8a85818110610b5d57610b5c6132e2565b5b9050602002016020810190610b729190613311565b73ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008873ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020549050610c1f8a8a8a85818110610c0357610c026132e2565b5b9050602002016020810190610c189190613311565b88846123fb565b838381518110610c3257610c316132e2565b5b602002602001018181525050828281518110610c5157610c506132e2565b5b602002602001015181610c64919061336d565b600460008c815260200190815260200160002060008b8b86818110610c8c57610c8b6132e2565b5b9050602002016020810190610ca19190613311565b73ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008973ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002081905550508080610d28906133a1565b915050610b28565b5060005b87879050811015610e6757610dab8a838381518110610d5657610d556132e2565b5b60200260200101518a8a85818110610d7157610d706132e2565b5b9050602002016020810190610d869190613311565b73ffffffffffffffffffffffffffffffffffffffff166124aa9092919063ffffffff16565b8573ffffffffffffffffffffffffffffffffffffffff16888883818110610dd557610dd46132e2565b5b9050602002016020810190610dea9190613311565b73ffffffffffffffffffffffffffffffffffffffff168a7f3724d42f5f089f2713ad8830c50b88009ac14a31385e37c240b0eec85477616a8d868681518110610e3657610e356132e2565b5b6020026020010151604051610e4c92919061345b565b60405180910390a48080610e5f906133a1565b915050610d34565b5098975050505050505050565b6000610e7e6113a3565b905090565b60036020528060005260406000206000915090508060000154908060010154905082565b610eb0826121a2565b80600660008473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055508173ffffffffffffffffffffffffffffffffffffffff167f9c1b389f9b1309928184e98d7f6bfc770d6f07dd4828bfd635219d5467e3fd3382604051610f749190612aae565b60405180910390a25050565b8060056000600254815260200190815260200160002060008473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000828254610fe2919061336d565b925050819055506110163330838573ffffffffffffffffffffffffffffffffffffffff16612103909392919063ffffffff16565b8173ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff167fd4bc91a009901ca054eba9f44b35a11baf96d773416d3936fc2d05214afd3903836040516110739190612777565b60405180910390a35050565b3373ffffffffffffffffffffffffffffffffffffffff1661109e6113a3565b73ffffffffffffffffffffffffffffffffffffffff16146110eb576040517f5eee3ad100000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b827f05001ef18c2475856286d130e4bc0a9c9429c5c026d0a443a8e3c02c46d2de45838360405161111d929190613511565b60405180910390a2505050565b6005602052816000526040600020602052806000526040600020600091509150505481565b3373ffffffffffffffffffffffffffffffffffffffff1661116e6113a3565b73ffffffffffffffffffffffffffffffffffffffff16146111bb576040517f5eee3ad100000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b6111c56000612542565b565b60025481565b600060025414611209576040517ffb3fef9d00000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b6000836020013503611247576040517f96c1076c00000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b61124f612606565b6112588461260f565b60016002819055508260036000600181526020019081526020016000208181611281919061368e565b90505060017f8958f2cb529d3de2663bb35c5523142fd5bd23a7574f94dbebb8d2624485954b846040516112b5919061371e565b60405180910390a260017f05001ef18c2475856286d130e4bc0a9c9429c5c026d0a443a8e3c02c46d2de4583836040516112f0929190613511565b60405180910390a250505050565b6000611399858584600460008a815260200190815260200160002060008973ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008873ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020546123fb565b9050949350505050565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16905090565b60606001805414611409576040517f0a228fcc00000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b60026001819055508282905067ffffffffffffffff81111561142e5761142d613484565b5b60405190808252806020026020018201604052801561145c5781602001602082028036833780820191505090505b50905060005b838390508110156114cc5761149a848483818110611483576114826132e2565b5b90506020028101906114959190613739565b611d2e565b8282815181106114ad576114ac6132e2565b5b60200260200101818152505080806114c4906133a1565b915050611462565b506001808190555092915050565b60608282905067ffffffffffffffff8111156114f9576114f8613484565b5b6040519080825280602002602001820160405280156115275781602001602082028036833780820191505090505b50905060005b838390508110156119725761157784848381811061154e5761154d6132e2565b5b90506020028101906115609190613761565b60400160208101906115729190612a72565b6121a2565b61163c84848381811061158d5761158c6132e2565b5b905060200281019061159f9190613761565b600001358585848181106115b6576115b56132e2565b5b90506020028101906115c89190613761565b60400160208101906115da9190612a72565b8686858181106115ed576115ec6132e2565b5b90506020028101906115ff9190613761565b60600135878786818110611616576116156132e2565b5b90506020028101906116289190613761565b806080019061163791906133f8565b61230e565b600060046000868685818110611655576116546132e2565b5b90506020028101906116679190613761565b600001358152602001908152602001600020600086868581811061168e5761168d6132e2565b5b90506020028101906116a09190613761565b60200160208101906116b29190613311565b73ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000868685818110611701576117006132e2565b5b90506020028101906117139190613761565b60400160208101906117259190612a72565b73ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000205490506117f4858584818110611778576117776132e2565b5b905060200281019061178a9190613761565b600001358686858181106117a1576117a06132e2565b5b90506020028101906117b39190613761565b60200160208101906117c59190613311565b8787868181106117d8576117d76132e2565b5b90506020028101906117ea9190613761565b60600135846123fb565b838381518110611807576118066132e2565b5b602002602001018181525050828281518110611826576118256132e2565b5b602002602001015181611839919061336d565b600460008787868181106118505761184f6132e2565b5b90506020028101906118629190613761565b6000013581526020019081526020016000206000878786818110611889576118886132e2565b5b905060200281019061189b9190613761565b60200160208101906118ad9190613311565b73ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008787868181106118fc576118fb6132e2565b5b905060200281019061190e9190613761565b60400160208101906119209190612a72565b73ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000208190555050808061196a906133a1565b91505061152d565b5060005b83839050811015611b25576119fc85838381518110611998576119976132e2565b5b60200260200101518686858181106119b3576119b26132e2565b5b90506020028101906119c59190613761565b60200160208101906119d79190613311565b73ffffffffffffffffffffffffffffffffffffffff166124aa9092919063ffffffff16565b838382818110611a0f57611a0e6132e2565b5b9050602002810190611a219190613761565b6040016020810190611a339190612a72565b73ffffffffffffffffffffffffffffffffffffffff16848483818110611a5c57611a5b6132e2565b5b9050602002810190611a6e9190613761565b6020016020810190611a809190613311565b73ffffffffffffffffffffffffffffffffffffffff16858584818110611aa957611aa86132e2565b5b9050602002810190611abb9190613761565b600001357f3724d42f5f089f2713ad8830c50b88009ac14a31385e37c240b0eec85477616a88868681518110611af457611af36132e2565b5b6020026020010151604051611b0a92919061345b565b60405180910390a48080611b1d906133a1565b915050611976565b509392505050565b3373ffffffffffffffffffffffffffffffffffffffff16611b4c6113a3565b73ffffffffffffffffffffffffffffffffffffffff1614611b99576040517f5eee3ad100000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b6000816020013503611bd7576040517f96c1076c00000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b60006001600254611be8919061336d565b90508060028190555081600360008381526020019081526020016000208181611c11919061368e565b905050807f8958f2cb529d3de2663bb35c5523142fd5bd23a7574f94dbebb8d2624485954b83604051611c44919061371e565b60405180910390a25050565b3373ffffffffffffffffffffffffffffffffffffffff16611c6f6113a3565b73ffffffffffffffffffffffffffffffffffffffff1614611cbc576040517f5eee3ad100000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b600073ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff1603611d22576040517fedf1b1fc00000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b611d2b81612542565b50565b600080826040016020810190611d449190613311565b73ffffffffffffffffffffffffffffffffffffffff166370a08231306040518263ffffffff1660e01b8152600401611d7c9190612aae565b602060405180830381865afa158015611d99573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190611dbd919061379e565b9050826000016020810190611dd29190613809565b73ffffffffffffffffffffffffffffffffffffffff16632f64a357306040518060a0016040528087602001358152602001876040016020810190611e169190613311565b73ffffffffffffffffffffffffffffffffffffffff1681526020013073ffffffffffffffffffffffffffffffffffffffff16815260200187606001358152602001878060800190611e6791906133f8565b80806020026020016040519081016040528093929190818152602001838360200280828437600081840152601f19601f820116905080830192505050505050508152506040518363ffffffff1660e01b8152600401611ec79291906139e0565b6020604051808303816000875af1158015611ee6573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190611f0a919061379e565b5080836040016020810190611f1f9190613311565b73ffffffffffffffffffffffffffffffffffffffff166370a08231306040518263ffffffff1660e01b8152600401611f579190612aae565b602060405180830381865afa158015611f74573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190611f98919061379e565b611fa29190613a10565b9150816005600060025481526020019081526020016000206000856040016020810190611fcf9190613311565b73ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000828254612018919061336d565b925050819055508260400160208101906120329190613311565b73ffffffffffffffffffffffffffffffffffffffff1683600001602081019061205b9190613809565b73ffffffffffffffffffffffffffffffffffffffff167fd4bc91a009901ca054eba9f44b35a11baf96d773416d3936fc2d05214afd3903846040516120a09190612777565b60405180910390a38260000160208101906120bb9190613809565b73ffffffffffffffffffffffffffffffffffffffff167f73dfb6633f7e1ecb19eb2bad39ae17cde7596d99205c49bddaa38172ccc5bba060405160405180910390a250919050565b60006040517f23b872dd0000000000000000000000000000000000000000000000000000000081528460048201528360248201528260448201526020600060648360008a5af13d15601f3d116001600051141617169150508061219b576040517f08c379a000000000000000000000000000000000000000000000000000000000815260040161219290613a90565b60405180910390fd5b5050505050565b6000600660008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff169050600073ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff16036122a4578173ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff161461229f576040517fe6d8540d00000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b61230a565b8073ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614612309576040517fe6d8540d00000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b5b5050565b6123be828280806020026020016040519081016040528093929190818152602001838360200280828437600081840152601f19601f820116905080830192505050505050506003600088815260200190815260200160002060000154868660405160200161237d929190613abf565b604051602081830303815290604052805190602001206040516020016123a39190613b09565b6040516020818303038152906040528051906020012061261b565b6123f4576040517fe18d1c4d00000000000000000000000000000000000000000000000000000000815260040160405180910390fd5b5050505050565b6000806003600087815260200190815260200160002060010154905060008185600560008a815260200190815260200160002060008973ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020546124769190613b24565b6124809190613b95565b90508381101561249157600061249e565b838161249d9190613a10565b5b92505050949350505050565b60006040517fa9059cbb000000000000000000000000000000000000000000000000000000008152836004820152826024820152602060006044836000895af13d15601f3d116001600051141617169150508061253c576040517f08c379a000000000000000000000000000000000000000000000000000000000815260040161253390613c12565b60405180910390fd5b50505050565b60008060009054906101000a900473ffffffffffffffffffffffffffffffffffffffff169050816000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055508173ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff167f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e060405160405180910390a35050565b60018081905550565b61261881612542565b50565b6000826126288584612632565b1490509392505050565b60008082905060005b845181101561267d576126688286838151811061265b5761265a6132e2565b5b6020026020010151612688565b91508080612675906133a1565b91505061263b565b508091505092915050565b60008183106126a05761269b82846126b3565b6126ab565b6126aa83836126b3565b5b905092915050565b600082600052816020526040600020905092915050565b604051806040016040528060008019168152602001600081525090565b600080fd5b600080fd5b600080fd5b600060a0828403121561270c5761270b6126f1565b5b81905092915050565b60006020828403121561272b5761272a6126e7565b5b600082013567ffffffffffffffff811115612749576127486126ec565b5b612755848285016126f6565b91505092915050565b6000819050919050565b6127718161275e565b82525050565b600060208201905061278c6000830184612768565b92915050565b600080fd5b600080fd5b600080fd5b60008083601f8401126127b7576127b6612792565b5b8235905067ffffffffffffffff8111156127d4576127d3612797565b5b6020830191508360208202830111156127f0576127ef61279c565b5b9250929050565b60008083601f84011261280d5761280c612792565b5b8235905067ffffffffffffffff81111561282a57612829612797565b5b6020830191508360208202830111156128465761284561279c565b5b9250929050565b60008083601f84011261286357612862612792565b5b8235905067ffffffffffffffff8111156128805761287f612797565b5b60208301915083602082028301111561289c5761289b61279c565b5b9250929050565b600080600080600080606087890312156128c0576128bf6126e7565b5b600087013567ffffffffffffffff8111156128de576128dd6126ec565b5b6128ea89828a016127a1565b9650965050602087013567ffffffffffffffff81111561290d5761290c6126ec565b5b61291989828a016127f7565b9450945050604087013567ffffffffffffffff81111561293c5761293b6126ec565b5b61294889828a0161284d565b92509250509295509295509295565b6129608161275e565b811461296b57600080fd5b50565b60008135905061297d81612957565b92915050565b600073ffffffffffffffffffffffffffffffffffffffff82169050919050565b60006129ae82612983565b9050919050565b60006129c0826129a3565b9050919050565b6129d0816129b5565b81146129db57600080fd5b50565b6000813590506129ed816129c7565b92915050565b6129fc816129a3565b8114612a0757600080fd5b50565b600081359050612a19816129f3565b92915050565b600080600060608486031215612a3857612a376126e7565b5b6000612a468682870161296e565b9350506020612a57868287016129de565b9250506040612a6886828701612a0a565b9150509250925092565b600060208284031215612a8857612a876126e7565b5b6000612a9684828501612a0a565b91505092915050565b612aa8816129a3565b82525050565b6000602082019050612ac36000830184612a9f565b92915050565b612ad2816129a3565b8114612add57600080fd5b50565b600081359050612aef81612ac9565b92915050565b600060a08284031215612b0b57612b0a6126f1565b5b81905092915050565b60008060408385031215612b2b57612b2a6126e7565b5b6000612b3985828601612ae0565b925050602083013567ffffffffffffffff811115612b5a57612b596126ec565b5b612b6685828601612af5565b9150509250929050565b600060208284031215612b8657612b856126e7565b5b6000612b948482850161296e565b91505092915050565b6000819050919050565b612bb081612b9d565b82525050565b612bbf8161275e565b82525050565b604082016000820151612bdb6000850182612ba7565b506020820151612bee6020850182612bb6565b50505050565b6000604082019050612c096000830184612bc5565b92915050565b612c188161275e565b8114612c2357600080fd5b50565b600081359050612c3581612c0f565b92915050565b60008083601f840112612c5157612c50612792565b5b8235905067ffffffffffffffff811115612c6e57612c6d612797565b5b602083019150836020820283011115612c8a57612c8961279c565b5b9250929050565b60008060008060008060008060c0898b031215612cb157612cb06126e7565b5b6000612cbf8b828c01612ae0565b9850506020612cd08b828c0161296e565b975050604089013567ffffffffffffffff811115612cf157612cf06126ec565b5b612cfd8b828c016127f7565b96509650506060612d108b828c01612a0a565b9450506080612d218b828c01612c26565b93505060a089013567ffffffffffffffff811115612d4257612d416126ec565b5b612d4e8b828c01612c3b565b92509250509295985092959890939650565b600081519050919050565b600082825260208201905092915050565b6000819050602082019050919050565b6000612d988383612bb6565b60208301905092915050565b6000602082019050919050565b6000612dbc82612d60565b612dc68185612d6b565b9350612dd183612d7c565b8060005b83811015612e02578151612de98882612d8c565b9750612df483612da4565b925050600181019050612dd5565b5085935050505092915050565b60006020820190508181036000830152612e298184612db1565b905092915050565b612e3a81612b9d565b82525050565b6000604082019050612e556000830185612e31565b612e626020830184612768565b9392505050565b60008060408385031215612e8057612e7f6126e7565b5b6000612e8e85828601612a0a565b9250506020612e9f85828601612ae0565b9150509250929050565b60008060408385031215612ec057612ebf6126e7565b5b6000612ece858286016129de565b9250506020612edf85828601612c26565b9150509250929050565b60008083601f840112612eff57612efe612792565b5b8235905067ffffffffffffffff811115612f1c57612f1b612797565b5b602083019150836001820283011115612f3857612f3761279c565b5b9250929050565b600080600060408486031215612f5857612f576126e7565b5b6000612f668682870161296e565b935050602084013567ffffffffffffffff811115612f8757612f866126ec565b5b612f9386828701612ee9565b92509250509250925092565b60008060408385031215612fb657612fb56126e7565b5b6000612fc48582860161296e565b9250506020612fd5858286016129de565b9150509250929050565b6000819050919050565b6000613004612fff612ffa8461275e565b612fdf565b61275e565b9050919050565b61301481612fe9565b82525050565b600060208201905061302f600083018461300b565b92915050565b60006040828403121561304b5761304a6126f1565b5b81905092915050565b6000806000806080858703121561306e5761306d6126e7565b5b600061307c87828801612ae0565b945050602061308d87828801613035565b935050606085013567ffffffffffffffff8111156130ae576130ad6126ec565b5b6130ba87828801612ee9565b925092505092959194509250565b600080600080608085870312156130e2576130e16126e7565b5b60006130f08782880161296e565b9450506020613101878288016129de565b935050604061311287828801612a0a565b925050606061312387828801612c26565b91505092959194509250565b60008083601f84011261314557613144612792565b5b8235905067ffffffffffffffff81111561316257613161612797565b5b60208301915083602082028301111561317e5761317d61279c565b5b9250929050565b6000806020838503121561319c5761319b6126e7565b5b600083013567ffffffffffffffff8111156131ba576131b96126ec565b5b6131c68582860161312f565b92509250509250929050565b60008083601f8401126131e8576131e7612792565b5b8235905067ffffffffffffffff81111561320557613204612797565b5b6020830191508360208202830111156132215761322061279c565b5b9250929050565b600080600060408486031215613241576132406126e7565b5b600061324f86828701612ae0565b935050602084013567ffffffffffffffff8111156132705761326f6126ec565b5b61327c868287016131d2565b92509250509250925092565b60006040828403121561329e5761329d6126e7565b5b60006132ac84828501613035565b91505092915050565b6000602082840312156132cb576132ca6126e7565b5b60006132d984828501612ae0565b91505092915050565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052603260045260246000fd5b600060208284031215613327576133266126e7565b5b6000613335848285016129de565b91505092915050565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052601160045260246000fd5b60006133788261275e565b91506133838361275e565b925082820190508082111561339b5761339a61333e565b5b92915050565b60006133ac8261275e565b91507fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff82036133de576133dd61333e565b5b600182019050919050565b600080fd5b600080fd5b600080fd5b60008083356001602003843603038112613415576134146133e9565b5b80840192508235915067ffffffffffffffff821115613437576134366133ee565b5b602083019250602082023603831315613453576134526133f3565b5b509250929050565b60006040820190506134706000830185612a9f565b61347d6020830184612768565b9392505050565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052604160045260246000fd5b600082825260208201905092915050565b82818337600083830152505050565b6000601f19601f8301169050919050565b60006134f083856134b3565b93506134fd8385846134c4565b613506836134d3565b840190509392505050565b6000602082019050818103600083015261352c8184866134e4565b90509392505050565b61353e81612b9d565b811461354957600080fd5b50565b6000813561355981613535565b80915050919050565b60008160001b9050919050565b60007fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff61359b84613562565b9350801983169250808416831791505092915050565b60006135bc82612b9d565b9050919050565b60008160001c9050919050565b60006135db826135c3565b9050919050565b6135eb826135b1565b6135fe6135f7826135d0565b835461356f565b8255505050565b6000813561361281612c0f565b80915050919050565b6000819050919050565b61362e82612fe9565b61364161363a8261361b565b835461356f565b8255505050565b60008101600083018061365a8161354c565b905061366681846135e2565b50505060018101602083018061367b81613605565b90506136878184613625565b5050505050565b6136988282613648565b5050565b6000813590506136ab81613535565b92915050565b60006136c0602084018461369c565b905092915050565b60006136d76020840184612c26565b905092915050565b604082016136f060008301836136b1565b6136fd6000850182612ba7565b5061370b60208301836136c8565b6137186020850182612bb6565b50505050565b600060408201905061373360008301846136df565b92915050565b60008235600160a003833603038112613755576137546133e9565b5b80830191505092915050565b60008235600160a00383360303811261377d5761377c6133e9565b5b80830191505092915050565b60008151905061379881612c0f565b92915050565b6000602082840312156137b4576137b36126e7565b5b60006137c284828501613789565b91505092915050565b60006137d6826129a3565b9050919050565b6137e6816137cb565b81146137f157600080fd5b50565b600081359050613803816137dd565b92915050565b60006020828403121561381f5761381e6126e7565b5b600061382d848285016137f4565b91505092915050565b61383f81612fe9565b82525050565b600061386061385b61385684612983565b612fdf565b612983565b9050919050565b600061387282613845565b9050919050565b600061388482613867565b9050919050565b61389481613879565b82525050565b60006138a582613867565b9050919050565b6138b58161389a565b82525050565b600081519050919050565b600082825260208201905092915050565b6000819050602082019050919050565b60006138f38383612ba7565b60208301905092915050565b6000602082019050919050565b6000613917826138bb565b61392181856138c6565b935061392c836138d7565b8060005b8381101561395d57815161394488826138e7565b975061394f836138ff565b925050600181019050613930565b5085935050505092915050565b600060a0830160008301516139826000860182613836565b506020830151613995602086018261388b565b5060408301516139a860408601826138ac565b5060608301516139bb6060860182612bb6565b50608083015184820360808601526139d3828261390c565b9150508091505092915050565b60006040820190506139f56000830185612a9f565b8181036020830152613a07818461396a565b90509392505050565b6000613a1b8261275e565b9150613a268361275e565b9250828203905081811115613a3e57613a3d61333e565b5b92915050565b7f5452414e534645525f46524f4d5f4641494c4544000000000000000000000000600082015250565b6000613a7a6014836134b3565b9150613a8582613a44565b602082019050919050565b60006020820190508181036000830152613aa981613a6d565b9050919050565b613ab98161389a565b82525050565b6000604082019050613ad46000830185613ab0565b613ae16020830184612768565b9392505050565b6000819050919050565b613b03613afe82612b9d565b613ae8565b82525050565b6000613b158284613af2565b60208201915081905092915050565b6000613b2f8261275e565b9150613b3a8361275e565b9250828202613b488161275e565b91508282048414831517613b5f57613b5e61333e565b5b5092915050565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052601260045260246000fd5b6000613ba08261275e565b9150613bab8361275e565b925082613bbb57613bba613b66565b5b828204905092915050565b7f5452414e534645525f4641494c45440000000000000000000000000000000000600082015250565b6000613bfc600f836134b3565b9150613c0782613bc6565b602082019050919050565b60006020820190508181036000830152613c2b81613bef565b905091905056fea2646970667358221220e0599b45051fceb433ea16ef4dbe63641a52206a967ff47853ac835c4c1f239864736f6c63430008110033",
+  "devdoc": {
+    "author": "zefram.eth",
+    "kind": "dev",
+    "methods": {
+      "claim(address,(uint256,address,address,uint256,bytes32[]))": {
+        "params": {
+          "claimInfo": "The info of the claim"
+        },
+        "returns": {
+          "claimedTokenAmount": "The amount of tokens claimed"
+        }
+      },
+      "claimFromMetaShrine((address,uint256,address,uint256,bytes32[]))": {
+        "params": {
+          "claimInfo": "The info of the claim"
+        },
+        "returns": {
+          "claimedTokenAmount": "The amount of tokens claimed"
+        }
+      },
+      "claimMultipleTokensForChampion(address,uint256,address[],address,uint256,bytes32[])": {
+        "details": "This is more efficient than {claimMultiple} since it only checks Champion ownership & verifies Merkle proof once."
+      },
+      "computeClaimableTokenAmount(uint256,address,address,uint256)": {
+        "params": {
+          "champion": "The Champion address",
+          "shares": "The share amount of the Champion",
+          "token": "The ERC-20 token to be claimed",
+          "version": "The Merkle tree version"
+        },
+        "returns": {
+          "claimableTokenAmount": "The amount of tokens claimable"
+        }
+      },
+      "getLedgerOfVersion(uint256)": {
+        "params": {
+          "version": "The version of the ledger to query"
+        },
+        "returns": {
+          "_0": "The ledger at the specified version"
+        }
+      },
+      "guardian()": {
+        "returns": {
+          "_0": "The Guardian's address"
+        }
+      },
+      "initialize(address,(bytes32,uint256),string)": {
+        "params": {
+          "initialGuardian": "The Shrine's initial guardian, who controls the ledger",
+          "initialLedger": "The Shrine's initial ledger with the distribution shares",
+          "initialLedgerMetadataIPFSHash": "The IPFS hash of the initial metadata"
+        }
+      },
+      "offer(address,uint256)": {
+        "params": {
+          "amount": "The amount of tokens to offer",
+          "token": "The ERC-20 token being offered to the Shrine"
+        }
+      },
+      "offerMultiple(uint256[],address[],uint256[])": {
+        "params": {
+          "amountList": "The list of amounts of tokens to offer",
+          "tokenList": "The list of ERC-20 tokens being offered to the Shrine",
+          "versionList": "The list of ledger versions to distribute to"
+        }
+      },
+      "owner()": {
+        "details": "Returns the address of the current owner."
+      },
+      "renounceOwnership()": {
+        "details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner."
+      },
+      "transferChampionClaimRight(address,address)": {
+        "params": {
+          "champion": "The champion whose claim rights will be transferred away",
+          "newOwner": "The address that will receive all rights of the champion"
+        }
+      },
+      "transferOwnership(address)": {
+        "details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
+      },
+      "updateLedger((bytes32,uint256))": {
+        "params": {
+          "newLedger": "The new Merkle tree to use for the list of champions and their shares"
+        }
+      },
+      "updateLedgerMetadata(uint256,string)": {
+        "details": "This function simply emits the IPFS hash in an event, so that an off-chain indexer can pick it up.",
+        "params": {
+          "newLedgerMetadataIPFSHash": "The IPFS hash of the updated metadata"
+        }
+      }
+    },
+    "title": "Shrine",
+    "version": 1
+  },
+  "userdoc": {
+    "errors": {
+      "Shrine_AlreadyInitialized()": [
+        {
+          "notice": "----------------------------------------------------------------------- Errors -----------------------------------------------------------------------"
+        }
+      ]
+    },
+    "events": {
+      "Offer(address,address,uint256)": {
+        "notice": "----------------------------------------------------------------------- Events -----------------------------------------------------------------------"
+      }
+    },
+    "kind": "user",
+    "methods": {
+      "championClaimRightOwner(address)": {
+        "notice": "champion => address"
+      },
+      "claim(address,(uint256,address,address,uint256,bytes32[]))": {
+        "notice": "A Champion or the owner of a Champion may call this to claim their share of the tokens offered to this Shrine. Requires a Merkle proof to prove that the Champion is part of this Shrine's Merkle tree. Only callable by the champion (if the right was never transferred) or the owner (that the original champion transferred their rights to)"
+      },
+      "claimFromMetaShrine((address,uint256,address,uint256,bytes32[]))": {
+        "notice": "If this Shrine is a Champion of another Shrine (MetaShrine), calling this can claim the tokens from the MetaShrine and distribute them to this Shrine's Champions. Callable by anyone."
+      },
+      "claimMultiple(address,(uint256,address,address,uint256,bytes32[])[])": {
+        "notice": "A variant of {claim} that combines multiple claims into a single call."
+      },
+      "claimMultipleFromMetaShrine((address,uint256,address,uint256,bytes32[])[])": {
+        "notice": "A variant of {claimFromMetaShrine} that combines multiple claims into a single call."
+      },
+      "claimMultipleTokensForChampion(address,uint256,address[],address,uint256,bytes32[])": {
+        "notice": "A variant of {claim} that combines multiple claims for the same Champion & version into a single call."
+      },
+      "claimedTokens(uint256,address,address)": {
+        "notice": "version => (token => (champion => claimedTokens))"
+      },
+      "computeClaimableTokenAmount(uint256,address,address,uint256)": {
+        "notice": "Computes the amount of a particular ERC-20 token claimable by a Champion from a particular version of the Merkle tree."
+      },
+      "currentLedgerVersion()": {
+        "notice": "The current version of the ledger, starting from 1"
+      },
+      "getLedgerOfVersion(uint256)": {
+        "notice": "The ledger at a particular version"
+      },
+      "guardian()": {
+        "notice": "The Shrine Guardian's address (same as the contract owner)"
+      },
+      "initialize(address,(bytes32,uint256),string)": {
+        "notice": "Initialize the Shrine contract."
+      },
+      "ledgerOfVersion(uint256)": {
+        "notice": "version => ledger"
+      },
+      "offer(address,uint256)": {
+        "notice": "Offer ERC-20 tokens to the Shrine and distribute them to Champions proportional to their shares in the Shrine. Callable by anyone."
+      },
+      "offerMultiple(uint256[],address[],uint256[])": {
+        "notice": "Offer multiple ERC-20 tokens to the Shrine and distribute them to Champions proportional to their shares in the Shrine. The input arrays must be of the same length. Callable by anyone."
+      },
+      "offeredTokens(uint256,address)": {
+        "notice": "version => (token => offeredTokens)"
+      },
+      "transferChampionClaimRight(address,address)": {
+        "notice": "Allows a champion to transfer their right to claim from this shrine to another address. The champion will effectively lose their shrine membership, so make sure the new owner is a trusted party. Only callable by the champion (if the right was never transferred) or the owner (that the original champion transferred their rights to)"
+      },
+      "updateLedger((bytes32,uint256))": {
+        "notice": "The Guardian may call this function to update the ledger, so that the list of champions and the associated weights are updated."
+      },
+      "updateLedgerMetadata(uint256,string)": {
+        "notice": "The Guardian may call this function to update the ledger metadata IPFS hash."
+      }
+    },
+    "notice": "A Shrine maintains a list of Champions with individual weights (shares), and anyone could offer any ERC-20 tokens to the Shrine in order to distribute them to the Champions proportional to their shares. A Champion transfer their right to claim all future tokens offered to the Champion to another address.",
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 3724,
+        "contract": "contracts/astrodrop/Shrine.sol:Shrine",
+        "label": "_owner",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_address"
+      },
+      {
+        "astId": 3829,
+        "contract": "contracts/astrodrop/Shrine.sol:Shrine",
+        "label": "locked",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 2660,
+        "contract": "contracts/astrodrop/Shrine.sol:Shrine",
+        "label": "currentLedgerVersion",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_userDefinedValueType(Version)2565"
+      },
+      {
+        "astId": 2667,
+        "contract": "contracts/astrodrop/Shrine.sol:Shrine",
+        "label": "ledgerOfVersion",
+        "offset": 0,
+        "slot": "3",
+        "type": "t_mapping(t_userDefinedValueType(Version)2565,t_struct(Ledger)2656_storage)"
+      },
+      {
+        "astId": 2679,
+        "contract": "contracts/astrodrop/Shrine.sol:Shrine",
+        "label": "claimedTokens",
+        "offset": 0,
+        "slot": "4",
+        "type": "t_mapping(t_userDefinedValueType(Version)2565,t_mapping(t_contract(ERC20)5735,t_mapping(t_userDefinedValueType(Champion)2563,t_uint256)))"
+      },
+      {
+        "astId": 2688,
+        "contract": "contracts/astrodrop/Shrine.sol:Shrine",
+        "label": "offeredTokens",
+        "offset": 0,
+        "slot": "5",
+        "type": "t_mapping(t_userDefinedValueType(Version)2565,t_mapping(t_contract(ERC20)5735,t_uint256))"
+      },
+      {
+        "astId": 2694,
+        "contract": "contracts/astrodrop/Shrine.sol:Shrine",
+        "label": "championClaimRightOwner",
+        "offset": 0,
+        "slot": "6",
+        "type": "t_mapping(t_userDefinedValueType(Champion)2563,t_address)"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_bytes32": {
+        "encoding": "inplace",
+        "label": "bytes32",
+        "numberOfBytes": "32"
+      },
+      "t_contract(ERC20)5735": {
+        "encoding": "inplace",
+        "label": "contract ERC20",
+        "numberOfBytes": "20"
+      },
+      "t_mapping(t_contract(ERC20)5735,t_mapping(t_userDefinedValueType(Champion)2563,t_uint256))": {
+        "encoding": "mapping",
+        "key": "t_contract(ERC20)5735",
+        "label": "mapping(contract ERC20 => mapping(Shrine.Champion => uint256))",
+        "numberOfBytes": "32",
+        "value": "t_mapping(t_userDefinedValueType(Champion)2563,t_uint256)"
+      },
+      "t_mapping(t_contract(ERC20)5735,t_uint256)": {
+        "encoding": "mapping",
+        "key": "t_contract(ERC20)5735",
+        "label": "mapping(contract ERC20 => uint256)",
+        "numberOfBytes": "32",
+        "value": "t_uint256"
+      },
+      "t_mapping(t_userDefinedValueType(Champion)2563,t_address)": {
+        "encoding": "mapping",
+        "key": "t_userDefinedValueType(Champion)2563",
+        "label": "mapping(Shrine.Champion => address)",
+        "numberOfBytes": "32",
+        "value": "t_address"
+      },
+      "t_mapping(t_userDefinedValueType(Champion)2563,t_uint256)": {
+        "encoding": "mapping",
+        "key": "t_userDefinedValueType(Champion)2563",
+        "label": "mapping(Shrine.Champion => uint256)",
+        "numberOfBytes": "32",
+        "value": "t_uint256"
+      },
+      "t_mapping(t_userDefinedValueType(Version)2565,t_mapping(t_contract(ERC20)5735,t_mapping(t_userDefinedValueType(Champion)2563,t_uint256)))": {
+        "encoding": "mapping",
+        "key": "t_userDefinedValueType(Version)2565",
+        "label": "mapping(Shrine.Version => mapping(contract ERC20 => mapping(Shrine.Champion => uint256)))",
+        "numberOfBytes": "32",
+        "value": "t_mapping(t_contract(ERC20)5735,t_mapping(t_userDefinedValueType(Champion)2563,t_uint256))"
+      },
+      "t_mapping(t_userDefinedValueType(Version)2565,t_mapping(t_contract(ERC20)5735,t_uint256))": {
+        "encoding": "mapping",
+        "key": "t_userDefinedValueType(Version)2565",
+        "label": "mapping(Shrine.Version => mapping(contract ERC20 => uint256))",
+        "numberOfBytes": "32",
+        "value": "t_mapping(t_contract(ERC20)5735,t_uint256)"
+      },
+      "t_mapping(t_userDefinedValueType(Version)2565,t_struct(Ledger)2656_storage)": {
+        "encoding": "mapping",
+        "key": "t_userDefinedValueType(Version)2565",
+        "label": "mapping(Shrine.Version => struct Shrine.Ledger)",
+        "numberOfBytes": "32",
+        "value": "t_struct(Ledger)2656_storage"
+      },
+      "t_struct(Ledger)2656_storage": {
+        "encoding": "inplace",
+        "label": "struct Shrine.Ledger",
+        "members": [
+          {
+            "astId": 2653,
+            "contract": "contracts/astrodrop/Shrine.sol:Shrine",
+            "label": "merkleRoot",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_bytes32"
+          },
+          {
+            "astId": 2655,
+            "contract": "contracts/astrodrop/Shrine.sol:Shrine",
+            "label": "totalShares",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_uint256"
+          }
+        ],
+        "numberOfBytes": "64"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      },
+      "t_userDefinedValueType(Champion)2563": {
+        "encoding": "inplace",
+        "label": "Shrine.Champion",
+        "numberOfBytes": "20"
+      },
+      "t_userDefinedValueType(Version)2565": {
+        "encoding": "inplace",
+        "label": "Shrine.Version",
+        "numberOfBytes": "32"
+      }
+    }
+  }
+}

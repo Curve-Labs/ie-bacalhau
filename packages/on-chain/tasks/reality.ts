@@ -25,6 +25,8 @@ const deployRealityModule = async (
   hardhatRuntime: HardhatRuntimeEnvironment
 ): Promise<Contract> => {
   const [caller] = await hardhatRuntime.ethers.getSigners();
+  const { deploy } = await hardhatRuntime.deployments;
+
   console.log("Using the account:", caller.address);
 
   if (taskArgs.proxied) {
@@ -70,21 +72,27 @@ const deployRealityModule = async (
   const ModuleName = taskArgs.iserc20
     ? "RealityModuleERC20"
     : "RealityModuleETH";
-  const Module = await hardhatRuntime.ethers.getContractFactory(ModuleName);
-  const module = await Module.deploy(
-    taskArgs.owner,
-    taskArgs.avatar,
-    taskArgs.target,
-    taskArgs.oracle,
-    taskArgs.timeout,
-    taskArgs.cooldown,
-    taskArgs.expiration,
-    taskArgs.bond,
-    taskArgs.template,
-    taskArgs.oracle
+
+  const deployObject = await deploy(ModuleName, {
+    from: caller.address,
+    args: [
+      taskArgs.owner,
+      taskArgs.avatar,
+      taskArgs.target,
+      taskArgs.oracle,
+      taskArgs.timeout,
+      taskArgs.cooldown,
+      taskArgs.expiration,
+      taskArgs.bond,
+      taskArgs.template,
+      taskArgs.oracle,
+    ],
+  });
+
+  const module = await hardhatRuntime.ethers.getContractAt(
+    ModuleName,
+    deployObject.address
   );
-  await module.deployTransaction.wait();
-  console.log("ZodiacReality deployed to:", module.address);
 
   return module;
 };
@@ -156,7 +164,7 @@ task("reality:setup", "Deploys a Zodiac Reality module")
     return await deployRealityModule(taskArgs, hardhatRuntime);
   });
 
-task("verifyEtherscan", "Verifies the contract on etherscan")
+task("reality:verifyEtherscan", "Verifies the contract on etherscan")
   .addParam("module", "Address of the module", undefined, types.string)
   .addParam("owner", "Address of the owner", undefined, types.string)
   .addParam(
@@ -199,7 +207,6 @@ task("verifyEtherscan", "Verifies the contract on etherscan")
     types.int,
     true
   )
-  .addParam("arbitrator", "Arbitrator address", undefined, types.string)
   .addParam(
     "bond",
     "Minimum bond that is required for an answer to be accepted",
@@ -221,7 +228,7 @@ task("verifyEtherscan", "Verifies the contract on etherscan")
           `${taskArgs.expiration}`,
           `${taskArgs.bond}`,
           taskArgs.template,
-          taskArgs.arbitrator,
+          taskArgs.oracle,
         ],
       });
     }
