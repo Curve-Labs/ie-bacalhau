@@ -19,7 +19,7 @@ const Airdrop: NextPage = () => {
   const [loading, setLoading] = useState(null)
   const [contributions, setContributions] = useState([])
   const [contributorAddresses, setContributorAddresses] = useState([])
-  const [ipfs, setIpfs] = useState(null)
+  const [ipfs, setIpfs] = useState('')
 
   useEffect(() => {
     if (!provider) return
@@ -138,23 +138,24 @@ const Airdrop: NextPage = () => {
       },
     }
 
+    const specification = {
+      data: contributionsObj,
+      trustedSeed: contributorAddresses,
+      otherData: {},
+      previousRewards: '',
+    }
+
     try {
       const {
-        data: { IpfsHash: contributionsIpfsHash },
+        data: { IpfsHash },
       } = await axios.post(
         'https://api.pinata.cloud/pinning/pinJSONToIPFS',
-        { data: contributionsObj },
+        specification,
         httpConfig
       )
-      const {
-        data: { IpfsHash: addressesIpfsHash },
-      } = await axios.post(
-        'https://api.pinata.cloud/pinning/pinJSONToIPFS',
-        contributorAddresses,
-        httpConfig
-      )
+
       toast.success('successfully uploaded to ipfs')
-      setIpfs({ contributionsIpfsHash, addressesIpfsHash })
+      setIpfs(IpfsHash)
     } catch (e) {
       console.log(e)
       toast.error('error uploading to ipfs')
@@ -359,7 +360,7 @@ const Airdrop: NextPage = () => {
               <thead className="bg-gray-50 text-xs uppercase text-gray-700">
                 <tr>
                   <th scope="col" className="px-6 py-3">
-                    Type
+                    Name
                   </th>
                   <th scope="col" className="px-6 py-3">
                     Ipfs Hash
@@ -368,12 +369,8 @@ const Airdrop: NextPage = () => {
               </thead>
               <tbody>
                 <tr className="border-b bg-white">
-                  <td className="px-6 py-4">Trusted Seed</td>
-                  <td className="px-6 py-4">{ipfs.addressesIpfsHash}</td>
-                </tr>
-                <tr className="border-b bg-white">
-                  <td className="px-6 py-4">Contributions Data</td>
-                  <td className="px-6 py-4">{ipfs.contributionsIpfsHash}</td>
+                  <td className="px-6 py-4">Airdrop Specification</td>
+                  <td className="px-6 py-4">{ipfs}</td>
                 </tr>
               </tbody>
             </table>
