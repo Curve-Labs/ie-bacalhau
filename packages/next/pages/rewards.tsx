@@ -58,10 +58,12 @@ function Rewards() {
     const asyncFunction = async () => {
       if (!shrine) return
 
+      const current = await web3Provider.getBlockNumber()
+
       const versionEvents = await shrine.queryFilter(
         'UpdateLedgerMetadata',
-        0,
-        1000
+        current - 5000,
+        current
       )
       const decodedVersionEvents = versionEvents.map((e) =>
         e?.decode(e.data, e.topics)
@@ -96,7 +98,8 @@ function Rewards() {
 
   const getPastUserClaimsForVersion = async (v: number) => {
     if (!shrine) return []
-    const events = await shrine.queryFilter('Claim', 0, 1000) //inefficient
+    const current = await web3Provider.getBlockNumber()
+    const events = await shrine.queryFilter('Claim', current - 5000, current) //inefficient
     const pastClaims = events
       .filter(
         (e: Event) =>
@@ -131,7 +134,12 @@ function Rewards() {
   }
 
   const getOffersForVersion = async (v: number) => {
-    const versionEvents = await shrine.queryFilter('Offer', 0, 1000)
+    const current = await web3Provider.getBlockNumber()
+    const versionEvents = await shrine.queryFilter(
+      'Offer',
+      current - 5000,
+      current
+    )
     const decodedVersionEvents = versionEvents.map((e) =>
       e?.decode(e.data, e.topics)
     )

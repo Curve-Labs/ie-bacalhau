@@ -353,7 +353,12 @@ task("reality:propose", "Proposes a merkle drop via Shrine to reality module")
     types.string
   )
   .addParam("amount", "Amount of the token to be offered", undefined, types.int)
-  .addParam("id", "Id of proposal", undefined, types.string)
+  .addParam(
+    "id",
+    "Id of proposal (= ipfs hash that is outputted by IEF)",
+    undefined,
+    types.string
+  )
   .setAction(
     async (
       { module, token, amount, id, shrine, root, ipfs },
@@ -378,6 +383,12 @@ task("reality:propose", "Proposes a merkle drop via Shrine to reality module")
 
       console.log("addProposal tx: ", tx.hash);
 
+      const receipt = await tx.wait();
+      const event = receipt.events?.find(
+        (log) => log.event === "ProposalQuestionCreated"
+      );
+      console.log("questionId: ", event.args[0]);
+
       return tx;
     }
   );
@@ -387,12 +398,6 @@ task(
   "Initiates a finalized airdrop proposal via reality module"
 )
   .addParam("module", "Address of the reality module", undefined, types.string)
-  .addParam(
-    "oracle",
-    "Address of the oracle (e.g. Reality.eth)",
-    "undefined",
-    types.string
-  )
   .addParam("shrine", "Address of the shrine", "undefined", types.string)
   .addParam(
     "token",
@@ -446,6 +451,8 @@ task(
           0,
           txIndex
         );
+        console.log(tx.hash);
+        await tx.wait();
         transactions.push(tx);
         txIndex++;
       }
@@ -493,7 +500,9 @@ task("reality:answer", "Submits an answer to a reality question")
     );
     const trueAsBytes32 = ethers.utils.hexZeroPad(ethers.utils.hexlify(1), 32);
 
-    await realityEth.submitAnswer(question, trueAsBytes32, 0, {
+    const tx = await realityEth.submitAnswer(question, trueAsBytes32, 0, {
       value: bond,
     });
+
+    console.log("answer reality: ", tx.hash);
   });

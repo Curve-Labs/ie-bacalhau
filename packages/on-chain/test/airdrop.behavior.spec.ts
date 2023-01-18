@@ -132,15 +132,6 @@ describe("Airdrop", function () {
     });
 
     it("adds the proposal to reality.eth", async () => {
-      await run("reality:assemble", {
-        module: realityModule.address,
-        token: testToken.address,
-        amount,
-        root: tree.root,
-        shrine: shrine.address,
-        ipfs: ipfsHash,
-      });
-
       const tx = await run("reality:propose", {
         module: realityModule.address,
         token: testToken.address,
