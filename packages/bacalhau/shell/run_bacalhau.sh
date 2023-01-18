@@ -47,7 +47,7 @@ then
     echo "Provide HTTPs Input:"
     read INPUT_HTTPS_URL
     echo "Running Docker Image on Bacalhau..."
-    JOB_OUTPUT=`bacalhau docker run -u $INPUT_HTTPS_URL/data.json -u $INPUT_HTTPS_URL/trustedSeed.json -u $INPUT_HTTPS_URL/previousRewards.json $DOCKER_IMAGE`
+    JOB_OUTPUT=`bacalhau docker run -u $INPUT_HTTPS_URL/data.json -u $INPUT_HTTPS_URL/trustedSeed.json $DOCKER_IMAGE`
 elif [ $INPUT_URL_TYPE == "C" -o $INPUT_URL_TYPE == "c" ]
 then
    # Run docker image with no input
@@ -59,7 +59,7 @@ then
    # Run docker image with default HTTPs input
    echo "Default HTTPs Input"
    echo "Running Docker Image on Bacalhau..."
-   JOB_OUTPUT=`bacalhau docker run -u $DEFAULT_HTTPS_URL/data.json -u $DEFAULT_HTTPS_URL/trustedSeed.json -u $DEFAULT_HTTPS_URL/previousRewards.json $DOCKER_IMAGE`
+   JOB_OUTPUT=`bacalhau docker run -u $DEFAULT_HTTPS_URL/data.json -u $DEFAULT_HTTPS_URL/trustedSeed.json $DOCKER_IMAGE`
 elif [ $INPUT_URL_TYPE == "E" -o $INPUT_URL_TYPE == "e" ]
 then
    # run docker image with default IPFS input
