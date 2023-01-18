@@ -5,13 +5,14 @@
   "scripts": {
     "lint": "eslint .",
     "format": "prettier --write .",
-    "build:bacalhau": "yarn workspace bacalhau run build"
+    "build:bacalhau": "yarn workspace bacalhau run build",
+    "deploy:model:daoContribution": "yarn workspace datamodel run deploy:model:daoContribution "
   },
   "workspaces": [
     "packages/bacalhau",
-    "packages/examples/hundredIE",
     "packages/on-chain",
-    "packages/next"
+    "packages/next",
+    "packages/datamodel"
   ],
   "dependencies": {
     "@types/node": "^18.11.17",

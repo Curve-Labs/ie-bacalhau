@@ -3,8 +3,10 @@
     {
       "path": "./packages/on-chain"
     },
+    { "path": "./packages/datamodel" },
     {
       "path": "./packages/bacalhau"
-    }
+    },
+    { "path": "./packages/next" }
   ]
 }
